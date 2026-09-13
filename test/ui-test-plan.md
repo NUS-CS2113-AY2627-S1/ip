@@ -792,3 +792,44 @@ T | 0 | pack bags
 ```
 
 After Step 2 passes, close standard input so the application exits normally.
+
+### TEST-09: Skip corrupted lines when loading saved tasks
+
+**Aim:** Verify that Alfred reports each corrupted line in the data file, skips it, and still loads every
+well-formed task on startup.
+
+**Preconditions:** Before starting the application, create `data/alfred.txt` with exactly this content:
+
+```text
+T | 0 | borrow book
+T | 1
+
+D | 0 | return book | Sunday
+X | 0 | mystery task
+```
+
+#### Step 1
+
+**Input**
+
+```text
+list
+```
+
+**Expected output**
+
+```text
+I could not make sense of this line, Master Wayne: a todo is missing its description.
+Offending line: "T | 1"
+I could not make sense of this line, Master Wayne: it does not match the expected "type | status | details" format.
+Offending line: ""
+I could not make sense of this line, Master Wayne: unknown task type "X".
+Offending line: "X | 0 | mystery task"
+____________________________________________________________
+These are your tasks Master Wayne:
+1.[T][ ] borrow book
+2.[D][ ] return book (by: Sunday)
+____________________________________________________________
+```
+
+After Step 1 passes, close standard input so the application exits normally.

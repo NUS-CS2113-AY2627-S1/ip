@@ -1,5 +1,10 @@
 package alfred;
 
+import alfred.exception.AlfredException;
+import alfred.task.Deadline;
+import alfred.task.Event;
+import alfred.task.Task;
+import alfred.task.Todo;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -7,12 +12,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-import alfred.exception.AlfredException;
-import alfred.task.Deadline;
-import alfred.task.Event;
-import alfred.task.Task;
-import alfred.task.Todo;
 
 /**
  * Runs the Alfred command-line chatbot.
@@ -22,18 +21,12 @@ public class Alfred {
     private static final Path DATA_FILE = Path.of("data", "alfred.txt");
     private static final String DIVIDER = "____________________________________________________________";
     private static final String BANNER
-            = "         █████╗ ██╗     ███████╗██████╗"
-            + " ███████╗██████╗\n"
-            + "        ██╔══██╗██║     ██╔════╝██╔══██╗"
-            + "██╔════╝██╔══██╗\n"
-            + "        ███████║██║     █████╗  ██████╔╝"
-            + "█████╗  ██║  ██║\n"
-            + "        ██╔══██║██║     ██╔══╝  ██╔══██╗"
-            + "██╔══╝  ██║  ██║\n"
-            + "        ██║  ██║███████╗██║     ██║  ██║"
-            + "███████╗██████╔╝\n"
-            + "        ╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝  ╚═╝"
-            + "╚══════╝╚═════╝ ";
+            = "         █████╗ ██╗     ███████╗██████╗ ███████╗██████╗\n"
+            + "        ██╔══██╗██║     ██╔════╝██╔══██╗██╔════╝██╔══██╗\n"
+            + "        ███████║██║     █████╗  ██████╔╝█████╗  ██║  ██║\n"
+            + "        ██╔══██║██║     ██╔══╝  ██╔══██╗██╔══╝  ██║  ██║\n"
+            + "        ██║  ██║███████╗██║     ██║  ██║███████╗██████╔╝\n"
+            + "        ╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝  ╚═╝╚══════╝╚═════╝ ";
     private static final String BAT_LOGO
             = "              *         *      *         *               \n"
             + "          ***          **********          ***           \n"
@@ -295,7 +288,8 @@ public class Alfred {
     }
 
     /**
-     * Loads tasks from the data file when it exists.
+     * Loads tasks from the data file when it exists. Lines that cannot be
+     * parsed are reported and skipped so that the rest of the file still loads.
      */
     private static void loadTasks() throws IOException {
         if (Files.notExists(DATA_FILE)) {
@@ -304,7 +298,11 @@ public class Alfred {
 
         List<String> taskDataLines = Files.readAllLines(DATA_FILE, StandardCharsets.UTF_8);
         for (String taskLine : taskDataLines) {
-            tasks.add(createTaskFromData(taskLine));
+            try {
+                tasks.add(createTaskFromData(taskLine));
+            } catch (AlfredException exception) {
+                System.out.println(exception.getMessage());
+            }
         }
     }
 
@@ -313,21 +311,45 @@ public class Alfred {
      *
      * @param taskData Pipe-delimited task data.
      * @return Task represented by the stored data.
+     * @throws AlfredException If the line is missing fields or has an unrecognized task type.
      */
-    private static Task createTaskFromData(String taskData) {
+    private static Task createTaskFromData(String taskData) throws AlfredException {
         String[] fields = taskData.split(" \\| ", -1);
+        if (fields.length < 2) {
+            throw new AlfredException("I could not make sense of this line, Master Wayne: "
+                    + "it does not match the expected \"type | status | details\" format.\n"
+                    + "Offending line: \"" + taskData + "\"");
+        }
+
         String taskType = fields[0];
         boolean isDone = fields[1].equals("1");
         Task task;
 
         if (taskType.equals("T")) {
+            if (fields.length < 3) {
+                throw new AlfredException("I could not make sense of this line, Master Wayne: "
+                        + "a todo is missing its description.\n"
+                        + "Offending line: \"" + taskData + "\"");
+            }
             task = new Todo(fields[2]);
         } else if (taskType.equals("D")) {
+            if (fields.length < 4) {
+                throw new AlfredException("I could not make sense of this line, Master Wayne: "
+                        + "a deadline is missing its description or /by date.\n"
+                        + "Offending line: \"" + taskData + "\"");
+            }
             task = new Deadline(fields[2], fields[3]);
         } else if (taskType.equals("E")) {
+            if (fields.length < 5) {
+                throw new AlfredException("I could not make sense of this line, Master Wayne: "
+                        + "an event is missing its description, /from, or /to value.\n"
+                        + "Offending line: \"" + taskData + "\"");
+            }
             task = new Event(fields[2], fields[3], fields[4]);
         } else {
-            throw new IllegalArgumentException("Unknown task type: " + taskType);
+            throw new AlfredException("I could not make sense of this line, Master Wayne: "
+                    + "unknown task type \"" + taskType + "\".\n"
+                    + "Offending line: \"" + taskData + "\"");
         }
 
         if (isDone) {
