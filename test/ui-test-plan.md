@@ -833,3 +833,89 @@ ____________________________________________________________
 ```
 
 After Step 1 passes, close standard input so the application exits normally.
+
+### TEST-10: Survive a save/load failure instead of crashing
+
+**Aim:** Verify that Alfred reports a friendly message and keeps the session alive when the data file cannot be
+read or written, instead of crashing with an uncaught exception.
+
+**Preconditions:** Before starting the application, delete `data/alfred.txt` if it exists, then create a
+**directory** at that exact path (e.g. `mkdir -p data/alfred.txt`) so both reading and writing it as a file fail.
+
+#### Step 1
+
+**Input**
+
+```text
+todo borrow book
+```
+
+**Expected output**
+
+```text
+I could not save that, Master Wayne.
+```
+
+#### Step 2
+
+**Input**
+
+```text
+list
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+These are your tasks Master Wayne:
+1.[T][ ] borrow book
+____________________________________________________________
+```
+
+#### Step 3
+
+**Input**
+
+```text
+bye
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Good luck Master Wayne.
+
+              *         *      *         *               
+          ***          **********          ***           
+       *****           **********           *****        
+     *******           **********           *******      
+   **********         ************         **********    
+  ****************************************************   
+ ******************************************************  
+******************************************************** 
+******************************************************** 
+******************************************************** 
+ ******************************************************  
+  ********      ************************      ********   
+   *******       *     *********      *       *******    
+     ******             *******              ******      
+       *****             *****              *****        
+          ***             ***              ***           
+            **             *              **             
+
+____________________________________________________________
+```
+
+**State cleanup for this test case:** Remove the `data/alfred.txt` **directory** (not a file) after the
+application exits, since the default cleanup only expects a file at that path.
+
+**Note:** Because `data/alfred.txt` is a directory rather than a file for this test, startup's `loadTasks()` also
+fails to read it, so this application process's startup output additionally includes, immediately before the
+divider and banner:
+
+```text
+I could not load your saved tasks, Master Wayne.
+Starting with an empty task list.
+```

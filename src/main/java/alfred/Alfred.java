@@ -52,8 +52,13 @@ public class Alfred {
      *
      * @param args Command-line arguments. Alfred does not use them.
      */
-    public static void main(String[] args) throws IOException {
-        loadTasks();
+    public static void main(String[] args) {
+        try {
+            loadTasks();
+        } catch (IOException exception) {
+            System.out.println("I could not load your saved tasks, Master Wayne.");
+            System.out.println("Starting with an empty task list.");
+        }
         printWelcomeMessage();
 
         Scanner scanner = new Scanner(System.in);
@@ -69,6 +74,8 @@ public class Alfred {
                 processCommand(command);
             } catch (AlfredException exception) {
                 System.out.println(exception.getMessage());
+            } catch (IOException exception) {
+                System.out.println("I could not save that, Master Wayne.");
             }
 
             System.out.println(DIVIDER);
