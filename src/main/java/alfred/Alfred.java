@@ -19,7 +19,6 @@ import alfred.task.Todo;
  */
 public class Alfred {
 
-    private static final int MAX_TASKS = 100;
     private static final Path DATA_FILE = Path.of("data", "alfred.txt");
     private static final String DIVIDER = "____________________________________________________________";
     private static final String BANNER
@@ -53,8 +52,7 @@ public class Alfred {
             + "       *****             *****              *****        \n"
             + "          ***             ***              ***           \n"
             + "            **             *              **             \n";
-    private static final Task[] tasks = new Task[MAX_TASKS];
-    private static int taskCount = 0;
+    private static final List<Task> tasks = new ArrayList<>();
 
     /**
      * Starts Alfred and processes commands until the user exits.
@@ -131,8 +129,8 @@ public class Alfred {
      */
     private static void printTaskList() {
         System.out.println("These are your tasks Master Wayne:");
-        for (int i = 0; i < taskCount; i++) {
-            System.out.println((i + 1) + "." + tasks[i]);
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println((i + 1) + "." + tasks.get(i));
         }
     }
 
@@ -154,11 +152,11 @@ public class Alfred {
 
         try {
             int taskNumber = Integer.parseInt(parts[1]);
-            if (taskNumber < 1 || taskNumber > taskCount) {
+            if (taskNumber < 1 || taskNumber > tasks.size()) {
                 throw new AlfredException("Invalid task number.");
             }
 
-            Task task = tasks[taskNumber - 1];
+            Task task = tasks.get(taskNumber - 1);
             if (isMarkAsDone) {
                 task.markAsDone();
                 System.out.println("Excellent work Master Wayne! I've marked this task as done:");
@@ -276,16 +274,11 @@ public class Alfred {
      * @param task Task to add.
      */
     private static void addTask(Task task) throws AlfredException, IOException {
-        if (taskCount >= tasks.length) {
-            throw new AlfredException("The task list is full.");
-        }
-
-        tasks[taskCount] = task;
-        taskCount++;
+        tasks.add(task);
         saveTasks();
         System.out.println("Understood Master Wayne, I've added this task:");
         System.out.println("  " + task);
-        System.out.println("Now you have " + taskCount + " tasks in the list.");
+        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
     }
 
     /**
@@ -295,8 +288,8 @@ public class Alfred {
         Files.createDirectories(DATA_FILE.getParent());
 
         List<String> taskDataLines = new ArrayList<>();
-        for (int i = 0; i < taskCount; i++) {
-            taskDataLines.add(tasks[i].toDataString());
+        for (Task task : tasks) {
+            taskDataLines.add(task.toDataString());
         }
         Files.write(DATA_FILE, taskDataLines, StandardCharsets.UTF_8);
     }
@@ -311,9 +304,7 @@ public class Alfred {
 
         List<String> taskDataLines = Files.readAllLines(DATA_FILE, StandardCharsets.UTF_8);
         for (String taskLine : taskDataLines) {
-            Task task = createTaskFromData(taskLine);
-            tasks[taskCount] = task;
-            taskCount++;
+            tasks.add(createTaskFromData(taskLine));
         }
     }
 
