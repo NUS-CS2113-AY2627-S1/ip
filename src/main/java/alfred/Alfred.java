@@ -46,7 +46,7 @@ public class Alfred {
             + "       *****             *****              *****        \n"
             + "          ***             ***              ***           \n"
             + "            **             *              **             \n";
-    private static final ArrayList<Task> tasks = new ArrayList<>(); //initialise task list array
+    private static final List<Task> tasks = new ArrayList<>();
 
     /**
      * Starts Alfred and processes commands until the user exits.
@@ -147,7 +147,7 @@ public class Alfred {
      *
      * @param command Full command entered by the user.
      */
-    private static void deleteTask(String command) throws AlfredException {
+    private static void deleteTask(String command) throws AlfredException, IOException {
         String[] parts = command.trim().split("\\s+");
         if (parts.length != 2) {
             throw new AlfredException("Please provide a task number to delete.");
@@ -161,6 +161,7 @@ public class Alfred {
 
             int taskIndex = taskNumber - 1;
             Task deletedTask = tasks.remove(taskIndex);
+            saveTasks();
 
             System.out.println("Will do Master Wayne. I've removed this task:");
             System.out.println("  " + deletedTask);
@@ -195,30 +196,29 @@ public class Alfred {
         try {
             int taskNumber = Integer.parseInt(parts[1]);
             if (taskNumber < 1 || taskNumber > tasks.size()) {
-                if (taskNumber < 1 || taskNumber > tasks.size()) {
-                    throw new AlfredException("Invalid task number.");
-                }
+                throw new AlfredException("Invalid task number.");
+            }
 
-                Task task = tasks.get(taskNumber - 1);
-                Task task = tasks.get(taskNumber - 1);
-                if (isMarkAsDone) {
-                    task.markAsDone();
-                    System.out.println("Excellent work Master Wayne! I've marked this task as done:");
-                } else {
-                    task.markAsNotDone();
-                    System.out.println("Alright Master Wayne, I have unmarked this task as requested:");
-                }
-                saveTasks();
-                System.out.println("  " + task);
-            }catch (NumberFormatException exception) {
+            Task task = tasks.get(taskNumber - 1);
+            if (isMarkAsDone) {
+                task.markAsDone();
+                System.out.println("Excellent work Master Wayne! I've marked this task as done:");
+            } else {
+                task.markAsNotDone();
+                System.out.println("Alright Master Wayne, I have unmarked this task as requested:");
+            }
+            saveTasks();
+            System.out.println("  " + task);
+        } catch (NumberFormatException exception) {
             throw new AlfredException("Please provide a valid task number.");
         }
-        }
-        /**
-         * Parses and adds a todo command if it contains a description.
-         *
-         * @param command Full command entered by the user.
-         */
+    }
+
+    /**
+     * Parses and adds a todo command if it contains a description.
+     *
+     * @param command Full command entered by the user.
+     */
     private static void addTodo(String command) throws AlfredException, IOException {
         String description = command.substring("todo".length()).trim();
         if (description.isEmpty()) {

@@ -1309,9 +1309,16 @@ These are your tasks Master Wayne:
 ____________________________________________________________
 ```
 
+**Expected data file**
+
+```text
+T | 0 | read book
+T | 0 | borrow book
+```
+
 After Step 5 passes, close standard input so the application exits normally.
 
-### TEST-09: Reject invalid delete commands
+### TEST-15: Reject invalid delete commands
 
 **Aim:** Verify that invalid delete commands report the problem without changing the task list.
 
