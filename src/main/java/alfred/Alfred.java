@@ -62,24 +62,25 @@ public class Alfred {
         }
         printWelcomeMessage();
 
-        Scanner scanner = new Scanner(System.in);
-        while (scanner.hasNextLine()) {
-            String command = scanner.nextLine();
-            System.out.println(DIVIDER);
+        try (Scanner scanner = new Scanner(System.in)) {
+            while (scanner.hasNextLine()) {
+                String command = scanner.nextLine().trim();
+                System.out.println(DIVIDER);
 
-            if (command.equals("bye")) {
-                printGoodbyeMessage();
-                break;
-            }
-            try {
-                processCommand(command);
-            } catch (AlfredException exception) {
-                System.out.println(exception.getMessage());
-            } catch (IOException exception) {
-                System.out.println("I could not save that, Master Wayne.");
-            }
+                if (command.equals("bye")) {
+                    printGoodbyeMessage();
+                    break;
+                }
+                try {
+                    processCommand(command);
+                } catch (AlfredException exception) {
+                    System.out.println(exception.getMessage());
+                } catch (IOException exception) {
+                    System.out.println("I could not save that, Master Wayne.");
+                }
 
-            System.out.println(DIVIDER);
+                System.out.println(DIVIDER);
+            }
         }
     }
 
@@ -129,6 +130,10 @@ public class Alfred {
      * Displays all tasks in their insertion order.
      */
     private static void printTaskList() {
+        if (tasks.isEmpty()) {
+            System.out.println("You have no tasks, Master Wayne.");
+            return;
+        }
         System.out.println("These are your tasks Master Wayne:");
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println((i + 1) + "." + tasks.get(i));
@@ -144,11 +149,17 @@ public class Alfred {
     private static void updateTaskStatus(String command, boolean isMarkAsDone)
             throws AlfredException, IOException {
         String[] parts = command.trim().split("\\s+");
-        if (parts.length != 2) {
+        if (parts.length < 2) {
             if (isMarkAsDone) {
                 throw new AlfredException("Please provide a task number to mark as done.");
             }
             throw new AlfredException("Please provide a task number to mark as not done.");
+        }
+        if (parts.length > 2) {
+            if (isMarkAsDone) {
+                throw new AlfredException("Please provide only one task number to mark as done.");
+            }
+            throw new AlfredException("Please provide only one task number to mark as not done.");
         }
 
         try {

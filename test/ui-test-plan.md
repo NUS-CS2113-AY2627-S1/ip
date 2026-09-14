@@ -602,7 +602,7 @@ list
 
 ```text
 ____________________________________________________________
-These are your tasks Master Wayne:
+You have no tasks, Master Wayne.
 ____________________________________________________________
 ```
 
@@ -1063,3 +1063,152 @@ E | 0 | go /toy shop | 2pm | 4pm
 ```
 
 After Step 7 passes, close standard input so the application exits normally.
+
+### TEST-12: Trim whitespace around top-level commands
+
+**Aim:** Verify that a top-level command with leading or trailing whitespace still matches, instead of falling
+through to the unrecognized-command message.
+
+**Preconditions:** The application has just started and the in-memory task list is empty.
+
+#### Step 1
+
+**Input**
+
+```text
+ list
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+You have no tasks, Master Wayne.
+____________________________________________________________
+```
+
+#### Step 2
+
+**Input**
+
+```text
+bye 
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Good luck Master Wayne.
+
+              *         *      *         *               
+          ***          **********          ***           
+       *****           **********           *****        
+     *******           **********           *******      
+   **********         ************         **********    
+  ****************************************************   
+ ******************************************************  
+******************************************************** 
+******************************************************** 
+******************************************************** 
+ ******************************************************  
+  ********      ************************      ********   
+   *******       *     *********      *       *******    
+     ******             *******              ******      
+       *****             *****              *****        
+          ***             ***              ***           
+            **             *              **             
+
+____________________________________________________________
+```
+
+### TEST-13: Distinguish missing vs. too-many-arguments for mark/unmark
+
+**Aim:** Verify that `mark`/`unmark` give a different message for a missing task number than for too many
+arguments.
+
+**Preconditions:** The application has just started and the in-memory task list is empty.
+
+#### Step 1
+
+**Input**
+
+```text
+todo sample task
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Understood Master Wayne, I've added this task:
+  [T][ ] sample task
+Now you have 1 tasks in the list.
+____________________________________________________________
+```
+
+#### Step 2
+
+**Input**
+
+```text
+mark
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Please provide a task number to mark as done.
+____________________________________________________________
+```
+
+#### Step 3
+
+**Input**
+
+```text
+mark 1 2
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Please provide only one task number to mark as done.
+____________________________________________________________
+```
+
+#### Step 4
+
+**Input**
+
+```text
+unmark
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Please provide a task number to mark as not done.
+____________________________________________________________
+```
+
+#### Step 5
+
+**Input**
+
+```text
+unmark 1 2
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Please provide only one task number to mark as not done.
+____________________________________________________________
+```
+
+After Step 5 passes, close standard input so the application exits normally.
