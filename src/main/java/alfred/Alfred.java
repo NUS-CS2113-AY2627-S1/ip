@@ -1,10 +1,5 @@
 package alfred;
 
-import alfred.exception.AlfredException;
-import alfred.task.Deadline;
-import alfred.task.Event;
-import alfred.task.Task;
-import alfred.task.Todo;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -12,6 +7,12 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import alfred.exception.AlfredException;
+import alfred.task.Deadline;
+import alfred.task.Event;
+import alfred.task.Task;
+import alfred.task.Todo;
 
 /**
  * Runs the Alfred command-line chatbot.
@@ -381,7 +382,7 @@ public class Alfred {
      *
      * @param task Task to add.
      */
-    private static void addTask(Task task) throws AlfredException, IOException {
+    private static void addTask(Task task) throws IOException {
         tasks.add(task);
         saveTasks();
         System.out.println("Understood Master Wayne, I've added this task:");

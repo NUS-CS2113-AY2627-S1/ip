@@ -5,7 +5,7 @@ package alfred.task;
  */
 public class Deadline extends Task {
 
-    protected final String by;
+    private final String by;
 
     /**
      * Creates an incomplete deadline with the given description and due date or

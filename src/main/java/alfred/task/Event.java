@@ -5,8 +5,8 @@ package alfred.task;
  */
 public class Event extends Task {
 
-    protected final String from;
-    protected final String to;
+    private final String from;
+    private final String to;
 
     /**
      * Creates an incomplete event with the given description and time range.
