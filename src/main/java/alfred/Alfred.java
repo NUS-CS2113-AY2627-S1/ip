@@ -5,6 +5,7 @@ import alfred.task.Deadline;
 import alfred.task.Event;
 import alfred.task.Task;
 import alfred.task.Todo;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -12,7 +13,6 @@ import java.util.Scanner;
  */
 public class Alfred {
 
-    private static final int MAX_TASKS = 100;
     private static final String DIVIDER = "____________________________________________________________";
     private static final String BANNER
             = "         █████╗ ██╗     ███████╗██████╗ ███████╗██████╗\n"
@@ -39,8 +39,7 @@ public class Alfred {
             + "       *****             *****              *****        \n"
             + "          ***             ***              ***           \n"
             + "            **             *              **             \n";
-    private static final Task[] tasks = new Task[MAX_TASKS];
-    private static int taskCount = 0;
+    private static final ArrayList<Task> tasks = new ArrayList<>(); //initialise task list array
 
     /**
      * Starts Alfred and processes commands until the user exits.
@@ -96,6 +95,8 @@ public class Alfred {
     private static void processCommand(String command) throws AlfredException {
         if (command.equals("list")) {
             printTaskList();
+        } else if (command.equals("delete") || command.startsWith("delete ")) {
+            deleteTask(command);
         } else if (command.equals("unmark") || command.startsWith("unmark ")) {
             updateTaskStatus(command, false);
         } else if (command.equals("mark") || command.startsWith("mark ")) {
@@ -116,8 +117,36 @@ public class Alfred {
      */
     private static void printTaskList() {
         System.out.println("These are your tasks Master Wayne:");
-        for (int i = 0; i < taskCount; i++) {
-            System.out.println((i + 1) + "." + tasks[i]);
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println((i + 1) + "." + tasks.get(i));
+        }
+    }
+
+    /**
+     * Deletes the task identified by a delete command.
+     *
+     * @param command Full command entered by the user.
+     */
+    private static void deleteTask(String command) throws AlfredException {
+        String[] parts = command.trim().split("\\s+");
+        if (parts.length != 2) {
+            throw new AlfredException("Please provide a task number to delete.");
+        }
+
+        try {
+            int taskNumber = Integer.parseInt(parts[1]);
+            if (taskNumber < 1 || taskNumber > tasks.size()) {
+                throw new AlfredException("Invalid task number.");
+            }
+
+            int taskIndex = taskNumber - 1;
+            Task deletedTask = tasks.remove(taskIndex);
+
+            System.out.println("Will do Master Wayne. I've removed this task:");
+            System.out.println("  " + deletedTask);
+            System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+        } catch (NumberFormatException exception) {
+            throw new AlfredException("Please provide a valid task number.");
         }
     }
 
@@ -138,11 +167,11 @@ public class Alfred {
 
         try {
             int taskNumber = Integer.parseInt(parts[1]);
-            if (taskNumber < 1 || taskNumber > taskCount) {
+            if (taskNumber < 1 || taskNumber > tasks.size()) {
                 throw new AlfredException("Invalid task number.");
             }
 
-            Task task = tasks[taskNumber - 1];
+            Task task = tasks.get(taskNumber - 1);
             if (isMarkAsDone) {
                 task.markAsDone();
                 System.out.println("Excellent work Master Wayne! I've marked this task as done:");
@@ -258,15 +287,10 @@ public class Alfred {
      *
      * @param task Task to add.
      */
-    private static void addTask(Task task) throws AlfredException {
-        if (taskCount >= tasks.length) {
-            throw new AlfredException("The task list is full.");
-        }
-
-        tasks[taskCount] = task;
-        taskCount++;
+    private static void addTask(Task task) {
+        tasks.add(task);
         System.out.println("Understood Master Wayne, I've added this task:");
         System.out.println("  " + task);
-        System.out.println("Now you have " + taskCount + " tasks in the list.");
+        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
     }
 }

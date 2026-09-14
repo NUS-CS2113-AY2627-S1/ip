@@ -686,3 +686,192 @@ ____________________________________________________________
 ```
 
 After Step 9 passes, close standard input so the application exits normally.
+
+### TEST-08: Delete a task
+
+**Aim:** Verify that deleting a task removes it, updates the task count, and renumbers the remaining tasks.
+
+**Preconditions:** The application has just started and the in-memory task list is empty.
+
+#### Step 1
+
+**Input**
+
+```text
+todo read book
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Understood Master Wayne, I've added this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+____________________________________________________________
+```
+
+#### Step 2
+
+**Input**
+
+```text
+event project meeting /from Aug 6th 2pm /to 4pm
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Understood Master Wayne, I've added this task:
+  [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+Now you have 2 tasks in the list.
+____________________________________________________________
+```
+
+#### Step 3
+
+**Input**
+
+```text
+todo borrow book
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Understood Master Wayne, I've added this task:
+  [T][ ] borrow book
+Now you have 3 tasks in the list.
+____________________________________________________________
+```
+
+#### Step 4
+
+**Input**
+
+```text
+delete 2
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Will do Master Wayne. I've removed this task:
+  [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+Now you have 2 tasks in the list.
+____________________________________________________________
+```
+
+#### Step 5
+
+**Input**
+
+```text
+list
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+These are your tasks Master Wayne:
+1.[T][ ] read book
+2.[T][ ] borrow book
+____________________________________________________________
+```
+
+After Step 5 passes, close standard input so the application exits normally.
+
+### TEST-09: Reject invalid delete commands
+
+**Aim:** Verify that invalid delete commands report the problem without changing the task list.
+
+**Preconditions:** The application has just started and the in-memory task list is empty.
+
+#### Step 1
+
+**Input**
+
+```text
+todo read book
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Understood Master Wayne, I've added this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+____________________________________________________________
+```
+
+#### Step 2
+
+**Input**
+
+```text
+delete
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Please provide a task number to delete.
+____________________________________________________________
+```
+
+#### Step 3
+
+**Input**
+
+```text
+delete abc
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Please provide a valid task number.
+____________________________________________________________
+```
+
+#### Step 4
+
+**Input**
+
+```text
+delete 2
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Invalid task number.
+____________________________________________________________
+```
+
+#### Step 5
+
+**Input**
+
+```text
+list
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+These are your tasks Master Wayne:
+1.[T][ ] read book
+____________________________________________________________
+```
+
+After Step 5 passes, close standard input so the application exits normally.
