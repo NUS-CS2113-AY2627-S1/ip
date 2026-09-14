@@ -808,6 +808,17 @@ D | 0 | return book | Sunday
 X | 0 | mystery task
 ```
 
+**Expected additional startup output immediately before the standard banner:**
+
+```text
+I could not make sense of this line, Master Wayne: a todo is missing its description.
+Offending line: "T | 1"
+I could not make sense of this line, Master Wayne: it does not match the expected "type | status | details" format.
+Offending line: ""
+I could not make sense of this line, Master Wayne: unknown task type "X".
+Offending line: "X | 0 | mystery task"
+```
+
 #### Step 1
 
 **Input**
@@ -819,12 +830,6 @@ list
 **Expected output**
 
 ```text
-I could not make sense of this line, Master Wayne: a todo is missing its description.
-Offending line: "T | 1"
-I could not make sense of this line, Master Wayne: it does not match the expected "type | status | details" format.
-Offending line: ""
-I could not make sense of this line, Master Wayne: unknown task type "X".
-Offending line: "X | 0 | mystery task"
 ____________________________________________________________
 These are your tasks Master Wayne:
 1.[T][ ] borrow book
@@ -842,6 +847,13 @@ read or written, instead of crashing with an uncaught exception.
 **Preconditions:** Before starting the application, delete `data/alfred.txt` if it exists, then create a
 **directory** at that exact path (e.g. `mkdir -p data/alfred.txt`) so both reading and writing it as a file fail.
 
+**Expected additional startup output immediately before the standard banner:**
+
+```text
+I could not load your saved tasks, Master Wayne.
+Starting with an empty task list.
+```
+
 #### Step 1
 
 **Input**
@@ -853,7 +865,9 @@ todo borrow book
 **Expected output**
 
 ```text
+____________________________________________________________
 I could not save that, Master Wayne.
+____________________________________________________________
 ```
 
 #### Step 2
@@ -911,11 +925,141 @@ ____________________________________________________________
 **State cleanup for this test case:** Remove the `data/alfred.txt` **directory** (not a file) after the
 application exits, since the default cleanup only expects a file at that path.
 
-**Note:** Because `data/alfred.txt` is a directory rather than a file for this test, startup's `loadTasks()` also
-fails to read it, so this application process's startup output additionally includes, immediately before the
-divider and banner:
+### TEST-11: Reject unsafe or ambiguous deadline/event/todo input
+
+**Aim:** Verify that Alfred rejects a description or date/time containing the data-file delimiter " | ", rejects
+a marker embedded inside a longer word (such as `/byte` or `/toy`), rejects a marker used more than once, and
+gives a precise hint when `/to` appears before `/from` in an event.
+
+**Preconditions:** The application has just started and the in-memory task list is empty.
+
+#### Step 1
+
+**Input**
 
 ```text
-I could not load your saved tasks, Master Wayne.
-Starting with an empty task list.
+todo buy milk | eggs
 ```
+
+**Expected output**
+
+```text
+____________________________________________________________
+The description of a todo cannot contain " | ", as it is reserved for saving tasks to disk.
+____________________________________________________________
+```
+
+#### Step 2
+
+**Input**
+
+```text
+deadline submit report /byte 5pm
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Unable to add the deadline: the /by marker is missing.
+Use this format: deadline <description> /by <date or time>
+Example: deadline return book /by tomorrow
+____________________________________________________________
+```
+
+#### Step 3
+
+**Input**
+
+```text
+deadline pay bills /by 5pm /by mistake
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Unable to add the deadline: the /by marker can only be used once.
+Use this format: deadline <description> /by <date or time>
+Example: deadline return book /by tomorrow
+____________________________________________________________
+```
+
+#### Step 4
+
+**Input**
+
+```text
+event trip /to Paris /from Monday
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Unable to add the event: the /to marker must come after the /from marker.
+Use this format: event <description> /from <start> /to <end>
+Example: event project meeting /from Mon 2pm /to 4pm
+____________________________________________________________
+```
+
+#### Step 5
+
+**Input**
+
+```text
+event go /toy shop /from 2pm /to 4pm
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Understood Master Wayne, I've added this task:
+  [E][ ] go /toy shop (from: 2pm to: 4pm)
+Now you have 1 tasks in the list.
+____________________________________________________________
+```
+
+#### Step 6
+
+**Input**
+
+```text
+deadline pay | rent /by 5pm
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Unable to add the deadline: the task description cannot contain " | ".
+Use this format: deadline <description> /by <date or time>
+Example: deadline return book /by tomorrow
+____________________________________________________________
+```
+
+#### Step 7
+
+**Input**
+
+```text
+list
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+These are your tasks Master Wayne:
+1.[E][ ] go /toy shop (from: 2pm to: 4pm)
+____________________________________________________________
+```
+
+**Expected data file**
+
+```text
+E | 0 | go /toy shop | 2pm | 4pm
+```
+
+After Step 7 passes, close standard input so the application exits normally.

@@ -20,6 +20,7 @@ public class Alfred {
 
     private static final Path DATA_FILE = Path.of("data", "alfred.txt");
     private static final String DIVIDER = "____________________________________________________________";
+    private static final String DELIMITER = " | ";
     private static final String BANNER
             = "         █████╗ ██╗     ███████╗██████╗ ███████╗██████╗\n"
             + "        ██╔══██╗██║     ██╔════╝██╔══██╗██╔════╝██╔══██╗\n"
@@ -181,21 +182,29 @@ public class Alfred {
         if (description.isEmpty()) {
             throw new AlfredException("The description of a todo cannot be empty.");
         }
+        if (description.contains(DELIMITER)) {
+            throw new AlfredException("The description of a todo cannot contain \"" + DELIMITER + "\", "
+                    + "as it is reserved for saving tasks to disk.");
+        }
 
         addTask(new Todo(description));
     }
 
     /**
      * Parses and adds a deadline command containing a description and
-     * {@code /by} value.
+     * {@code /by} value. The {@code /by} marker must appear as a standalone
+     * token (surrounded by whitespace or the ends of the text) exactly once.
      *
      * @param command Full command entered by the user.
      */
     private static void addDeadline(String command) throws AlfredException, IOException {
         String arguments = command.substring("deadline".length()).trim();
-        int byPosition = arguments.indexOf("/by");
+        int byPosition = findMarker(arguments, "/by", 0);
         if (byPosition < 0) {
             throw createDeadlineException("the /by marker is missing");
+        }
+        if (findMarker(arguments, "/by", byPosition + "/by".length()) >= 0) {
+            throw createDeadlineException("the /by marker can only be used once");
         }
 
         String description = arguments.substring(0, byPosition).trim();
@@ -206,8 +215,45 @@ public class Alfred {
         if (deadline.isEmpty()) {
             throw createDeadlineException("the deadline date or time is missing");
         }
+        if (description.contains(DELIMITER)) {
+            throw createDeadlineException("the task description cannot contain \"" + DELIMITER + "\"");
+        }
+        if (deadline.contains(DELIMITER)) {
+            throw createDeadlineException("the deadline date or time cannot contain \"" + DELIMITER + "\"");
+        }
 
         addTask(new Deadline(description, deadline));
+    }
+
+    /**
+     * Finds the next standalone occurrence of a marker (such as {@code /by}) in
+     * a piece of text, starting the search at the given index. A marker only
+     * counts as standalone when it is preceded and followed by whitespace or
+     * the ends of the text, so it is not mistaken for a marker embedded inside
+     * a longer word (for example {@code /byte} does not match {@code /by}).
+     *
+     * @param text Text to search.
+     * @param marker Marker to look for, such as {@code "/by"}.
+     * @param fromIndex Index to start searching from.
+     * @return Index of the next standalone occurrence, or {@code -1} if none is found.
+     */
+    private static int findMarker(String text, String marker, int fromIndex) {
+        int searchFrom = fromIndex;
+        while (true) {
+            int index = text.indexOf(marker, searchFrom);
+            if (index < 0) {
+                return -1;
+            }
+
+            boolean isPrecededByBoundary = index == 0 || Character.isWhitespace(text.charAt(index - 1));
+            int afterMarkerIndex = index + marker.length();
+            boolean isFollowedByBoundary = afterMarkerIndex == text.length()
+                    || Character.isWhitespace(text.charAt(afterMarkerIndex));
+            if (isPrecededByBoundary && isFollowedByBoundary) {
+                return index;
+            }
+            searchFrom = index + 1;
+        }
     }
 
     /**
@@ -224,20 +270,30 @@ public class Alfred {
 
     /**
      * Parses and adds an event command containing a description, start, and end
-     * value.
+     * value. The {@code /from} and {@code /to} markers must each appear as a
+     * standalone token exactly once, with {@code /from} before {@code /to}.
      *
      * @param command Full command entered by the user.
      */
     private static void addEvent(String command) throws AlfredException, IOException {
         String arguments = command.substring("event".length()).trim();
-        int fromPosition = arguments.indexOf("/from");
+        int fromPosition = findMarker(arguments, "/from", 0);
         if (fromPosition < 0) {
             throw createEventException("the /from marker is missing");
         }
+        if (findMarker(arguments, "/from", fromPosition + "/from".length()) >= 0) {
+            throw createEventException("the /from marker can only be used once");
+        }
 
-        int toPosition = arguments.indexOf("/to", fromPosition + "/from".length());
+        int toPosition = findMarker(arguments, "/to", fromPosition + "/from".length());
         if (toPosition < 0) {
+            if (findMarker(arguments, "/to", 0) >= 0) {
+                throw createEventException("the /to marker must come after the /from marker");
+            }
             throw createEventException("the /to marker is missing");
+        }
+        if (findMarker(arguments, "/to", toPosition + "/to".length()) >= 0) {
+            throw createEventException("the /to marker can only be used once");
         }
 
         String description = arguments.substring(0, fromPosition).trim();
@@ -251,6 +307,15 @@ public class Alfred {
         }
         if (end.isEmpty()) {
             throw createEventException("the end date or time is missing");
+        }
+        if (description.contains(DELIMITER)) {
+            throw createEventException("the task description cannot contain \"" + DELIMITER + "\"");
+        }
+        if (start.contains(DELIMITER)) {
+            throw createEventException("the start date or time cannot contain \"" + DELIMITER + "\"");
+        }
+        if (end.contains(DELIMITER)) {
+            throw createEventException("the end date or time cannot contain \"" + DELIMITER + "\"");
         }
 
         addTask(new Event(description, start, end));
