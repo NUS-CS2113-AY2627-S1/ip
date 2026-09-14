@@ -41,6 +41,15 @@ public class Task {
         return isDone ? "X" : " ";
     }
 
+    /**
+     * Returns the task fields in the format used by the data file.
+     *
+     * @return Completion status and description separated by a pipe.
+     */
+    public String toDataString() {
+        return (isDone ? "1" : "0") + " | " + description;
+    }
+
     @Override
     public String toString() {
         return "[" + getStatusIcon() + "] " + description;
