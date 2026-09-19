@@ -12,9 +12,13 @@ src/main/resources/docs/
 .DS_Store
 *.iml
 bin/
+*.class
 
 # Temp files
 _temp/
+
+# Buddy's save data (generated at runtime, not source)
+/data/
 
 /text-ui-test/ACTUAL.TXT
 text-ui-test/EXPECTED-UNIX.TXT

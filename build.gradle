@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.gradleup.shadow' version '9.5.1'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+}
+
+repositories {
+    mavenCentral()
+}
+
+application {
+    mainClass = 'buddy.Buddy'
+}
+
+// Buddy has no external dependencies today, so a plain JAR would already run
+// fine with `java -jar`. We still build the "fat/shadow" JAR (via the Shadow
+// plugin) since that's what the course's standard workflow (./gradlew clean
+// shadowJar) expects, and it bundles the classes of any dependency the
+// project might pick up later (e.g. a GUI library) automatically.
+jar {
+    // A lean JAR file (i.e., without the dependencies packaged inside) is not needed.
+    enabled = false
+    archiveClassifier = 'without-dependencies'
+}
+
+shadowJar {
+    archiveBaseName = 'buddy'
+    archiveClassifier = ''
+    archiveVersion = ''
+    manifest {
+        attributes 'Main-Class': 'buddy.Buddy'
+    }
+}
+
+run {
+    standardInput = System.in
+}
