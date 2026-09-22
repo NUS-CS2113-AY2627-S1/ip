@@ -9,8 +9,8 @@ Unless the user says otherwise, assume that you are assisting a student working 
 # Student profile
 
 * Prior knowledge: Basic Java and OOP concepts.
-* Level of programming experience: [to be filled]
-* IDE and level of expertise: [to be filled]
+* Level of programming experience: Intermediate
+* IDE and level of expertise: Intellij and Intermediate
 
 # Guidance for interacting with users
 
@@ -33,3 +33,11 @@ Ensure that Java 25 is used when running the application or build tasks. On macO
 Use lightweight tags unless the user requests an annotated tag.
 When proposing or creating a commit message, include enough detail to explain the rationale for the change.
 Do not commit or push unless explicitly asked.
+All commit messages must follow the SE-EDU Git conventions: https://se-education.org/guides/conventions/git.html
+The rules are available as the `seedu-git-standard` skill. Apply that skill when proposing or writing any commit message or branch name in this repository.
+
+## Java coding standard
+
+All Java code in this project must follow the SE-EDU Java coding standard (basic + intermediate rules): https://se-education.org/guides/conventions/java/intermediate.html
+The rules are available as the `seedu-java-coding-standard` skill. Apply that skill when writing, reviewing, or modifying any Java code in this repository.
+
