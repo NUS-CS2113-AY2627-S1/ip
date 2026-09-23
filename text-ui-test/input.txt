@@ -1,0 +1,56 @@
+list
+todo
+todo read book
+deadline
+deadline return book
+deadline /by Sunday
+deadline return book /by Sunday
+event
+event project meeting
+event project meeting /from Mon 2pm
+event /from Mon 2pm /to 4pm
+event project meeting /from Mon 2pm /to 4pm
+list
+mark
+mark abc
+mark 0
+mark 99
+mark 2
+list
+unmark 2
+unmark 99
+delete
+delete abc
+delete 99
+delete 2
+list
+blah
+delete 1
+delete 1
+list
+delete 1
+todo a | b
+deadline x | y /by Sunday
+deadline return book
+deadline /by Sunday
+deadline return book /by June 6th
+event project meeting
+event project meeting /from Aug 6th 2pm
+event project meeting /from Aug 6th 2pm /to 4pm
+todo join sports club
+list
+mark
+mark abc
+mark 99999999999999
+mark 99
+mark 1
+mark 4
+list
+unmark 4
+list
+blah
+find book
+find meeting
+find zzz
+find
+bye
