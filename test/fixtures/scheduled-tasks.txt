@@ -1,0 +1,5 @@
+D | 0 | old deadline | 1/1/2000 0900
+D | 1 | completed old deadline | 2/1/2000 0900
+D | 0 | future deadline | 1/1/9999 0900
+E | 0 | future event | 2/1/9999 1000 | 2/1/9999 1100
+T | 0 | unscheduled task

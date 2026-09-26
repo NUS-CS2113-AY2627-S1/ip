@@ -9,8 +9,8 @@ Unless the user says otherwise, assume that you are assisting a student working 
 # Student profile
 
 * Prior knowledge: Basic Java and OOP concepts.
-* Level of programming experience: [to be filled]
-* IDE and level of expertise: [to be filled]
+* Level of programming experience: Moderate
+* IDE and level of expertise: Moderate
 
 # Guidance for interacting with users
 
@@ -24,11 +24,25 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 # Project-specific requirements
 
+## Java coding standard
+
+All Java code in this repository must follow the project skill at
+`.codex/skills/seedu-java-coding-standard/SKILL.md`, which is based on the
+SE-EDU Java coding standard (basic + intermediate rules). In particular, use
+packages, camelCase variables and methods, PascalCase classes, four-space
+indentation, consistent braces and whitespace, explicit imports, information
+hiding, and descriptive Javadocs for public classes and methods.
+
 ## Java version:
 
 Ensure that Java 25 is used when running the application or build tasks. On macOS, use `sdk use java 25.0.3.fx-zulu` to switch to Java 25 if needed.
 
 ## Git
+
+All commits in this repository must follow `.codex/skills/seedu-git-standard/SKILL.md`,
+which is based on the SE-EDU Git conventions. In particular, write concise,
+imperative, capitalized subjects without trailing periods, and include a
+detailed body for non-trivial commits explaining what changed and why.
 
 Use lightweight tags unless the user requests an annotated tag.
 When proposing or creating a commit message, include enough detail to explain the rationale for the change.
