@@ -1,5 +1,12 @@
 package alfred;
 
+import alfred.command.AddCommand;
+import alfred.command.Command;
+import alfred.command.DeleteCommand;
+import alfred.command.ExitCommand;
+import alfred.command.ListCommand;
+import alfred.command.MarkCommand;
+import alfred.command.UnmarkCommand;
 import alfred.exception.AlfredException;
 import alfred.task.Deadline;
 import alfred.task.Event;
@@ -12,89 +19,65 @@ import alfred.task.Todo;
 public class Parser {
 
     /**
-     * Identifies the operation requested by a user command.
-     */
-    public enum CommandType {
-        BYE,
-        DEADLINE,
-        DELETE,
-        EVENT,
-        LIST,
-        MARK,
-        TODO,
-        UNMARK
-    }
-
-    /**
-     * Identifies the type of a user command.
+     * Parses user input into an executable command.
      *
-     * @param command Full command entered by the user.
-     * @return Type of the command.
-     * @throws AlfredException If the command is not recognized.
+     * @param fullCommand Full command entered by the user.
+     * @return Command represented by the user input.
+     * @throws AlfredException If the command or its arguments are invalid.
      */
-    public CommandType parseCommandType(String command) throws AlfredException {
+    public Command parse(String fullCommand) throws AlfredException {
+        String command = fullCommand.trim();
         if (command.equals("bye")) {
-            return CommandType.BYE;
+            return new ExitCommand();
         } else if (command.equals("list")) {
-            return CommandType.LIST;
+            return new ListCommand();
         } else if (isCommand(command, "delete")) {
-            return CommandType.DELETE;
+            return new DeleteCommand(parseDeleteTaskNumber(command));
         } else if (isCommand(command, "unmark")) {
-            return CommandType.UNMARK;
+            return new UnmarkCommand(parseStatusTaskNumber(command, false));
         } else if (isCommand(command, "mark")) {
-            return CommandType.MARK;
+            return new MarkCommand(parseStatusTaskNumber(command, true));
         } else if (isCommand(command, "todo")) {
-            return CommandType.TODO;
+            return new AddCommand(parseTodo(command));
         } else if (isCommand(command, "deadline")) {
-            return CommandType.DEADLINE;
+            return new AddCommand(parseDeadline(command));
         } else if (isCommand(command, "event")) {
-            return CommandType.EVENT;
+            return new AddCommand(parseEvent(command));
         }
         throw new AlfredException("Pardon me Master Wayne, I did not quite get that.");
     }
 
     /**
-     * Parses the task number from a delete, mark, or unmark command.
-     *
-     * @param command Full command entered by the user.
-     * @param commandType Type of the command.
-     * @return One-based task number supplied by the user.
-     * @throws AlfredException If the task number is missing, invalid, or accompanied by extra arguments.
-     * @throws IllegalArgumentException If the command type does not accept a task number.
+     * Parses the task number from a delete command.
      */
-    public int parseTaskNumber(String command, CommandType commandType) throws AlfredException {
-        if (commandType != CommandType.DELETE
-                && commandType != CommandType.MARK
-                && commandType != CommandType.UNMARK) {
-            throw new IllegalArgumentException("Command type does not accept a task number.");
-        }
-
+    private int parseDeleteTaskNumber(String command) throws AlfredException {
         String[] parts = command.trim().split("\\s+");
-        validateTaskNumberArguments(parts, commandType);
-
-        try {
-            return Integer.parseInt(parts[1]);
-        } catch (NumberFormatException exception) {
-            throw new AlfredException("Please provide a valid task number.");
+        if (parts.length != 2) {
+            throw new AlfredException("Please provide a task number to delete.");
         }
+
+        return parseTaskNumber(parts[1]);
     }
 
     /**
-     * Parses a task-creation command into a task.
-     *
-     * @param command Full command entered by the user.
-     * @param commandType Type of the command.
-     * @return Task described by the command.
-     * @throws AlfredException If the task details are missing, unsafe, or ambiguous.
-     * @throws IllegalArgumentException If the command type does not create a task.
+     * Parses the task number from a mark or unmark command.
      */
-    public Task parseTask(String command, CommandType commandType) throws AlfredException {
-        return switch (commandType) {
-            case TODO -> parseTodo(command);
-            case DEADLINE -> parseDeadline(command);
-            case EVENT -> parseEvent(command);
-            default -> throw new IllegalArgumentException("Command type does not create a task.");
-        };
+    private int parseStatusTaskNumber(String command, boolean isMarkCommand) throws AlfredException {
+        String[] parts = command.trim().split("\\s+");
+        validateStatusTaskNumberArguments(parts, isMarkCommand);
+
+        return parseTaskNumber(parts[1]);
+    }
+
+    /**
+     * Parses a numeric task-number argument.
+     */
+    private int parseTaskNumber(String taskNumber) throws AlfredException {
+        try {
+            return Integer.parseInt(taskNumber);
+        } catch (NumberFormatException exception) {
+            throw new AlfredException("Please provide a valid task number.");
+        }
     }
 
     /**
@@ -105,17 +88,10 @@ public class Parser {
     }
 
     /**
-     * Validates the number of arguments supplied to a task-number command.
+     * Validates the number of arguments supplied to a mark or unmark command.
      */
-    private void validateTaskNumberArguments(String[] parts, CommandType commandType) throws AlfredException {
-        if (commandType == CommandType.DELETE) {
-            if (parts.length != 2) {
-                throw new AlfredException("Please provide a task number to delete.");
-            }
-            return;
-        }
-
-        boolean isMarkCommand = commandType == CommandType.MARK;
+    private void validateStatusTaskNumberArguments(String[] parts, boolean isMarkCommand)
+            throws AlfredException {
         if (parts.length < 2) {
             if (isMarkCommand) {
                 throw new AlfredException("Please provide a task number to mark as done.");

@@ -79,7 +79,6 @@ public class Ui implements AutoCloseable {
     public void showGoodbyeMessage() {
         System.out.println("Good luck Master Wayne.\n");
         System.out.println(BAT_LOGO);
-        showDivider();
     }
 
     /**
