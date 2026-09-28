@@ -1,8 +1,6 @@
 package alfred;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +17,7 @@ import alfred.task.Todo;
  */
 public class Alfred {
 
-    private static final Path DATA_FILE = Path.of("data", "alfred.txt");
     private static final String DIVIDER = "____________________________________________________________";
-    private static final String DELIMITER = " | ";
     private static final String BANNER
             = "         █████╗ ██╗     ███████╗██████╗ ███████╗██████╗\n"
             + "        ██╔══██╗██║     ██╔════╝██╔══██╗██╔════╝██╔══██╗\n"
@@ -48,6 +44,7 @@ public class Alfred {
             + "          ***             ***              ***           \n"
             + "            **             *              **             \n";
     private static final List<Task> tasks = new ArrayList<>();
+    private static final Storage storage = new Storage(Path.of("data", "alfred.txt"));
 
     /**
      * Starts Alfred and processes commands until the user exits.
@@ -56,7 +53,7 @@ public class Alfred {
      */
     public static void main(String[] args) {
         try {
-            loadTasks();
+            tasks.addAll(storage.load(System.out::println));
         } catch (IOException exception) {
             System.out.println("I could not load your saved tasks, Master Wayne.");
             System.out.println("Starting with an empty task list.");
@@ -162,7 +159,7 @@ public class Alfred {
 
             int taskIndex = taskNumber - 1;
             Task deletedTask = tasks.remove(taskIndex);
-            saveTasks();
+            storage.save(tasks);
 
             System.out.println("Will do Master Wayne. I've removed this task:");
             System.out.println("  " + deletedTask);
@@ -208,7 +205,7 @@ public class Alfred {
                 task.markAsNotDone();
                 System.out.println("Alright Master Wayne, I have unmarked this task as requested:");
             }
-            saveTasks();
+            storage.save(tasks);
             System.out.println("  " + task);
         } catch (NumberFormatException exception) {
             throw new AlfredException("Please provide a valid task number.");
@@ -225,8 +222,8 @@ public class Alfred {
         if (description.isEmpty()) {
             throw new AlfredException("The description of a todo cannot be empty.");
         }
-        if (description.contains(DELIMITER)) {
-            throw new AlfredException("The description of a todo cannot contain \"" + DELIMITER + "\", "
+        if (description.contains(Storage.DELIMITER)) {
+            throw new AlfredException("The description of a todo cannot contain \"" + Storage.DELIMITER + "\", "
                     + "as it is reserved for saving tasks to disk.");
         }
 
@@ -258,11 +255,11 @@ public class Alfred {
         if (deadline.isEmpty()) {
             throw createDeadlineException("the deadline date or time is missing");
         }
-        if (description.contains(DELIMITER)) {
-            throw createDeadlineException("the task description cannot contain \"" + DELIMITER + "\"");
+        if (description.contains(Storage.DELIMITER)) {
+            throw createDeadlineException("the task description cannot contain \"" + Storage.DELIMITER + "\"");
         }
-        if (deadline.contains(DELIMITER)) {
-            throw createDeadlineException("the deadline date or time cannot contain \"" + DELIMITER + "\"");
+        if (deadline.contains(Storage.DELIMITER)) {
+            throw createDeadlineException("the deadline date or time cannot contain \"" + Storage.DELIMITER + "\"");
         }
 
         addTask(new Deadline(description, deadline));
@@ -352,14 +349,14 @@ public class Alfred {
         if (end.isEmpty()) {
             throw createEventException("the end date or time is missing");
         }
-        if (description.contains(DELIMITER)) {
-            throw createEventException("the task description cannot contain \"" + DELIMITER + "\"");
+        if (description.contains(Storage.DELIMITER)) {
+            throw createEventException("the task description cannot contain \"" + Storage.DELIMITER + "\"");
         }
-        if (start.contains(DELIMITER)) {
-            throw createEventException("the start date or time cannot contain \"" + DELIMITER + "\"");
+        if (start.contains(Storage.DELIMITER)) {
+            throw createEventException("the start date or time cannot contain \"" + Storage.DELIMITER + "\"");
         }
-        if (end.contains(DELIMITER)) {
-            throw createEventException("the end date or time cannot contain \"" + DELIMITER + "\"");
+        if (end.contains(Storage.DELIMITER)) {
+            throw createEventException("the end date or time cannot contain \"" + Storage.DELIMITER + "\"");
         }
 
         addTask(new Event(description, start, end));
@@ -384,94 +381,10 @@ public class Alfred {
      */
     private static void addTask(Task task) throws IOException {
         tasks.add(task);
-        saveTasks();
+        storage.save(tasks);
         System.out.println("Understood Master Wayne, I've added this task:");
         System.out.println("  " + task);
         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
     }
 
-    /**
-     * Writes the current task list to the data file.
-     */
-    private static void saveTasks() throws IOException {
-        Files.createDirectories(DATA_FILE.getParent());
-
-        List<String> taskDataLines = new ArrayList<>();
-        for (Task task : tasks) {
-            taskDataLines.add(task.toDataString());
-        }
-        Files.write(DATA_FILE, taskDataLines, StandardCharsets.UTF_8);
-    }
-
-    /**
-     * Loads tasks from the data file when it exists. Lines that cannot be
-     * parsed are reported and skipped so that the rest of the file still loads.
-     */
-    private static void loadTasks() throws IOException {
-        if (Files.notExists(DATA_FILE)) {
-            return;
-        }
-
-        List<String> taskDataLines = Files.readAllLines(DATA_FILE, StandardCharsets.UTF_8);
-        for (String taskLine : taskDataLines) {
-            try {
-                tasks.add(createTaskFromData(taskLine));
-            } catch (AlfredException exception) {
-                System.out.println(exception.getMessage());
-            }
-        }
-    }
-
-    /**
-     * Recreates a task from one line of stored task data.
-     *
-     * @param taskData Pipe-delimited task data.
-     * @return Task represented by the stored data.
-     * @throws AlfredException If the line is missing fields or has an
-     * unrecognized task type.
-     */
-    private static Task createTaskFromData(String taskData) throws AlfredException {
-        String[] fields = taskData.split(" \\| ", -1);
-        if (fields.length < 2) {
-            throw new AlfredException("I could not make sense of this line, Master Wayne: "
-                    + "it does not match the expected \"type | status | details\" format.\n"
-                    + "Offending line: \"" + taskData + "\"");
-        }
-
-        String taskType = fields[0];
-        boolean isDone = fields[1].equals("1");
-        Task task;
-
-        if (taskType.equals("T")) {
-            if (fields.length < 3) {
-                throw new AlfredException("I could not make sense of this line, Master Wayne: "
-                        + "a todo is missing its description.\n"
-                        + "Offending line: \"" + taskData + "\"");
-            }
-            task = new Todo(fields[2]);
-        } else if (taskType.equals("D")) {
-            if (fields.length < 4) {
-                throw new AlfredException("I could not make sense of this line, Master Wayne: "
-                        + "a deadline is missing its description or /by date.\n"
-                        + "Offending line: \"" + taskData + "\"");
-            }
-            task = new Deadline(fields[2], fields[3]);
-        } else if (taskType.equals("E")) {
-            if (fields.length < 5) {
-                throw new AlfredException("I could not make sense of this line, Master Wayne: "
-                        + "an event is missing its description, /from, or /to value.\n"
-                        + "Offending line: \"" + taskData + "\"");
-            }
-            task = new Event(fields[2], fields[3], fields[4]);
-        } else {
-            throw new AlfredException("I could not make sense of this line, Master Wayne: "
-                    + "unknown task type \"" + taskType + "\".\n"
-                    + "Offending line: \"" + taskData + "\"");
-        }
-
-        if (isDone) {
-            task.markAsDone();
-        }
-        return task;
-    }
 }
