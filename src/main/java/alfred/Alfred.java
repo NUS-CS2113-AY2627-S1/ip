@@ -2,7 +2,6 @@ package alfred;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Scanner;
 
 import alfred.exception.AlfredException;
 import alfred.task.Deadline;
@@ -15,34 +14,9 @@ import alfred.task.Todo;
  */
 public class Alfred {
 
-    private static final String DIVIDER = "____________________________________________________________";
-    private static final String BANNER
-            = "         █████╗ ██╗     ███████╗██████╗ ███████╗██████╗\n"
-            + "        ██╔══██╗██║     ██╔════╝██╔══██╗██╔════╝██╔══██╗\n"
-            + "        ███████║██║     █████╗  ██████╔╝█████╗  ██║  ██║\n"
-            + "        ██╔══██║██║     ██╔══╝  ██╔══██╗██╔══╝  ██║  ██║\n"
-            + "        ██║  ██║███████╗██║     ██║  ██║███████╗██████╔╝\n"
-            + "        ╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝  ╚═╝╚══════╝╚═════╝ ";
-    private static final String BAT_LOGO
-            = "              *         *      *         *               \n"
-            + "          ***          **********          ***           \n"
-            + "       *****           **********           *****        \n"
-            + "     *******           **********           *******      \n"
-            + "   **********         ************         **********    \n"
-            + "  ****************************************************   \n"
-            + " ******************************************************  \n"
-            + "******************************************************** \n"
-            + "******************************************************** \n"
-            + "******************************************************** \n"
-            + " ******************************************************  \n"
-            + "  ********      ************************      ********   \n"
-            + "   *******       *     *********      *       *******    \n"
-            + "     ******             *******              ******      \n"
-            + "       *****             *****              *****        \n"
-            + "          ***             ***              ***           \n"
-            + "            **             *              **             \n";
     private static TaskList tasks = new TaskList();
     private static final Storage storage = new Storage(Path.of("data", "alfred.txt"));
+    private static final Ui ui = new Ui();
 
     /**
      * Starts Alfred and processes commands until the user exits.
@@ -51,52 +25,32 @@ public class Alfred {
      */
     public static void main(String[] args) {
         try {
-            tasks = new TaskList(storage.load(System.out::println));
+            tasks = new TaskList(storage.load(ui::showMessage));
         } catch (IOException exception) {
-            System.out.println("I could not load your saved tasks, Master Wayne.");
-            System.out.println("Starting with an empty task list.");
+            ui.showLoadingError();
         }
-        printWelcomeMessage();
+        ui.showWelcomeMessage();
 
-        try (Scanner scanner = new Scanner(System.in)) {
-            while (scanner.hasNextLine()) {
-                String command = scanner.nextLine().trim();
-                System.out.println(DIVIDER);
+        try (ui) {
+            while (ui.hasNextCommand()) {
+                String command = ui.readCommand().trim();
+                ui.showDivider();
 
                 if (command.equals("bye")) {
-                    printGoodbyeMessage();
+                    ui.showGoodbyeMessage();
                     break;
                 }
                 try {
                     processCommand(command);
                 } catch (AlfredException exception) {
-                    System.out.println(exception.getMessage());
+                    ui.showMessage(exception.getMessage());
                 } catch (IOException exception) {
-                    System.out.println("I could not save that, Master Wayne.");
+                    ui.showSavingError();
                 }
 
-                System.out.println(DIVIDER);
+                ui.showDivider();
             }
         }
-    }
-
-    /**
-     * Displays Alfred's banner and greeting.
-     */
-    private static void printWelcomeMessage() {
-        System.out.println(DIVIDER + "\n");
-        System.out.println(BANNER);
-        System.out.println(DIVIDER + "\n");
-        System.out.println("Welcome home Master Wayne.\nWhat can I do for you?");
-    }
-
-    /**
-     * Displays Alfred's farewell message and logo.
-     */
-    private static void printGoodbyeMessage() {
-        System.out.println("Good luck Master Wayne.\n");
-        System.out.println(BAT_LOGO);
-        System.out.println(DIVIDER);
     }
 
     /**
@@ -106,7 +60,7 @@ public class Alfred {
      */
     private static void processCommand(String command) throws AlfredException, IOException {
         if (command.equals("list")) {
-            printTaskList();
+            ui.showTaskList(tasks);
         } else if (command.equals("delete") || command.startsWith("delete ")) {
             deleteTask(command);
         } else if (command.equals("unmark") || command.startsWith("unmark ")) {
@@ -121,20 +75,6 @@ public class Alfred {
             addEvent(command);
         } else {
             throw new AlfredException("Pardon me Master Wayne, I did not quite get that.");
-        }
-    }
-
-    /**
-     * Displays all tasks in their insertion order.
-     */
-    private static void printTaskList() {
-        if (tasks.isEmpty()) {
-            System.out.println("You have no tasks, Master Wayne.");
-            return;
-        }
-        System.out.println("These are your tasks Master Wayne:");
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + "." + tasks.get(i));
         }
     }
 
@@ -159,9 +99,7 @@ public class Alfred {
             Task deletedTask = tasks.delete(taskIndex);
             storage.save(tasks);
 
-            System.out.println("Will do Master Wayne. I've removed this task:");
-            System.out.println("  " + deletedTask);
-            System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+            ui.showTaskDeleted(deletedTask, tasks.size());
         } catch (NumberFormatException exception) {
             throw new AlfredException("Please provide a valid task number.");
         }
@@ -171,19 +109,19 @@ public class Alfred {
      * Marks or unmarks the task identified by a status command.
      *
      * @param command Full command entered by the user.
-     * @param isMarkAsDone Whether the task should be marked as done.
+     * @param isMarkedAsDone Whether the task should be marked as done.
      */
-    private static void updateTaskStatus(String command, boolean isMarkAsDone)
+    private static void updateTaskStatus(String command, boolean isMarkedAsDone)
             throws AlfredException, IOException {
         String[] parts = command.trim().split("\\s+");
         if (parts.length < 2) {
-            if (isMarkAsDone) {
+            if (isMarkedAsDone) {
                 throw new AlfredException("Please provide a task number to mark as done.");
             }
             throw new AlfredException("Please provide a task number to mark as not done.");
         }
         if (parts.length > 2) {
-            if (isMarkAsDone) {
+            if (isMarkedAsDone) {
                 throw new AlfredException("Please provide only one task number to mark as done.");
             }
             throw new AlfredException("Please provide only one task number to mark as not done.");
@@ -196,15 +134,14 @@ public class Alfred {
             }
 
             Task task = tasks.get(taskNumber - 1);
-            if (isMarkAsDone) {
+            if (isMarkedAsDone) {
                 task.markAsDone();
-                System.out.println("Excellent work Master Wayne! I've marked this task as done:");
             } else {
                 task.markAsNotDone();
-                System.out.println("Alright Master Wayne, I have unmarked this task as requested:");
             }
+            ui.showTaskStatusChanged(isMarkedAsDone);
             storage.save(tasks);
-            System.out.println("  " + task);
+            ui.showTask(task);
         } catch (NumberFormatException exception) {
             throw new AlfredException("Please provide a valid task number.");
         }
@@ -380,9 +317,7 @@ public class Alfred {
     private static void addTask(Task task) throws IOException {
         tasks.add(task);
         storage.save(tasks);
-        System.out.println("Understood Master Wayne, I've added this task:");
-        System.out.println("  " + task);
-        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+        ui.showTaskAdded(task, tasks.size());
     }
 
 }
