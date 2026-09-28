@@ -62,7 +62,7 @@ public class Storage {
      * @param tasks Tasks to save.
      * @throws IOException If the tasks cannot be written.
      */
-    public void save(List<Task> tasks) throws IOException {
+    public void save(Iterable<Task> tasks) throws IOException {
         Files.createDirectories(filePath.getParent());
 
         List<String> taskDataLines = new ArrayList<>();

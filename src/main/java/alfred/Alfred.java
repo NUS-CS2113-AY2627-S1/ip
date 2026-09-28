@@ -2,8 +2,6 @@ package alfred;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import alfred.exception.AlfredException;
@@ -43,7 +41,7 @@ public class Alfred {
             + "       *****             *****              *****        \n"
             + "          ***             ***              ***           \n"
             + "            **             *              **             \n";
-    private static final List<Task> tasks = new ArrayList<>();
+    private static TaskList tasks = new TaskList();
     private static final Storage storage = new Storage(Path.of("data", "alfred.txt"));
 
     /**
@@ -53,7 +51,7 @@ public class Alfred {
      */
     public static void main(String[] args) {
         try {
-            tasks.addAll(storage.load(System.out::println));
+            tasks = new TaskList(storage.load(System.out::println));
         } catch (IOException exception) {
             System.out.println("I could not load your saved tasks, Master Wayne.");
             System.out.println("Starting with an empty task list.");
@@ -158,7 +156,7 @@ public class Alfred {
             }
 
             int taskIndex = taskNumber - 1;
-            Task deletedTask = tasks.remove(taskIndex);
+            Task deletedTask = tasks.delete(taskIndex);
             storage.save(tasks);
 
             System.out.println("Will do Master Wayne. I've removed this task:");
