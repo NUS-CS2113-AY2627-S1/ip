@@ -62,6 +62,11 @@ public final class ScheduledDateTime {
         return new ScheduledDateTime(date.atStartOfDay(), false);
     }
 
+    /**
+     * Returns whether this value includes a user-specified time.
+     *
+     * @return True if the value includes a time.
+     */
     public boolean hasTime() {
         return hasTime;
     }
@@ -86,6 +91,11 @@ public final class ScheduledDateTime {
         return value.toLocalDate().equals(date);
     }
 
+    /**
+     * Returns the calendar-date component of this value.
+     *
+     * @return Calendar date represented by this value.
+     */
     public LocalDate getDate() {
         return value.toLocalDate();
     }

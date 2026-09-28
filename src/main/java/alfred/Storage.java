@@ -21,6 +21,7 @@ import alfred.task.Todo;
  */
 public class Storage {
 
+    /** Separates fields in each persisted task record. */
     static final String DELIMITER = " | ";
 
     private final Path filePath;
