@@ -14,6 +14,7 @@ import alfred.command.UnmarkCommand;
 import alfred.exception.AlfredException;
 import alfred.task.Deadline;
 import alfred.task.Event;
+import alfred.task.ScheduledDateTime;
 import alfred.task.Task;
 import alfred.task.Todo;
 
@@ -92,16 +93,16 @@ public class Parser {
     private LocalDate parseScheduleDate(String command) throws AlfredException {
         String[] parts = command.split("\\s+");
         if (parts.length < 2) {
-            throw new AlfredException("Please provide a date using this format: schedule <yyyy-MM-dd>.");
+            throw createScheduleException("the date is missing");
         }
         if (parts.length > 2) {
-            throw new AlfredException("Please provide only one date using this format: schedule <yyyy-MM-dd>.");
+            throw createScheduleException("only one date can be provided");
         }
 
         try {
             return LocalDate.parse(parts[1]);
         } catch (DateTimeParseException exception) {
-            throw new AlfredException("The schedule date must use yyyy-MM-dd (for example, 2019-10-15).");
+            throw createScheduleException("the date must use yyyy-MM-dd");
         }
     }
 
@@ -165,19 +166,20 @@ public class Parser {
             throw createDeadlineException("the task description is missing");
         }
         if (deadlineText.isEmpty()) {
-            throw createDeadlineException("the deadline date is missing");
+            throw createDeadlineException("the deadline date and optional time are missing");
         }
         if (description.contains(Storage.DELIMITER)) {
             throw createDeadlineException("the task description cannot contain \"" + Storage.DELIMITER + "\"");
         }
         if (deadlineText.contains(Storage.DELIMITER)) {
-            throw createDeadlineException("the deadline date cannot contain \"" + Storage.DELIMITER + "\"");
+            throw createDeadlineException("the deadline date or time cannot contain \""
+                    + Storage.DELIMITER + "\"");
         }
 
         try {
-            return new Deadline(description, LocalDate.parse(deadlineText));
+            return new Deadline(description, ScheduledDateTime.parseUserInput(deadlineText));
         } catch (DateTimeParseException exception) {
-            throw createDeadlineException("the deadline date must use yyyy-MM-dd (for example, 2019-10-15)");
+            throw createDeadlineException("the date and optional time are invalid");
         }
     }
 
@@ -212,30 +214,35 @@ public class Parser {
             throw createEventException("the task description is missing");
         }
         if (startText.isEmpty()) {
-            throw createEventException("the start date is missing");
+            throw createEventException("the start date and optional time are missing");
         }
         if (endText.isEmpty()) {
-            throw createEventException("the end date is missing");
+            throw createEventException("the end date and optional time are missing");
         }
         if (description.contains(Storage.DELIMITER)) {
             throw createEventException("the task description cannot contain \"" + Storage.DELIMITER + "\"");
         }
         if (startText.contains(Storage.DELIMITER)) {
-            throw createEventException("the start date cannot contain \"" + Storage.DELIMITER + "\"");
+            throw createEventException("the start date or time cannot contain \""
+                    + Storage.DELIMITER + "\"");
         }
         if (endText.contains(Storage.DELIMITER)) {
-            throw createEventException("the end date cannot contain \"" + Storage.DELIMITER + "\"");
+            throw createEventException("the end date or time cannot contain \""
+                    + Storage.DELIMITER + "\"");
         }
 
         try {
-            LocalDate start = LocalDate.parse(startText);
-            LocalDate end = LocalDate.parse(endText);
+            ScheduledDateTime start = ScheduledDateTime.parseUserInput(startText);
+            ScheduledDateTime end = ScheduledDateTime.parseUserInput(endText);
+            if (start.hasTime() != end.hasTime()) {
+                throw createEventException("both endpoints must either include a time or omit it");
+            }
             if (end.isBefore(start)) {
-                throw createEventException("the end date cannot be before the start date");
+                throw createEventException("the end cannot be before the start");
             }
             return new Event(description, start, end);
         } catch (DateTimeParseException exception) {
-            throw createEventException("the start and end dates must use yyyy-MM-dd");
+            throw createEventException("the dates and optional times are invalid");
         }
     }
 
@@ -266,8 +273,19 @@ public class Parser {
      */
     private AlfredException createDeadlineException(String reason) {
         return new AlfredException("Unable to add the deadline: " + reason + ".\n"
-                + "Use this format: deadline <description> /by <yyyy-MM-dd>\n"
-                + "Example: deadline return book /by 2019-10-15");
+                + "Use either: deadline <description> /by <yyyy-MM-dd>\n"
+                + "        or: deadline <description> /by <yyyy-MM-dd HH:mm>\n"
+                + "Examples: deadline return book /by 2019-10-15\n"
+                + "          deadline submit report /by 2019-10-15 17:30");
+    }
+
+    /**
+     * Creates a detailed schedule error with the required command format.
+     */
+    private AlfredException createScheduleException(String reason) {
+        return new AlfredException("Unable to show the schedule: " + reason + ".\n"
+                + "Use this format: schedule <yyyy-MM-dd>\n"
+                + "Example: schedule 2019-10-15");
     }
 
     /**
@@ -275,7 +293,9 @@ public class Parser {
      */
     private AlfredException createEventException(String reason) {
         return new AlfredException("Unable to add the event: " + reason + ".\n"
-                + "Use this format: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>\n"
-                + "Example: event project meeting /from 2019-10-15 /to 2019-10-16");
+                + "Use either: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>\n"
+                + "        or: event <description> /from <yyyy-MM-dd HH:mm> /to <yyyy-MM-dd HH:mm>\n"
+                + "Examples: event conference /from 2019-10-15 /to 2019-10-16\n"
+                + "          event meeting /from 2019-10-15 14:00 /to 2019-10-15 16:00");
     }
 }

@@ -143,8 +143,10 @@ deadline /by tomorrow
 ```text
 ____________________________________________________________
 Unable to add the deadline: the task description is missing.
-Use this format: deadline <description> /by <yyyy-MM-dd>
-Example: deadline return book /by 2019-10-15
+Use either: deadline <description> /by <yyyy-MM-dd>
+        or: deadline <description> /by <yyyy-MM-dd HH:mm>
+Examples: deadline return book /by 2019-10-15
+          deadline submit report /by 2019-10-15 17:30
 ____________________________________________________________
 ```
 
@@ -169,8 +171,10 @@ event /from 2019-10-15 /to 2019-10-16
 ```text
 ____________________________________________________________
 Unable to add the event: the task description is missing.
-Use this format: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>
-Example: event project meeting /from 2019-10-15 /to 2019-10-16
+Use either: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>
+        or: event <description> /from <yyyy-MM-dd HH:mm> /to <yyyy-MM-dd HH:mm>
+Examples: event conference /from 2019-10-15 /to 2019-10-16
+          event meeting /from 2019-10-15 14:00 /to 2019-10-15 16:00
 ____________________________________________________________
 ```
 
@@ -292,8 +296,10 @@ deadline /by 2026-10-02
 ```text
 ____________________________________________________________
 Unable to add the deadline: the task description is missing.
-Use this format: deadline <description> /by <yyyy-MM-dd>
-Example: deadline return book /by 2019-10-15
+Use either: deadline <description> /by <yyyy-MM-dd>
+        or: deadline <description> /by <yyyy-MM-dd HH:mm>
+Examples: deadline return book /by 2019-10-15
+          deadline submit report /by 2019-10-15 17:30
 ____________________________________________________________
 ```
 
@@ -327,9 +333,11 @@ event team sync /from /to 2026-10-03
 
 ```text
 ____________________________________________________________
-Unable to add the event: the start date is missing.
-Use this format: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>
-Example: event project meeting /from 2019-10-15 /to 2019-10-16
+Unable to add the event: the start date and optional time are missing.
+Use either: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>
+        or: event <description> /from <yyyy-MM-dd HH:mm> /to <yyyy-MM-dd HH:mm>
+Examples: event conference /from 2019-10-15 /to 2019-10-16
+          event meeting /from 2019-10-15 14:00 /to 2019-10-15 16:00
 ____________________________________________________________
 ```
 
@@ -585,8 +593,10 @@ deadline read book
 ```text
 ____________________________________________________________
 Unable to add the deadline: the /by marker is missing.
-Use this format: deadline <description> /by <yyyy-MM-dd>
-Example: deadline return book /by 2019-10-15
+Use either: deadline <description> /by <yyyy-MM-dd>
+        or: deadline <description> /by <yyyy-MM-dd HH:mm>
+Examples: deadline return book /by 2019-10-15
+          deadline submit report /by 2019-10-15 17:30
 ____________________________________________________________
 ```
 
@@ -637,8 +647,10 @@ event product launch /from 2019-12-02
 ```text
 ____________________________________________________________
 Unable to add the event: the /to marker is missing.
-Use this format: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>
-Example: event project meeting /from 2019-10-15 /to 2019-10-16
+Use either: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>
+        or: event <description> /from <yyyy-MM-dd HH:mm> /to <yyyy-MM-dd HH:mm>
+Examples: event conference /from 2019-10-15 /to 2019-10-16
+          event meeting /from 2019-10-15 14:00 /to 2019-10-15 16:00
 ____________________________________________________________
 ```
 
@@ -742,7 +754,7 @@ loaded tasks when a new task is added.
 ```text
 T | 1 | read book
 D | 0 | return book | 2019-10-15
-E | 1 | project meeting | 2019-10-15 | 2019-10-16
+E | 1 | project meeting | 2019-10-15T14:00 | 2019-10-15T16:00
 ```
 
 #### Step 1
@@ -760,7 +772,7 @@ ____________________________________________________________
 These are your tasks Master Wayne:
 1.[T][X] read book
 2.[D][ ] return book (by: Oct 15 2019)
-3.[E][X] project meeting (from: Oct 15 2019 to: Oct 16 2019)
+3.[E][X] project meeting (from: Oct 15 2019, 2:00 PM to: Oct 15 2019, 4:00 PM)
 ____________________________________________________________
 ```
 
@@ -787,7 +799,7 @@ ____________________________________________________________
 ```text
 T | 1 | read book
 D | 0 | return book | 2019-10-15
-E | 1 | project meeting | 2019-10-15 | 2019-10-16
+E | 1 | project meeting | 2019-10-15T14:00 | 2019-10-15T16:00
 T | 0 | pack bags
 ```
 
@@ -818,11 +830,14 @@ I could not make sense of this line, Master Wayne: a todo is missing its descrip
 Offending line: "T | 1"
 I could not make sense of this line, Master Wayne: it does not match the expected "type | status | details" format.
 Offending line: ""
-I could not make sense of this line, Master Wayne: a deadline date must use yyyy-MM-dd.
+I could not make sense of this line, Master Wayne: a deadline date and optional time are invalid.
+Expected format: D | status | description | yyyy-MM-dd[THH:mm].
 Offending line: "D | 0 | impossible deadline | 2019-02-29"
-I could not make sense of this line, Master Wayne: event dates must use yyyy-MM-dd.
+I could not make sense of this line, Master Wayne: event dates and optional times are invalid.
+Expected format: E | status | description | yyyy-MM-dd[THH:mm] | yyyy-MM-dd[THH:mm].
 Offending line: "E | 0 | invalid event | Monday | Tuesday"
-I could not make sense of this line, Master Wayne: an event end date cannot be before its start date.
+I could not make sense of this line, Master Wayne: an event end cannot be before its start.
+Expected format: E | status | description | yyyy-MM-dd[THH:mm] | yyyy-MM-dd[THH:mm].
 Offending line: "E | 0 | reversed event | 2019-10-16 | 2019-10-15"
 I could not make sense of this line, Master Wayne: unknown task type "X".
 Offending line: "X | 0 | mystery task"
@@ -971,8 +986,10 @@ deadline submit report /byte 5pm
 ```text
 ____________________________________________________________
 Unable to add the deadline: the /by marker is missing.
-Use this format: deadline <description> /by <yyyy-MM-dd>
-Example: deadline return book /by 2019-10-15
+Use either: deadline <description> /by <yyyy-MM-dd>
+        or: deadline <description> /by <yyyy-MM-dd HH:mm>
+Examples: deadline return book /by 2019-10-15
+          deadline submit report /by 2019-10-15 17:30
 ____________________________________________________________
 ```
 
@@ -989,8 +1006,10 @@ deadline pay bills /by 5pm /by mistake
 ```text
 ____________________________________________________________
 Unable to add the deadline: the /by marker can only be used once.
-Use this format: deadline <description> /by <yyyy-MM-dd>
-Example: deadline return book /by 2019-10-15
+Use either: deadline <description> /by <yyyy-MM-dd>
+        or: deadline <description> /by <yyyy-MM-dd HH:mm>
+Examples: deadline return book /by 2019-10-15
+          deadline submit report /by 2019-10-15 17:30
 ____________________________________________________________
 ```
 
@@ -1007,8 +1026,10 @@ event trip /to 2019-10-16 /from 2019-10-15
 ```text
 ____________________________________________________________
 Unable to add the event: the /to marker must come after the /from marker.
-Use this format: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>
-Example: event project meeting /from 2019-10-15 /to 2019-10-16
+Use either: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>
+        or: event <description> /from <yyyy-MM-dd HH:mm> /to <yyyy-MM-dd HH:mm>
+Examples: event conference /from 2019-10-15 /to 2019-10-16
+          event meeting /from 2019-10-15 14:00 /to 2019-10-15 16:00
 ____________________________________________________________
 ```
 
@@ -1043,8 +1064,10 @@ deadline pay | rent /by 5pm
 ```text
 ____________________________________________________________
 Unable to add the deadline: the task description cannot contain " | ".
-Use this format: deadline <description> /by <yyyy-MM-dd>
-Example: deadline return book /by 2019-10-15
+Use either: deadline <description> /by <yyyy-MM-dd>
+        or: deadline <description> /by <yyyy-MM-dd HH:mm>
+Examples: deadline return book /by 2019-10-15
+          deadline submit report /by 2019-10-15 17:30
 ____________________________________________________________
 ```
 
@@ -1462,7 +1485,9 @@ schedule
 
 ```text
 ____________________________________________________________
-Please provide a date using this format: schedule <yyyy-MM-dd>.
+Unable to show the schedule: the date is missing.
+Use this format: schedule <yyyy-MM-dd>
+Example: schedule 2019-10-15
 ____________________________________________________________
 ```
 
@@ -1478,7 +1503,9 @@ schedule 2019-02-29
 
 ```text
 ____________________________________________________________
-The schedule date must use yyyy-MM-dd (for example, 2019-10-15).
+Unable to show the schedule: the date must use yyyy-MM-dd.
+Use this format: schedule <yyyy-MM-dd>
+Example: schedule 2019-10-15
 ____________________________________________________________
 ```
 
@@ -1494,7 +1521,9 @@ schedule 2019-10-15 extra
 
 ```text
 ____________________________________________________________
-Please provide only one date using this format: schedule <yyyy-MM-dd>.
+Unable to show the schedule: only one date can be provided.
+Use this format: schedule <yyyy-MM-dd>
+Example: schedule 2019-10-15
 ____________________________________________________________
 ```
 
@@ -1510,9 +1539,11 @@ event impossible /from 2019-02-29 /to 2019-03-01
 
 ```text
 ____________________________________________________________
-Unable to add the event: the start and end dates must use yyyy-MM-dd.
-Use this format: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>
-Example: event project meeting /from 2019-10-15 /to 2019-10-16
+Unable to add the event: the dates and optional times are invalid.
+Use either: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>
+        or: event <description> /from <yyyy-MM-dd HH:mm> /to <yyyy-MM-dd HH:mm>
+Examples: event conference /from 2019-10-15 /to 2019-10-16
+          event meeting /from 2019-10-15 14:00 /to 2019-10-15 16:00
 ____________________________________________________________
 ```
 
@@ -1528,9 +1559,11 @@ event backwards /from 2019-10-16 /to 2019-10-15
 
 ```text
 ____________________________________________________________
-Unable to add the event: the end date cannot be before the start date.
-Use this format: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>
-Example: event project meeting /from 2019-10-15 /to 2019-10-16
+Unable to add the event: the end cannot be before the start.
+Use either: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>
+        or: event <description> /from <yyyy-MM-dd HH:mm> /to <yyyy-MM-dd HH:mm>
+Examples: event conference /from 2019-10-15 /to 2019-10-16
+          event meeting /from 2019-10-15 14:00 /to 2019-10-15 16:00
 ____________________________________________________________
 ```
 
@@ -1571,9 +1604,11 @@ deadline submit report /by 2019-02-29
 
 ```text
 ____________________________________________________________
-Unable to add the deadline: the deadline date must use yyyy-MM-dd (for example, 2019-10-15).
-Use this format: deadline <description> /by <yyyy-MM-dd>
-Example: deadline return book /by 2019-10-15
+Unable to add the deadline: the date and optional time are invalid.
+Use either: deadline <description> /by <yyyy-MM-dd>
+        or: deadline <description> /by <yyyy-MM-dd HH:mm>
+Examples: deadline return book /by 2019-10-15
+          deadline submit report /by 2019-10-15 17:30
 ____________________________________________________________
 ```
 
@@ -1710,3 +1745,164 @@ ____________________________________________________________
 ```
 
 After Step 5 passes, close standard input so the application exits normally.
+
+### TEST-19: Store and query optional task times
+
+**Aim:** Verify that deadlines and events accept times when supplied, display them clearly, store them in ISO
+date-time format, and still appear in a date-based schedule.
+
+**Preconditions:** The application has just started and the in-memory task list is empty.
+
+#### Step 1
+
+**Input**
+
+```text
+deadline submit report /by 2026-10-02 17:30
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Understood Master Wayne, I've added this task:
+  [D][ ] submit report (by: Oct 02 2026, 5:30 PM)
+Now you have 1 tasks in the list.
+____________________________________________________________
+```
+
+**Expected data file**
+
+```text
+D | 0 | submit report | 2026-10-02T17:30
+```
+
+#### Step 2
+
+**Input**
+
+```text
+event team meeting /from 2026-10-02 14:00 /to 2026-10-02 16:00
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Understood Master Wayne, I've added this task:
+  [E][ ] team meeting (from: Oct 02 2026, 2:00 PM to: Oct 02 2026, 4:00 PM)
+Now you have 2 tasks in the list.
+____________________________________________________________
+```
+
+**Expected data file**
+
+```text
+D | 0 | submit report | 2026-10-02T17:30
+E | 0 | team meeting | 2026-10-02T14:00 | 2026-10-02T16:00
+```
+
+#### Step 3
+
+**Input**
+
+```text
+schedule 2026-10-02
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+These are your deadlines and events on Oct 02 2026:
+1.[D][ ] submit report (by: Oct 02 2026, 5:30 PM)
+2.[E][ ] team meeting (from: Oct 02 2026, 2:00 PM to: Oct 02 2026, 4:00 PM)
+____________________________________________________________
+```
+
+After Step 3 passes, close standard input so the application exits normally.
+
+### TEST-20: Reject invalid or inconsistent task times
+
+**Aim:** Verify that invalid times, mixed event precision, and reversed timed ranges are rejected without adding
+tasks, with errors that show both supported input formats.
+
+**Preconditions:** The application has just started and the in-memory task list is empty.
+
+#### Step 1
+
+**Input**
+
+```text
+deadline submit report /by 2026-10-02 25:00
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Unable to add the deadline: the date and optional time are invalid.
+Use either: deadline <description> /by <yyyy-MM-dd>
+        or: deadline <description> /by <yyyy-MM-dd HH:mm>
+Examples: deadline return book /by 2019-10-15
+          deadline submit report /by 2019-10-15 17:30
+____________________________________________________________
+```
+
+#### Step 2
+
+**Input**
+
+```text
+event mixed /from 2026-10-02 /to 2026-10-02 16:00
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Unable to add the event: both endpoints must either include a time or omit it.
+Use either: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>
+        or: event <description> /from <yyyy-MM-dd HH:mm> /to <yyyy-MM-dd HH:mm>
+Examples: event conference /from 2019-10-15 /to 2019-10-16
+          event meeting /from 2019-10-15 14:00 /to 2019-10-15 16:00
+____________________________________________________________
+```
+
+#### Step 3
+
+**Input**
+
+```text
+event backwards /from 2026-10-02 17:00 /to 2026-10-02 16:00
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Unable to add the event: the end cannot be before the start.
+Use either: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>
+        or: event <description> /from <yyyy-MM-dd HH:mm> /to <yyyy-MM-dd HH:mm>
+Examples: event conference /from 2019-10-15 /to 2019-10-16
+          event meeting /from 2019-10-15 14:00 /to 2019-10-15 16:00
+____________________________________________________________
+```
+
+#### Step 4
+
+**Input**
+
+```text
+list
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+You have no tasks, Master Wayne.
+____________________________________________________________
+```
+
+After Step 4 passes, close standard input so the application exits normally.

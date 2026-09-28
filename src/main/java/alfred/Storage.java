@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +12,7 @@ import java.util.function.Consumer;
 import alfred.exception.AlfredException;
 import alfred.task.Deadline;
 import alfred.task.Event;
+import alfred.task.ScheduledDateTime;
 import alfred.task.Task;
 import alfred.task.Todo;
 
@@ -103,34 +103,49 @@ public class Storage {
         } else if (taskType.equals("D")) {
             if (fields.length < 4) {
                 throw new AlfredException("I could not make sense of this line, Master Wayne: "
-                        + "a deadline is missing its description or /by date.\n"
+                        + "a deadline is missing its description or /by date and optional time.\n"
+                        + "Expected format: D | status | description | yyyy-MM-dd[THH:mm].\n"
                         + "Offending line: \"" + taskData + "\"");
             }
             try {
-                task = new Deadline(fields[2], LocalDate.parse(fields[3]));
+                task = new Deadline(fields[2], ScheduledDateTime.parseStoredValue(fields[3]));
             } catch (DateTimeParseException exception) {
                 throw new AlfredException("I could not make sense of this line, Master Wayne: "
-                        + "a deadline date must use yyyy-MM-dd.\n"
+                        + "a deadline date and optional time are invalid.\n"
+                        + "Expected format: D | status | description | yyyy-MM-dd[THH:mm].\n"
                         + "Offending line: \"" + taskData + "\"");
             }
         } else if (taskType.equals("E")) {
             if (fields.length < 5) {
                 throw new AlfredException("I could not make sense of this line, Master Wayne: "
-                        + "an event is missing its description, /from, or /to value.\n"
+                        + "an event is missing its description, /from, or /to date and optional time.\n"
+                        + "Expected format: E | status | description | yyyy-MM-dd[THH:mm] "
+                        + "| yyyy-MM-dd[THH:mm].\n"
                         + "Offending line: \"" + taskData + "\"");
             }
             try {
-                LocalDate start = LocalDate.parse(fields[3]);
-                LocalDate end = LocalDate.parse(fields[4]);
+                ScheduledDateTime start = ScheduledDateTime.parseStoredValue(fields[3]);
+                ScheduledDateTime end = ScheduledDateTime.parseStoredValue(fields[4]);
+                if (start.hasTime() != end.hasTime()) {
+                    throw new AlfredException("I could not make sense of this line, Master Wayne: "
+                            + "event endpoints must both include a time or both omit it.\n"
+                            + "Expected format: E | status | description | yyyy-MM-dd[THH:mm] "
+                            + "| yyyy-MM-dd[THH:mm].\n"
+                            + "Offending line: \"" + taskData + "\"");
+                }
                 if (end.isBefore(start)) {
                     throw new AlfredException("I could not make sense of this line, Master Wayne: "
-                            + "an event end date cannot be before its start date.\n"
+                            + "an event end cannot be before its start.\n"
+                            + "Expected format: E | status | description | yyyy-MM-dd[THH:mm] "
+                            + "| yyyy-MM-dd[THH:mm].\n"
                             + "Offending line: \"" + taskData + "\"");
                 }
                 task = new Event(fields[2], start, end);
             } catch (DateTimeParseException exception) {
                 throw new AlfredException("I could not make sense of this line, Master Wayne: "
-                        + "event dates must use yyyy-MM-dd.\n"
+                        + "event dates and optional times are invalid.\n"
+                        + "Expected format: E | status | description | yyyy-MM-dd[THH:mm] "
+                        + "| yyyy-MM-dd[THH:mm].\n"
                         + "Offending line: \"" + taskData + "\"");
             }
         } else {
