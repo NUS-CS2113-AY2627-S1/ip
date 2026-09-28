@@ -57,7 +57,7 @@ T | 0 | borrow book
 **Input**
 
 ```text
-deadline return book /by Sunday
+deadline return book /by 2019-10-15
 ```
 
 **Expected output**
@@ -65,7 +65,7 @@ deadline return book /by Sunday
 ```text
 ____________________________________________________________
 Understood Master Wayne, I've added this task:
-  [D][ ] return book (by: Sunday)
+  [D][ ] return book (by: Oct 15 2019)
 Now you have 2 tasks in the list.
 ____________________________________________________________
 ```
@@ -74,7 +74,7 @@ ____________________________________________________________
 
 ```text
 T | 0 | borrow book
-D | 0 | return book | Sunday
+D | 0 | return book | 2019-10-15
 ```
 
 #### Step 3
@@ -99,7 +99,7 @@ ____________________________________________________________
 
 ```text
 T | 0 | borrow book
-D | 0 | return book | Sunday
+D | 0 | return book | 2019-10-15
 E | 0 | project meeting | Mon 2pm | 4pm
 ```
 
@@ -117,7 +117,7 @@ list
 ____________________________________________________________
 These are your tasks Master Wayne:
 1.[T][ ] borrow book
-2.[D][ ] return book (by: Sunday)
+2.[D][ ] return book (by: Oct 15 2019)
 3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
 ____________________________________________________________
 ```
@@ -143,8 +143,8 @@ deadline /by tomorrow
 ```text
 ____________________________________________________________
 Unable to add the deadline: the task description is missing.
-Use this format: deadline <description> /by <date or time>
-Example: deadline return book /by tomorrow
+Use this format: deadline <description> /by <yyyy-MM-dd>
+Example: deadline return book /by 2019-10-15
 ____________________________________________________________
 ```
 
@@ -284,7 +284,7 @@ ____________________________________________________________
 **Input**
 
 ```text
-deadline /by Friday
+deadline /by 2026-10-02
 ```
 
 **Expected output**
@@ -292,8 +292,8 @@ deadline /by Friday
 ```text
 ____________________________________________________________
 Unable to add the deadline: the task description is missing.
-Use this format: deadline <description> /by <date or time>
-Example: deadline return book /by tomorrow
+Use this format: deadline <description> /by <yyyy-MM-dd>
+Example: deadline return book /by 2019-10-15
 ____________________________________________________________
 ```
 
@@ -302,7 +302,7 @@ ____________________________________________________________
 **Input**
 
 ```text
-deadline submit report /by Friday
+deadline submit report /by 2026-10-02
 ```
 
 **Expected output**
@@ -310,7 +310,7 @@ deadline submit report /by Friday
 ```text
 ____________________________________________________________
 Understood Master Wayne, I've added this task:
-  [D][ ] submit report (by: Friday)
+  [D][ ] submit report (by: Oct 02 2026)
 Now you have 2 tasks in the list.
 ____________________________________________________________
 ```
@@ -381,7 +381,7 @@ list
 ____________________________________________________________
 These are your tasks Master Wayne:
 1.[T][ ] prepare slides
-2.[D][ ] submit report (by: Friday)
+2.[D][ ] submit report (by: Oct 02 2026)
 3.[E][ ] team sync (from: 3pm to: 4pm)
 ____________________________________________________________
 ```
@@ -585,8 +585,8 @@ deadline read book
 ```text
 ____________________________________________________________
 Unable to add the deadline: the /by marker is missing.
-Use this format: deadline <description> /by <date or time>
-Example: deadline return book /by tomorrow
+Use this format: deadline <description> /by <yyyy-MM-dd>
+Example: deadline return book /by 2019-10-15
 ____________________________________________________________
 ```
 
@@ -611,7 +611,7 @@ ____________________________________________________________
 **Input**
 
 ```text
-deadline read book /by Sunday
+deadline read book /by 2019-12-01
 ```
 
 **Expected output**
@@ -619,7 +619,7 @@ deadline read book /by Sunday
 ```text
 ____________________________________________________________
 Understood Master Wayne, I've added this task:
-  [D][ ] read book (by: Sunday)
+  [D][ ] read book (by: Dec 01 2019)
 Now you have 1 tasks in the list.
 ____________________________________________________________
 ```
@@ -655,7 +655,7 @@ list
 ```text
 ____________________________________________________________
 These are your tasks Master Wayne:
-1.[D][ ] read book (by: Sunday)
+1.[D][ ] read book (by: Dec 01 2019)
 ____________________________________________________________
 ```
 
@@ -724,7 +724,7 @@ list
 ```text
 ____________________________________________________________
 These are your tasks Master Wayne:
-1.[D][ ] read book (by: Sunday)
+1.[D][ ] read book (by: Dec 01 2019)
 2.[E][ ] product launch (from: Monday to: Tuesday)
 3.[T][ ] pack bags
 ____________________________________________________________
@@ -741,7 +741,7 @@ loaded tasks when a new task is added.
 
 ```text
 T | 1 | read book
-D | 0 | return book | Sunday
+D | 0 | return book | 2019-10-15
 E | 1 | project meeting | Mon 2pm | 4pm
 ```
 
@@ -759,7 +759,7 @@ list
 ____________________________________________________________
 These are your tasks Master Wayne:
 1.[T][X] read book
-2.[D][ ] return book (by: Sunday)
+2.[D][ ] return book (by: Oct 15 2019)
 3.[E][X] project meeting (from: Mon 2pm to: 4pm)
 ____________________________________________________________
 ```
@@ -786,7 +786,7 @@ ____________________________________________________________
 
 ```text
 T | 1 | read book
-D | 0 | return book | Sunday
+D | 0 | return book | 2019-10-15
 E | 1 | project meeting | Mon 2pm | 4pm
 T | 0 | pack bags
 ```
@@ -804,7 +804,8 @@ well-formed task on startup.
 T | 0 | borrow book
 T | 1
 
-D | 0 | return book | Sunday
+D | 0 | return book | 2019-10-15
+D | 0 | impossible deadline | 2019-02-29
 X | 0 | mystery task
 ```
 
@@ -815,6 +816,8 @@ I could not make sense of this line, Master Wayne: a todo is missing its descrip
 Offending line: "T | 1"
 I could not make sense of this line, Master Wayne: it does not match the expected "type | status | details" format.
 Offending line: ""
+I could not make sense of this line, Master Wayne: a deadline date must use yyyy-MM-dd.
+Offending line: "D | 0 | impossible deadline | 2019-02-29"
 I could not make sense of this line, Master Wayne: unknown task type "X".
 Offending line: "X | 0 | mystery task"
 ```
@@ -833,7 +836,7 @@ list
 ____________________________________________________________
 These are your tasks Master Wayne:
 1.[T][ ] borrow book
-2.[D][ ] return book (by: Sunday)
+2.[D][ ] return book (by: Oct 15 2019)
 ____________________________________________________________
 ```
 
@@ -962,8 +965,8 @@ deadline submit report /byte 5pm
 ```text
 ____________________________________________________________
 Unable to add the deadline: the /by marker is missing.
-Use this format: deadline <description> /by <date or time>
-Example: deadline return book /by tomorrow
+Use this format: deadline <description> /by <yyyy-MM-dd>
+Example: deadline return book /by 2019-10-15
 ____________________________________________________________
 ```
 
@@ -980,8 +983,8 @@ deadline pay bills /by 5pm /by mistake
 ```text
 ____________________________________________________________
 Unable to add the deadline: the /by marker can only be used once.
-Use this format: deadline <description> /by <date or time>
-Example: deadline return book /by tomorrow
+Use this format: deadline <description> /by <yyyy-MM-dd>
+Example: deadline return book /by 2019-10-15
 ____________________________________________________________
 ```
 
@@ -1034,8 +1037,8 @@ deadline pay | rent /by 5pm
 ```text
 ____________________________________________________________
 Unable to add the deadline: the task description cannot contain " | ".
-Use this format: deadline <description> /by <date or time>
-Example: deadline return book /by tomorrow
+Use this format: deadline <description> /by <yyyy-MM-dd>
+Example: deadline return book /by 2019-10-15
 ____________________________________________________________
 ```
 
@@ -1318,7 +1321,75 @@ T | 0 | borrow book
 
 After Step 5 passes, close standard input so the application exits normally.
 
-### TEST-15: Reject invalid delete commands
+### TEST-15: Validate and format deadline dates
+
+**Aim:** Verify that deadlines reject invalid ISO dates, accept valid calendar dates, display them in
+`MMM dd yyyy` format, and save them in reloadable ISO format.
+
+**Preconditions:** The application has just started and the in-memory task list is empty.
+
+#### Step 1
+
+**Input**
+
+```text
+deadline submit report /by 2019-02-29
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Unable to add the deadline: the deadline date must use yyyy-MM-dd (for example, 2019-10-15).
+Use this format: deadline <description> /by <yyyy-MM-dd>
+Example: deadline return book /by 2019-10-15
+____________________________________________________________
+```
+
+#### Step 2
+
+**Input**
+
+```text
+deadline submit report /by 2020-02-29
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Understood Master Wayne, I've added this task:
+  [D][ ] submit report (by: Feb 29 2020)
+Now you have 1 tasks in the list.
+____________________________________________________________
+```
+
+**Expected data file**
+
+```text
+D | 0 | submit report | 2020-02-29
+```
+
+#### Step 3
+
+**Input**
+
+```text
+list
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+These are your tasks Master Wayne:
+1.[D][ ] submit report (by: Feb 29 2020)
+____________________________________________________________
+```
+
+After Step 3 passes, close standard input so the application exits normally.
+
+### TEST-16: Reject invalid delete commands
 
 **Aim:** Verify that invalid delete commands report the problem without changing the task list.
 

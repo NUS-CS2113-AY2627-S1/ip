@@ -1,5 +1,8 @@
 package alfred;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+
 import alfred.command.AddCommand;
 import alfred.command.Command;
 import alfred.command.DeleteCommand;
@@ -135,20 +138,25 @@ public class Parser {
         }
 
         String description = arguments.substring(0, byPosition).trim();
-        String deadline = arguments.substring(byPosition + "/by".length()).trim();
+        String deadlineText = arguments.substring(byPosition + "/by".length()).trim();
         if (description.isEmpty()) {
             throw createDeadlineException("the task description is missing");
         }
-        if (deadline.isEmpty()) {
-            throw createDeadlineException("the deadline date or time is missing");
+        if (deadlineText.isEmpty()) {
+            throw createDeadlineException("the deadline date is missing");
         }
         if (description.contains(Storage.DELIMITER)) {
             throw createDeadlineException("the task description cannot contain \"" + Storage.DELIMITER + "\"");
         }
-        if (deadline.contains(Storage.DELIMITER)) {
-            throw createDeadlineException("the deadline date or time cannot contain \"" + Storage.DELIMITER + "\"");
+        if (deadlineText.contains(Storage.DELIMITER)) {
+            throw createDeadlineException("the deadline date cannot contain \"" + Storage.DELIMITER + "\"");
         }
-        return new Deadline(description, deadline);
+
+        try {
+            return new Deadline(description, LocalDate.parse(deadlineText));
+        } catch (DateTimeParseException exception) {
+            throw createDeadlineException("the deadline date must use yyyy-MM-dd (for example, 2019-10-15)");
+        }
     }
 
     /**
@@ -226,8 +234,8 @@ public class Parser {
      */
     private AlfredException createDeadlineException(String reason) {
         return new AlfredException("Unable to add the deadline: " + reason + ".\n"
-                + "Use this format: deadline <description> /by <date or time>\n"
-                + "Example: deadline return book /by tomorrow");
+                + "Use this format: deadline <description> /by <yyyy-MM-dd>\n"
+                + "Example: deadline return book /by 2019-10-15");
     }
 
     /**

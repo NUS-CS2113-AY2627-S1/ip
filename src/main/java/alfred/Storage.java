@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -104,7 +106,13 @@ public class Storage {
                         + "a deadline is missing its description or /by date.\n"
                         + "Offending line: \"" + taskData + "\"");
             }
-            task = new Deadline(fields[2], fields[3]);
+            try {
+                task = new Deadline(fields[2], LocalDate.parse(fields[3]));
+            } catch (DateTimeParseException exception) {
+                throw new AlfredException("I could not make sense of this line, Master Wayne: "
+                        + "a deadline date must use yyyy-MM-dd.\n"
+                        + "Offending line: \"" + taskData + "\"");
+            }
         } else if (taskType.equals("E")) {
             if (fields.length < 5) {
                 throw new AlfredException("I could not make sense of this line, Master Wayne: "
