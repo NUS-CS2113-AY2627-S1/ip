@@ -1,5 +1,6 @@
 package alfred;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -75,6 +76,22 @@ public class TaskList implements Iterable<Task> {
      */
     public boolean isEmpty() {
         return tasks.isEmpty();
+    }
+
+    /**
+     * Returns deadlines and events that occur on the specified date.
+     *
+     * @param date Date used to filter tasks.
+     * @return New task list containing matching scheduled tasks.
+     */
+    public TaskList getTasksOn(LocalDate date) {
+        List<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.occursOn(date)) {
+                matchingTasks.add(task);
+            }
+        }
+        return new TaskList(matchingTasks);
     }
 
     @Override

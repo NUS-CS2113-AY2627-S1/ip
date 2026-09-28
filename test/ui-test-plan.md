@@ -82,7 +82,7 @@ D | 0 | return book | 2019-10-15
 **Input**
 
 ```text
-event project meeting /from Mon 2pm /to 4pm
+event project meeting /from 2019-10-15 /to 2019-10-16
 ```
 
 **Expected output**
@@ -90,7 +90,7 @@ event project meeting /from Mon 2pm /to 4pm
 ```text
 ____________________________________________________________
 Understood Master Wayne, I've added this task:
-  [E][ ] project meeting (from: Mon 2pm to: 4pm)
+  [E][ ] project meeting (from: Oct 15 2019 to: Oct 16 2019)
 Now you have 3 tasks in the list.
 ____________________________________________________________
 ```
@@ -100,7 +100,7 @@ ____________________________________________________________
 ```text
 T | 0 | borrow book
 D | 0 | return book | 2019-10-15
-E | 0 | project meeting | Mon 2pm | 4pm
+E | 0 | project meeting | 2019-10-15 | 2019-10-16
 ```
 
 #### Step 4
@@ -118,7 +118,7 @@ ____________________________________________________________
 These are your tasks Master Wayne:
 1.[T][ ] borrow book
 2.[D][ ] return book (by: Oct 15 2019)
-3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+3.[E][ ] project meeting (from: Oct 15 2019 to: Oct 16 2019)
 ____________________________________________________________
 ```
 
@@ -161,7 +161,7 @@ After Step 1 passes, close standard input so the application exits normally.
 **Input**
 
 ```text
-event /from Mon 2pm /to 4pm
+event /from 2019-10-15 /to 2019-10-16
 ```
 
 **Expected output**
@@ -169,8 +169,8 @@ event /from Mon 2pm /to 4pm
 ```text
 ____________________________________________________________
 Unable to add the event: the task description is missing.
-Use this format: event <description> /from <start> /to <end>
-Example: event project meeting /from Mon 2pm /to 4pm
+Use this format: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>
+Example: event project meeting /from 2019-10-15 /to 2019-10-16
 ____________________________________________________________
 ```
 
@@ -320,16 +320,16 @@ ____________________________________________________________
 **Input**
 
 ```text
-event team sync /from /to 4pm
+event team sync /from /to 2026-10-03
 ```
 
 **Expected output**
 
 ```text
 ____________________________________________________________
-Unable to add the event: the start date or time is missing.
-Use this format: event <description> /from <start> /to <end>
-Example: event project meeting /from Mon 2pm /to 4pm
+Unable to add the event: the start date is missing.
+Use this format: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>
+Example: event project meeting /from 2019-10-15 /to 2019-10-16
 ____________________________________________________________
 ```
 
@@ -338,7 +338,7 @@ ____________________________________________________________
 **Input**
 
 ```text
-event team sync /from 3pm /to 4pm
+event team sync /from 2026-10-02 /to 2026-10-03
 ```
 
 **Expected output**
@@ -346,7 +346,7 @@ event team sync /from 3pm /to 4pm
 ```text
 ____________________________________________________________
 Understood Master Wayne, I've added this task:
-  [E][ ] team sync (from: 3pm to: 4pm)
+  [E][ ] team sync (from: Oct 02 2026 to: Oct 03 2026)
 Now you have 3 tasks in the list.
 ____________________________________________________________
 ```
@@ -382,7 +382,7 @@ ____________________________________________________________
 These are your tasks Master Wayne:
 1.[T][ ] prepare slides
 2.[D][ ] submit report (by: Oct 02 2026)
-3.[E][ ] team sync (from: 3pm to: 4pm)
+3.[E][ ] team sync (from: Oct 02 2026 to: Oct 03 2026)
 ____________________________________________________________
 ```
 
@@ -629,7 +629,7 @@ ____________________________________________________________
 **Input**
 
 ```text
-event product launch /from Monday
+event product launch /from 2019-12-02
 ```
 
 **Expected output**
@@ -637,8 +637,8 @@ event product launch /from Monday
 ```text
 ____________________________________________________________
 Unable to add the event: the /to marker is missing.
-Use this format: event <description> /from <start> /to <end>
-Example: event project meeting /from Mon 2pm /to 4pm
+Use this format: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>
+Example: event project meeting /from 2019-10-15 /to 2019-10-16
 ____________________________________________________________
 ```
 
@@ -664,7 +664,7 @@ ____________________________________________________________
 **Input**
 
 ```text
-event product launch /from Monday /to Tuesday
+event product launch /from 2019-12-02 /to 2019-12-03
 ```
 
 **Expected output**
@@ -672,7 +672,7 @@ event product launch /from Monday /to Tuesday
 ```text
 ____________________________________________________________
 Understood Master Wayne, I've added this task:
-  [E][ ] product launch (from: Monday to: Tuesday)
+  [E][ ] product launch (from: Dec 02 2019 to: Dec 03 2019)
 Now you have 2 tasks in the list.
 ____________________________________________________________
 ```
@@ -725,7 +725,7 @@ list
 ____________________________________________________________
 These are your tasks Master Wayne:
 1.[D][ ] read book (by: Dec 01 2019)
-2.[E][ ] product launch (from: Monday to: Tuesday)
+2.[E][ ] product launch (from: Dec 02 2019 to: Dec 03 2019)
 3.[T][ ] pack bags
 ____________________________________________________________
 ```
@@ -742,7 +742,7 @@ loaded tasks when a new task is added.
 ```text
 T | 1 | read book
 D | 0 | return book | 2019-10-15
-E | 1 | project meeting | Mon 2pm | 4pm
+E | 1 | project meeting | 2019-10-15 | 2019-10-16
 ```
 
 #### Step 1
@@ -760,7 +760,7 @@ ____________________________________________________________
 These are your tasks Master Wayne:
 1.[T][X] read book
 2.[D][ ] return book (by: Oct 15 2019)
-3.[E][X] project meeting (from: Mon 2pm to: 4pm)
+3.[E][X] project meeting (from: Oct 15 2019 to: Oct 16 2019)
 ____________________________________________________________
 ```
 
@@ -787,7 +787,7 @@ ____________________________________________________________
 ```text
 T | 1 | read book
 D | 0 | return book | 2019-10-15
-E | 1 | project meeting | Mon 2pm | 4pm
+E | 1 | project meeting | 2019-10-15 | 2019-10-16
 T | 0 | pack bags
 ```
 
@@ -806,6 +806,8 @@ T | 1
 
 D | 0 | return book | 2019-10-15
 D | 0 | impossible deadline | 2019-02-29
+E | 0 | invalid event | Monday | Tuesday
+E | 0 | reversed event | 2019-10-16 | 2019-10-15
 X | 0 | mystery task
 ```
 
@@ -818,6 +820,10 @@ I could not make sense of this line, Master Wayne: it does not match the expecte
 Offending line: ""
 I could not make sense of this line, Master Wayne: a deadline date must use yyyy-MM-dd.
 Offending line: "D | 0 | impossible deadline | 2019-02-29"
+I could not make sense of this line, Master Wayne: event dates must use yyyy-MM-dd.
+Offending line: "E | 0 | invalid event | Monday | Tuesday"
+I could not make sense of this line, Master Wayne: an event end date cannot be before its start date.
+Offending line: "E | 0 | reversed event | 2019-10-16 | 2019-10-15"
 I could not make sense of this line, Master Wayne: unknown task type "X".
 Offending line: "X | 0 | mystery task"
 ```
@@ -993,7 +999,7 @@ ____________________________________________________________
 **Input**
 
 ```text
-event trip /to Paris /from Monday
+event trip /to 2019-10-16 /from 2019-10-15
 ```
 
 **Expected output**
@@ -1001,8 +1007,8 @@ event trip /to Paris /from Monday
 ```text
 ____________________________________________________________
 Unable to add the event: the /to marker must come after the /from marker.
-Use this format: event <description> /from <start> /to <end>
-Example: event project meeting /from Mon 2pm /to 4pm
+Use this format: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>
+Example: event project meeting /from 2019-10-15 /to 2019-10-16
 ____________________________________________________________
 ```
 
@@ -1011,7 +1017,7 @@ ____________________________________________________________
 **Input**
 
 ```text
-event go /toy shop /from 2pm /to 4pm
+event go /toy shop /from 2019-10-15 /to 2019-10-16
 ```
 
 **Expected output**
@@ -1019,7 +1025,7 @@ event go /toy shop /from 2pm /to 4pm
 ```text
 ____________________________________________________________
 Understood Master Wayne, I've added this task:
-  [E][ ] go /toy shop (from: 2pm to: 4pm)
+  [E][ ] go /toy shop (from: Oct 15 2019 to: Oct 16 2019)
 Now you have 1 tasks in the list.
 ____________________________________________________________
 ```
@@ -1055,14 +1061,14 @@ list
 ```text
 ____________________________________________________________
 These are your tasks Master Wayne:
-1.[E][ ] go /toy shop (from: 2pm to: 4pm)
+1.[E][ ] go /toy shop (from: Oct 15 2019 to: Oct 16 2019)
 ____________________________________________________________
 ```
 
 **Expected data file**
 
 ```text
-E | 0 | go /toy shop | 2pm | 4pm
+E | 0 | go /toy shop | 2019-10-15 | 2019-10-16
 ```
 
 After Step 7 passes, close standard input so the application exits normally.
@@ -1245,7 +1251,7 @@ ____________________________________________________________
 **Input**
 
 ```text
-event project meeting /from Aug 6th 2pm /to 4pm
+event project meeting /from 2019-08-06 /to 2019-08-06
 ```
 
 **Expected output**
@@ -1253,7 +1259,7 @@ event project meeting /from Aug 6th 2pm /to 4pm
 ```text
 ____________________________________________________________
 Understood Master Wayne, I've added this task:
-  [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+  [E][ ] project meeting (from: Aug 06 2019 to: Aug 06 2019)
 Now you have 2 tasks in the list.
 ____________________________________________________________
 ```
@@ -1289,7 +1295,7 @@ delete 2
 ```text
 ____________________________________________________________
 Will do Master Wayne. I've removed this task:
-  [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+  [E][ ] project meeting (from: Aug 06 2019 to: Aug 06 2019)
 Now you have 2 tasks in the list.
 ____________________________________________________________
 ```
@@ -1321,7 +1327,232 @@ T | 0 | borrow book
 
 After Step 5 passes, close standard input so the application exits normally.
 
-### TEST-15: Validate and format deadline dates
+### TEST-15: Show scheduled tasks on a date
+
+**Aim:** Verify that `schedule` shows deadlines due on a date and events whose inclusive range contains that
+date, while excluding todos and tasks outside the date.
+
+**Preconditions:** The application has just started and the in-memory task list is empty.
+
+#### Step 1
+
+**Input**
+
+```text
+todo buy snacks
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Understood Master Wayne, I've added this task:
+  [T][ ] buy snacks
+Now you have 1 tasks in the list.
+____________________________________________________________
+```
+
+#### Step 2
+
+**Input**
+
+```text
+deadline submit report /by 2019-10-16
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Understood Master Wayne, I've added this task:
+  [D][ ] submit report (by: Oct 16 2019)
+Now you have 2 tasks in the list.
+____________________________________________________________
+```
+
+#### Step 3
+
+**Input**
+
+```text
+event conference /from 2019-10-15 /to 2019-10-17
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Understood Master Wayne, I've added this task:
+  [E][ ] conference (from: Oct 15 2019 to: Oct 17 2019)
+Now you have 3 tasks in the list.
+____________________________________________________________
+```
+
+#### Step 4
+
+**Input**
+
+```text
+event interview /from 2019-10-16 /to 2019-10-16
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Understood Master Wayne, I've added this task:
+  [E][ ] interview (from: Oct 16 2019 to: Oct 16 2019)
+Now you have 4 tasks in the list.
+____________________________________________________________
+```
+
+#### Step 5
+
+**Input**
+
+```text
+schedule 2019-10-16
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+These are your deadlines and events on Oct 16 2019:
+1.[D][ ] submit report (by: Oct 16 2019)
+2.[E][ ] conference (from: Oct 15 2019 to: Oct 17 2019)
+3.[E][ ] interview (from: Oct 16 2019 to: Oct 16 2019)
+____________________________________________________________
+```
+
+#### Step 6
+
+**Input**
+
+```text
+schedule 2019-10-14
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+There are no deadlines or events on Oct 14 2019, Master Wayne.
+____________________________________________________________
+```
+
+After Step 6 passes, close standard input so the application exits normally.
+
+### TEST-16: Reject invalid schedule and event dates
+
+**Aim:** Verify that schedule commands require one valid ISO date and events reject invalid or reversed date
+ranges without changing the task list.
+
+**Preconditions:** The application has just started and the in-memory task list is empty.
+
+#### Step 1
+
+**Input**
+
+```text
+schedule
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Please provide a date using this format: schedule <yyyy-MM-dd>.
+____________________________________________________________
+```
+
+#### Step 2
+
+**Input**
+
+```text
+schedule 2019-02-29
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+The schedule date must use yyyy-MM-dd (for example, 2019-10-15).
+____________________________________________________________
+```
+
+#### Step 3
+
+**Input**
+
+```text
+schedule 2019-10-15 extra
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Please provide only one date using this format: schedule <yyyy-MM-dd>.
+____________________________________________________________
+```
+
+#### Step 4
+
+**Input**
+
+```text
+event impossible /from 2019-02-29 /to 2019-03-01
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Unable to add the event: the start and end dates must use yyyy-MM-dd.
+Use this format: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>
+Example: event project meeting /from 2019-10-15 /to 2019-10-16
+____________________________________________________________
+```
+
+#### Step 5
+
+**Input**
+
+```text
+event backwards /from 2019-10-16 /to 2019-10-15
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Unable to add the event: the end date cannot be before the start date.
+Use this format: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>
+Example: event project meeting /from 2019-10-15 /to 2019-10-16
+____________________________________________________________
+```
+
+#### Step 6
+
+**Input**
+
+```text
+list
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+You have no tasks, Master Wayne.
+____________________________________________________________
+```
+
+After Step 6 passes, close standard input so the application exits normally.
+
+### TEST-17: Validate and format deadline dates
 
 **Aim:** Verify that deadlines reject invalid ISO dates, accept valid calendar dates, display them in
 `MMM dd yyyy` format, and save them in reloadable ISO format.
@@ -1389,7 +1620,7 @@ ____________________________________________________________
 
 After Step 3 passes, close standard input so the application exits normally.
 
-### TEST-16: Reject invalid delete commands
+### TEST-18: Reject invalid delete commands
 
 **Aim:** Verify that invalid delete commands report the problem without changing the task list.
 

@@ -9,6 +9,7 @@ import alfred.command.DeleteCommand;
 import alfred.command.ExitCommand;
 import alfred.command.ListCommand;
 import alfred.command.MarkCommand;
+import alfred.command.ScheduleCommand;
 import alfred.command.UnmarkCommand;
 import alfred.exception.AlfredException;
 import alfred.task.Deadline;
@@ -40,6 +41,8 @@ public class Parser {
             return new UnmarkCommand(parseStatusTaskNumber(command, false));
         } else if (isCommand(command, "mark")) {
             return new MarkCommand(parseStatusTaskNumber(command, true));
+        } else if (isCommand(command, "schedule")) {
+            return new ScheduleCommand(parseScheduleDate(command));
         } else if (isCommand(command, "todo")) {
             return new AddCommand(parseTodo(command));
         } else if (isCommand(command, "deadline")) {
@@ -80,6 +83,25 @@ public class Parser {
             return Integer.parseInt(taskNumber);
         } catch (NumberFormatException exception) {
             throw new AlfredException("Please provide a valid task number.");
+        }
+    }
+
+    /**
+     * Parses the date from a schedule command.
+     */
+    private LocalDate parseScheduleDate(String command) throws AlfredException {
+        String[] parts = command.split("\\s+");
+        if (parts.length < 2) {
+            throw new AlfredException("Please provide a date using this format: schedule <yyyy-MM-dd>.");
+        }
+        if (parts.length > 2) {
+            throw new AlfredException("Please provide only one date using this format: schedule <yyyy-MM-dd>.");
+        }
+
+        try {
+            return LocalDate.parse(parts[1]);
+        } catch (DateTimeParseException exception) {
+            throw new AlfredException("The schedule date must use yyyy-MM-dd (for example, 2019-10-15).");
         }
     }
 
@@ -184,27 +206,37 @@ public class Parser {
         }
 
         String description = arguments.substring(0, fromPosition).trim();
-        String start = arguments.substring(fromPosition + "/from".length(), toPosition).trim();
-        String end = arguments.substring(toPosition + "/to".length()).trim();
+        String startText = arguments.substring(fromPosition + "/from".length(), toPosition).trim();
+        String endText = arguments.substring(toPosition + "/to".length()).trim();
         if (description.isEmpty()) {
             throw createEventException("the task description is missing");
         }
-        if (start.isEmpty()) {
-            throw createEventException("the start date or time is missing");
+        if (startText.isEmpty()) {
+            throw createEventException("the start date is missing");
         }
-        if (end.isEmpty()) {
-            throw createEventException("the end date or time is missing");
+        if (endText.isEmpty()) {
+            throw createEventException("the end date is missing");
         }
         if (description.contains(Storage.DELIMITER)) {
             throw createEventException("the task description cannot contain \"" + Storage.DELIMITER + "\"");
         }
-        if (start.contains(Storage.DELIMITER)) {
-            throw createEventException("the start date or time cannot contain \"" + Storage.DELIMITER + "\"");
+        if (startText.contains(Storage.DELIMITER)) {
+            throw createEventException("the start date cannot contain \"" + Storage.DELIMITER + "\"");
         }
-        if (end.contains(Storage.DELIMITER)) {
-            throw createEventException("the end date or time cannot contain \"" + Storage.DELIMITER + "\"");
+        if (endText.contains(Storage.DELIMITER)) {
+            throw createEventException("the end date cannot contain \"" + Storage.DELIMITER + "\"");
         }
-        return new Event(description, start, end);
+
+        try {
+            LocalDate start = LocalDate.parse(startText);
+            LocalDate end = LocalDate.parse(endText);
+            if (end.isBefore(start)) {
+                throw createEventException("the end date cannot be before the start date");
+            }
+            return new Event(description, start, end);
+        } catch (DateTimeParseException exception) {
+            throw createEventException("the start and end dates must use yyyy-MM-dd");
+        }
     }
 
     /**
@@ -243,7 +275,7 @@ public class Parser {
      */
     private AlfredException createEventException(String reason) {
         return new AlfredException("Unable to add the event: " + reason + ".\n"
-                + "Use this format: event <description> /from <start> /to <end>\n"
-                + "Example: event project meeting /from Mon 2pm /to 4pm");
+                + "Use this format: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>\n"
+                + "Example: event project meeting /from 2019-10-15 /to 2019-10-16");
     }
 }

@@ -119,7 +119,20 @@ public class Storage {
                         + "an event is missing its description, /from, or /to value.\n"
                         + "Offending line: \"" + taskData + "\"");
             }
-            task = new Event(fields[2], fields[3], fields[4]);
+            try {
+                LocalDate start = LocalDate.parse(fields[3]);
+                LocalDate end = LocalDate.parse(fields[4]);
+                if (end.isBefore(start)) {
+                    throw new AlfredException("I could not make sense of this line, Master Wayne: "
+                            + "an event end date cannot be before its start date.\n"
+                            + "Offending line: \"" + taskData + "\"");
+                }
+                task = new Event(fields[2], start, end);
+            } catch (DateTimeParseException exception) {
+                throw new AlfredException("I could not make sense of this line, Master Wayne: "
+                        + "event dates must use yyyy-MM-dd.\n"
+                        + "Offending line: \"" + taskData + "\"");
+            }
         } else {
             throw new AlfredException("I could not make sense of this line, Master Wayne: "
                     + "unknown task type \"" + taskType + "\".\n"

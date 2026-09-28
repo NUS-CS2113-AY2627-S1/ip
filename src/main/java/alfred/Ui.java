@@ -1,5 +1,8 @@
 package alfred;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Scanner;
 
 import alfred.task.Task;
@@ -10,6 +13,8 @@ import alfred.task.Task;
 public class Ui implements AutoCloseable {
 
     private static final String DIVIDER = "____________________________________________________________";
+    private static final DateTimeFormatter DISPLAY_DATE_FORMAT
+            = DateTimeFormatter.ofPattern("MMM dd yyyy", Locale.ENGLISH);
     private static final String BANNER
             = "         █████╗ ██╗     ███████╗██████╗ ███████╗██████╗\n"
             + "        ██╔══██╗██║     ██╔════╝██╔══██╗██╔════╝██╔══██╗\n"
@@ -124,6 +129,25 @@ public class Ui implements AutoCloseable {
         }
 
         showMessage("These are your tasks Master Wayne:");
+        for (int i = 0; i < tasks.size(); i++) {
+            showMessage((i + 1) + "." + tasks.get(i));
+        }
+    }
+
+    /**
+     * Displays scheduled tasks that occur on the specified date.
+     *
+     * @param tasks Scheduled tasks to display.
+     * @param date Date represented by the task list.
+     */
+    public void showSchedule(TaskList tasks, LocalDate date) {
+        String formattedDate = date.format(DISPLAY_DATE_FORMAT);
+        if (tasks.isEmpty()) {
+            showMessage("There are no deadlines or events on " + formattedDate + ", Master Wayne.");
+            return;
+        }
+
+        showMessage("These are your deadlines and events on " + formattedDate + ":");
         for (int i = 0; i < tasks.size(); i++) {
             showMessage((i + 1) + "." + tasks.get(i));
         }

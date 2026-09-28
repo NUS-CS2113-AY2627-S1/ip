@@ -1,5 +1,7 @@
 package alfred.task;
 
+import java.time.LocalDate;
+
 /**
  * Represents a task and its completion status.
  */
@@ -48,6 +50,16 @@ public class Task {
      */
     public String toDataString() {
         return (isDone ? "1" : "0") + " | " + description;
+    }
+
+    /**
+     * Returns whether this task occurs on the specified date.
+     *
+     * @param date Date to check.
+     * @return True if this task occurs on the date.
+     */
+    public boolean occursOn(LocalDate date) {
+        return false;
     }
 
     @Override
