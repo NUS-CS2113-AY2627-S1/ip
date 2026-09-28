@@ -11,22 +11,35 @@ import alfred.task.Task;
  */
 public class Alfred {
 
-    private static TaskList tasks = new TaskList();
-    private static final Parser parser = new Parser();
-    private static final Storage storage = new Storage(Path.of("data", "alfred.txt"));
-    private static final Ui ui = new Ui();
+    private final Parser parser;
+    private final Storage storage;
+    private final TaskList tasks;
+    private final Ui ui;
+
+    /**
+     * Creates Alfred and loads tasks from the specified data file.
+     *
+     * @param filePath Path of the data file.
+     */
+    public Alfred(String filePath) {
+        this.parser = new Parser();
+        this.storage = new Storage(Path.of(filePath));
+        this.ui = new Ui();
+
+        TaskList loadedTasks;
+        try {
+            loadedTasks = new TaskList(storage.load(ui::showMessage));
+        } catch (IOException exception) {
+            ui.showLoadingError();
+            loadedTasks = new TaskList();
+        }
+        this.tasks = loadedTasks;
+    }
 
     /**
      * Starts Alfred and processes commands until the user exits.
-     *
-     * @param args Command-line arguments. Alfred does not use them.
      */
-    public static void main(String[] args) {
-        try {
-            tasks = new TaskList(storage.load(ui::showMessage));
-        } catch (IOException exception) {
-            ui.showLoadingError();
-        }
+    public void run() {
         ui.showWelcomeMessage();
 
         try (ui) {
@@ -53,12 +66,21 @@ public class Alfred {
     }
 
     /**
+     * Starts Alfred using the default data file.
+     *
+     * @param args Command-line arguments. Alfred does not use them.
+     */
+    public static void main(String[] args) {
+        new Alfred("data/alfred.txt").run();
+    }
+
+    /**
      * Performs the operation represented by a parsed command type.
      *
      * @param command Full command entered by the user.
      * @param commandType Type of the command.
      */
-    private static void processCommand(String command, Parser.CommandType commandType)
+    private void processCommand(String command, Parser.CommandType commandType)
             throws AlfredException, IOException {
         switch (commandType) {
             case LIST -> ui.showTaskList(tasks);
@@ -77,7 +99,7 @@ public class Alfred {
      *
      * @param taskNumber One-based number of the task to delete.
      */
-    private static void deleteTask(int taskNumber) throws AlfredException, IOException {
+    private void deleteTask(int taskNumber) throws AlfredException, IOException {
         if (taskNumber < 1 || taskNumber > tasks.size()) {
             throw new AlfredException("Invalid task number.");
         }
@@ -93,7 +115,7 @@ public class Alfred {
      * @param taskNumber One-based number of the task to update.
      * @param isMarkedAsDone Whether the task should be marked as done.
      */
-    private static void updateTaskStatus(int taskNumber, boolean isMarkedAsDone)
+    private void updateTaskStatus(int taskNumber, boolean isMarkedAsDone)
             throws AlfredException, IOException {
         if (taskNumber < 1 || taskNumber > tasks.size()) {
             throw new AlfredException("Invalid task number.");
@@ -115,7 +137,7 @@ public class Alfred {
      *
      * @param task Task to add.
      */
-    private static void addTask(Task task) throws IOException {
+    private void addTask(Task task) throws IOException {
         tasks.add(task);
         storage.save(tasks);
         ui.showTaskAdded(task, tasks.size());
