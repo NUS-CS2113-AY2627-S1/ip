@@ -154,6 +154,23 @@ public class Ui implements AutoCloseable {
     }
 
     /**
+     * Displays tasks whose descriptions match a search.
+     *
+     * @param tasks Matching tasks to display.
+     */
+    public void showFindResults(TaskList tasks) {
+        if (tasks.isEmpty()) {
+            showMessage("There are no matching tasks in your list, Master Wayne.");
+            return;
+        }
+
+        showMessage("Here are the matching tasks in your list:");
+        for (int i = 0; i < tasks.size(); i++) {
+            showMessage((i + 1) + "." + tasks.get(i));
+        }
+    }
+
+    /**
      * Displays a newly added task and the updated task count.
      *
      * @param task Added task.

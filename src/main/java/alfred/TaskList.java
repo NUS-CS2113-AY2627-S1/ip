@@ -94,6 +94,22 @@ public class TaskList implements Iterable<Task> {
         return new TaskList(matchingTasks);
     }
 
+    /**
+     * Returns tasks whose descriptions contain the specified search text.
+     *
+     * @param searchText Text to find in task descriptions.
+     * @return New task list containing matching tasks in their original order.
+     */
+    public TaskList findByDescription(String searchText) {
+        List<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.descriptionContains(searchText)) {
+                matchingTasks.add(task);
+            }
+        }
+        return new TaskList(matchingTasks);
+    }
+
     @Override
     public Iterator<Task> iterator() {
         return Collections.unmodifiableList(tasks).iterator();

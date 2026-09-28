@@ -7,6 +7,7 @@ import alfred.command.AddCommand;
 import alfred.command.Command;
 import alfred.command.DeleteCommand;
 import alfred.command.ExitCommand;
+import alfred.command.FindCommand;
 import alfred.command.ListCommand;
 import alfred.command.MarkCommand;
 import alfred.command.ScheduleCommand;
@@ -44,6 +45,8 @@ public class Parser {
             return new MarkCommand(parseStatusTaskNumber(command, true));
         } else if (isCommand(command, "schedule")) {
             return new ScheduleCommand(parseScheduleDate(command));
+        } else if (isCommand(command, "find")) {
+            return new FindCommand(parseFindSearchText(command));
         } else if (isCommand(command, "todo")) {
             return new AddCommand(parseTodo(command));
         } else if (isCommand(command, "deadline")) {
@@ -104,6 +107,17 @@ public class Parser {
         } catch (DateTimeParseException exception) {
             throw createScheduleException("the date must use yyyy-MM-dd");
         }
+    }
+
+    /**
+     * Parses the search text from a find command.
+     */
+    private String parseFindSearchText(String command) throws AlfredException {
+        String searchText = command.substring("find".length()).trim();
+        if (searchText.isEmpty()) {
+            throw new AlfredException("Please provide a keyword using this format: find <keyword>.");
+        }
+        return searchText;
     }
 
     /**

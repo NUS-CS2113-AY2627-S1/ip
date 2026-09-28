@@ -1,6 +1,7 @@
 package alfred.task;
 
 import java.time.LocalDate;
+import java.util.Locale;
 
 /**
  * Represents a task and its completion status.
@@ -60,6 +61,16 @@ public class Task {
      */
     public boolean occursOn(LocalDate date) {
         return false;
+    }
+
+    /**
+     * Returns whether the description contains the specified search text, ignoring case.
+     *
+     * @param searchText Text to find in the description.
+     * @return True if the description contains the search text.
+     */
+    public boolean descriptionContains(String searchText) {
+        return description.toLowerCase(Locale.ROOT).contains(searchText.toLowerCase(Locale.ROOT));
     }
 
     @Override

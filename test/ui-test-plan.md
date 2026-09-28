@@ -1906,3 +1906,186 @@ ____________________________________________________________
 ```
 
 After Step 4 passes, close standard input so the application exits normally.
+
+### TEST-21: Find tasks by description
+
+**Aim:** Verify that `find` performs a case-insensitive substring search over descriptions, preserves task order
+and status, supports multi-word search text, excludes date fields, and handles missing or unmatched searches.
+
+**Preconditions:** The application has just started and the in-memory task list is empty.
+
+#### Step 1
+
+**Input**
+
+```text
+todo read book
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Understood Master Wayne, I've added this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+____________________________________________________________
+```
+
+#### Step 2
+
+**Input**
+
+```text
+deadline return book /by 2026-10-02 17:30
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Understood Master Wayne, I've added this task:
+  [D][ ] return book (by: Oct 02 2026, 5:30 PM)
+Now you have 2 tasks in the list.
+____________________________________________________________
+```
+
+#### Step 3
+
+**Input**
+
+```text
+event book club /from 2026-10-03 /to 2026-10-03
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Understood Master Wayne, I've added this task:
+  [E][ ] book club (from: Oct 03 2026 to: Oct 03 2026)
+Now you have 3 tasks in the list.
+____________________________________________________________
+```
+
+#### Step 4
+
+**Input**
+
+```text
+todo buy milk
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Understood Master Wayne, I've added this task:
+  [T][ ] buy milk
+Now you have 4 tasks in the list.
+____________________________________________________________
+```
+
+#### Step 5
+
+**Input**
+
+```text
+mark 1
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Excellent work Master Wayne! I've marked this task as done:
+  [T][X] read book
+____________________________________________________________
+```
+
+#### Step 6
+
+**Input**
+
+```text
+mark 2
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Excellent work Master Wayne! I've marked this task as done:
+  [D][X] return book (by: Oct 02 2026, 5:30 PM)
+____________________________________________________________
+```
+
+#### Step 7
+
+**Input**
+
+```text
+find BOOK
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Here are the matching tasks in your list:
+1.[T][X] read book
+2.[D][X] return book (by: Oct 02 2026, 5:30 PM)
+3.[E][ ] book club (from: Oct 03 2026 to: Oct 03 2026)
+____________________________________________________________
+```
+
+#### Step 8
+
+**Input**
+
+```text
+find return book
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Here are the matching tasks in your list:
+1.[D][X] return book (by: Oct 02 2026, 5:30 PM)
+____________________________________________________________
+```
+
+#### Step 9
+
+**Input**
+
+```text
+find 2026
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+There are no matching tasks in your list, Master Wayne.
+____________________________________________________________
+```
+
+#### Step 10
+
+**Input**
+
+```text
+find
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Please provide a keyword using this format: find <keyword>.
+____________________________________________________________
+```
+
+After Step 10 passes, close standard input so the application exits normally.
