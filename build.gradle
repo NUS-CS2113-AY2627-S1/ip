@@ -1,0 +1,30 @@
+plugins {
+    id 'application'
+    id 'com.gradleup.shadow' version '9.6.1'
+}
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+application {
+    mainClass = 'chillguy.Chillguy'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(JavaExec).configureEach {
+    standardInput = System.in
+}
+
+tasks.named('shadowJar') {
+    archiveFileName = 'chillguy-all.jar'
+}

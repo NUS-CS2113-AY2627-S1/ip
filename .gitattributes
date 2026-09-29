@@ -1,0 +1,3 @@
+# Preserve the line endings required by each Gradle wrapper script.
+gradlew text eol=lf
+gradlew.bat text eol=crlf

@@ -9,8 +9,8 @@ Unless the user says otherwise, assume that you are assisting a student working 
 # Student profile
 
 * Prior knowledge: Basic Java and OOP concepts.
-* Level of programming experience: [to be filled]
-* IDE and level of expertise: [to be filled]
+* Level of programming experience: Intermediate
+* IDE and level of expertise: Intermediate
 
 # Guidance for interacting with users
 
@@ -28,8 +28,17 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 Ensure that Java 25 is used when running the application or build tasks. On macOS, use `sdk use java 25.0.3.fx-zulu` to switch to Java 25 if needed.
 
+## Java coding standard:
+
+For all Java code in this project, follow the project-specific `$seedu-java-coding-standard` skill. Load and apply that skill before creating, editing, or reviewing Java source files.
+
+## UI testing:
+
+After each code update, update `test/ui-test-plan.md` if the change affects console commands, inputs, or expected outputs. Then load and apply the project-specific `$test-ui` skill to run the recorded UI tests.
+
 ## Git
 
+For all future commits in this project, follow the project-specific `$seedu-git-standard` skill. Load and apply that skill before proposing, drafting, reviewing, or creating commit messages.
 Use lightweight tags unless the user requests an annotated tag.
 When proposing or creating a commit message, include enough detail to explain the rationale for the change.
 Do not commit or push unless explicitly asked.

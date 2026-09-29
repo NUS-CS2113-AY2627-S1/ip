@@ -1,0 +1,3 @@
+interface:
+  display_name: "Test UI"
+  short_description: "Run console UI tests from test/ui-test-plan.md and stop on the first mismatch."

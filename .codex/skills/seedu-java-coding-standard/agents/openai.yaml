@@ -1,0 +1,3 @@
+interface:
+  display_name: "Seedu Java Coding Standard"
+  short_description: "Follow the SE-EDU Java coding standard for this project."
