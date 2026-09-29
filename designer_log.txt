@@ -1,0 +1,185 @@
+1. Changing wrap style
+
+Changed FROM using bars to wrap nia's lines TO wrapping bars around user input
+Reason: Highlight user input, easier to process multiple lines of output at once
+
+Initial:
+
+> user command
+    --------------------------------------------------
+    Nia's reply
+    --------------------------------------------------
+> user command
+    --------------------------------------------------
+    Nia's reply
+    --------------------------------------------------
+
+New:
+
+--------------------------------------------------
+> user command
+--------------------------------------------------
+    Nia's reply
+--------------------------------------------------
+> user command
+--------------------------------------------------
+    Nia's reply
+
+2. Refactoring Nia.java (done in parallel with change 1)
+
+Changed
+
+FROM one large main() with command handling nested up to 6 levels deep
+(switch -> case -> if -> try/catch -> if)
+
+TO splitting responsibilities across classes:
+- Ui: all user-facing output (banners, bars, personality lines, indenting)
+- TaskList: owns the task array + count, exposes add/get/size/isFull/isNotValidIndex
+- Nia: main() only reads input and dispatches; each command lives in its own
+  handleXxx(...) method using guard clauses (early return) instead of nested ifs
+
+Reason: Deep nesting was hard to read/maintain; splitting by responsibility and
+using guard clauses keeps each method flat and makes it easier to add new commands
+without growing the nesting further.
+
+3. Further splitting Nia.java and Ui.java (decided, not yet implemented)
+
+Planned change FROM current split (Nia does dispatch + parsing, Ui does all output)
+TO:
+- Parser: takes the raw input line and extracts the command word (and later, args);
+  also owns the exit-command check (currently a Set.of(...) inline in Nia.main).
+  Nia.main becomes read -> Parser.parse -> dispatch, nothing else.
+- Ui split into:
+  - Formatter: printIndent, printBar, getUserInput() -> String - pure terminal I/O,
+    no personality content. getUserInput() moves the Scanner/nextLine().trim() call
+    out of Nia.main, since reading input is the same kind of generic I/O concern as
+    printing it.
+  - VoicelineManager: RNG, pickRandomLine, the voiceline arrays, and
+    printStarter/printAfterRequest/printEnding - calls Formatter to actually print.
+  (Banner string stays in VoicelineManager.printStarter for now since it's only used
+  there; split out separately only if it grows.)
+
+Reason: Same motivation as change 2 - each of these classes currently mixes concerns
+that will evolve at different rates (parsing logic vs. dispatch; personality content
+vs. generic I/O). Keeping them separate now, while the codebase is still small,
+avoids re-tangling them later once more commands/voicelines are added.
+
+4. Splitting further into InputReader/Parser/Processor/Printer/VoicelineManager (implemented)
+
+Changed FROM the plan in change 3 (Parser + Ui-split-into-Formatter/VoicelineManager)
+TO a finer split, once it became clear reading input, sanitizing it, and acting on it
+are three separate concerns:
+- InputReader: only reads a raw line from stdin (Scanner.nextLine()). No trimming,
+  no parsing, no printing.
+- Parser: takes the raw line and turns it into a clean, canonical String[] words array
+  for Processor. Owns sanitization: trims, guards blank input (returns an empty array
+  Nia skips), splits on whitespace, and resolves command ALIASES
+  (e.g. "close"/"exit"/"quit" -> "bye"). This is also where future aliases like
+  "dl" -> "deadline" will be registered.
+- Processor: pure command logic, dispatches on the already-canonical words[0]
+  (replaces Nia's old handleList/handleMarkOrUnmark/handleAdd). Contains zero
+  knowledge of alternate spellings - by design, only Parser knows aliases exist.
+  Returns a boolean (continue running or not) instead of Nia checking an exit-command
+  set directly, since "bye" is just another command as far as Processor is concerned.
+- Printer (renamed from the planned Formatter): printIndent, printBar, printPrompt -
+  pure terminal output, no personality content.
+- VoicelineManager (replaces Ui): RNG, pickRandomLine, printStarter/printAfterRequest/
+  printEnding - calls Printer to actually print.
+- Nia.main: now only orchestrates InputReader -> Parser -> Processor in a loop; no
+  command logic or sanitization left in it.
+
+Reason: Aliases needed a clear, single home so adding one later (e.g. deadline's "dl"
+shorthand) doesn't require touching command-dispatch code. Putting alias resolution in
+Parser means Processor can stay pure logic with no knowledge of alternate spellings,
+and InputReader/Printer stay pure I/O with no sanitization or personality baked in -
+each class now answers to exactly one reason to change.
+
+5. VoicelineManager no longer prints; Nia.java orchestrates (implemented)
+
+Changed FROM VoicelineManager.printStarter/printAfterRequest/printEnding calling
+Printer directly (change 4's design)
+TO:
+- VoicelineManager: pure content source - getBanner/getStartingLine/
+  getAfterRequestLine/getEndingLine, all returning String. No dependency on Printer
+  at all.
+- Nia.java: gained private printStarter()/printEnding() helper methods (alongside
+  the existing readInput()) that call Printer with strings pulled from
+  VoicelineManager, so main() stays a short read-loop overview.
+
+Reason: VoicelineManager calling Printer meant a "content" class also depended on
+and drove a "mechanics" class, so it wasn't reusable if content needed to reach the
+user through something other than Printer (e.g. a future GUI). Making it a pure
+string source restores one reason to change per class, matching the InputReader/
+Parser/Processor/Printer split. The composition logic (which lines, in what order,
+wrapped in what bars) is orchestration, not content or mechanics, so it lives in
+Nia.java as small helpers rather than being pushed back into either class.
+
+6. Deadline/Event dates: String -> LocalDateTime (implemented)
+
+Changed FROM Deadline.by and Event.from/to being unvalidated Strings, accepted
+and stored verbatim from raw user input all the way to the save file, TO:
+- Parser gained parseDateTime/formatCanonical/parseCanonical/formatDisplay as
+  new static methods (alongside the existing parseAndValidateTaskIndex).
+  parseDeadline/parseEvent now validate the "/by"/"/from"/"/to" substring
+  against every accepted format (yyyy-MM-dd or yyyy/MM/dd, optionally
+  followed by HHmm or HH:mm; a bare date defaults its time to 23:59) and
+  throw InvalidDateTimeException if none match.
+- Deadline.by and Event.from/to are now LocalDateTime. toString() calls
+  Parser.formatDisplay for a friendly "Oct 15 2019, 6:00pm" style;
+  toSaveFormat() calls Parser.formatCanonical for one fixed, lossless
+  save-file pattern ("yyyy-MM-dd HHmm").
+- Processor and Storage both convert the canonical string back to
+  LocalDateTime via Parser.parseCanonical before constructing a
+  Deadline/Event - Processor's is always valid (Parser already validated
+  it), Storage's may not be if the save file predates this change or was
+  hand-edited, so Storage's existing "skip corrupted line" catch clause
+  had to be extended with DateTimeParseException (it extends
+  DateTimeException -> RuntimeException directly, not
+  IllegalArgumentException as originally assumed - caught here as a
+  genuine bug during manual testing, not just a hypothetical).
+
+Reason: an unvalidated String let any text through as a "date" (typos,
+free text, ambiguous formats) with no way to compare or sort tasks by
+time later. Putting the parsing/formatting in Parser rather than a new
+class matches how parseAndValidateTaskIndex already lives there as a
+shared helper beyond the main parse() entry point - Deadline/Event and
+Storage call back into Parser for it rather than duplicating
+DateTimeFormatter patterns in three more places.
+
+7. Storage: pipe-delimited text -> JSON via Gson (implemented)
+
+Changed FROM Storage hand-parsing/formatting a pipe-delimited text file
+(Task.SAVE_DELIMITER = "|~|", e.g. "D|~|0|~|return book|~|2019-10-15 1800"),
+with each Task subclass owning a toSaveFormat() override and Storage.parseLine
+hand-splitting fields back out by position, TO:
+- Two new small Gson adapters in nia.storage: LocalDateTimeJsonAdapter
+  (Gson has no built-in support for java.time types - stores/reads plain
+  ISO-8601, e.g. "2019-10-15T18:00:00", via LocalDateTime's own
+  toString()/parse(), no custom pattern needed) and TaskJsonAdapter
+  (Gson can't infer which concrete subclass an abstract Task field
+  should become - adds a "type" field, "todo"/"deadline"/"event",
+  independent of the existing display-only getTag() "T"/"D"/"E").
+- Storage.load()/save() are now a single gson.fromJson/toJson call each
+  against data/nia.json (a JSON array of tasks), replacing parseLine,
+  parseDoneFlag, and SPLIT_PATTERN entirely.
+- Task.toSaveFormat()/SAVE_DELIMITER and Deadline/Event's toSaveFormat()
+  overrides removed - dead code once Gson's reflection-based
+  serialization replaced them.
+- No migration from the old data/nia.txt - same "start fresh on
+  incompatible save data" precedent set by change 6.
+- Storage.load()'s catch clause needed three exception types, not one:
+  JsonParseException (Gson's own syntax errors, and the "unknown type"
+  case TaskJsonAdapter throws - JsonSyntaxException alone would have
+  missed the latter), DateTimeParseException (a separate hierarchy,
+  same gap as change 6 hit), and NullPointerException (a task object
+  missing an expected field entirely, e.g. hand-edited) - caught as
+  genuine bugs during manual testing of a corrupted/hand-edited file,
+  not just hypotheticals.
+
+Reason: hand-rolled field-position parsing meant every new field touched
+three places (toSaveFormat, parseLine's switch, and keeping both in sync
+by position) with no compile-time check they agreed. Gson's reflection-
+based (de)serialization reads/writes fields by name, so Task only needs
+custom logic for the two things Gson genuinely can't infer on its own -
+which concrete subclass a bare Task is, and how to represent
+LocalDateTime - not for every individual field.
