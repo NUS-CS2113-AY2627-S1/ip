@@ -8,6 +8,12 @@
 /build/
 src/main/resources/docs/
 
+# Java compiled files
+*.class
+
+# Maven build files
+/target/
+
 # MacOS custom attributes files created by Finder
 .DS_Store
 *.iml
@@ -18,3 +24,9 @@ _temp/
 
 /text-ui-test/ACTUAL.TXT
 text-ui-test/EXPECTED-UNIX.TXT
+
+# Runtime task data
+/data/
+
+# Built JAR
+/maple.jar
