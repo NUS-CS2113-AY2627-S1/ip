@@ -1,0 +1,147 @@
+package alpha;
+
+import alpha.task.Deadline;
+import alpha.task.Task;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+/**
+ * Owns the ordered task collection and its in-memory operations, independently of storage and display.
+ * Indices are zero-based and must refer to valid positions, as checked by the parser for user commands.
+ */
+public class TaskList {
+    private final ArrayList<Task> tasks;
+
+    /**
+     * Creates an empty task list.
+     */
+    public TaskList() {
+        tasks = new ArrayList<>();
+    }
+
+    /**
+     * Creates a list with its own collection containing the supplied tasks in order.
+     *
+     * @param initialTasks The tasks restored from storage.
+     */
+    public TaskList(List<Task> initialTasks) {
+        tasks = new ArrayList<>(initialTasks);
+    }
+
+    /**
+     * Returns the number of tasks in the list.
+     */
+    public int size() {
+        return tasks.size();
+    }
+
+    /**
+     * Returns the task at the given position without copying it.
+     * Changes to the returned task are reflected in this list.
+     *
+     * @param index The zero-based task index.
+     * @throws IndexOutOfBoundsException If the index does not identify a task.
+     */
+    public Task get(int index) {
+        return tasks.get(index);
+    }
+
+    /**
+     * Returns indices of tasks whose descriptions contain the literal keyword, ignoring case.
+     * Preserves list order and includes all task types and completion states.
+     *
+     * @param keyword The nonblank keyword or phrase validated by the parser.
+     */
+    public List<Integer> findDescriptionIndices(String keyword) {
+        String query = keyword.toLowerCase(Locale.ROOT);
+        List<Integer> indices = new ArrayList<>();
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i).getDescription().toLowerCase(Locale.ROOT).contains(query)) {
+                indices.add(i);
+            }
+        }
+        return indices;
+    }
+
+    /**
+     * Returns indices of deadlines on the given calendar date, regardless of time or completion status.
+     * Indices preserve the original list order and numbering; events and todos are excluded.
+     *
+     * @param date The date to match.
+     */
+    public List<Integer> findDeadlineIndices(LocalDate date) {
+        List<Integer> indices = new ArrayList<>();
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i) instanceof Deadline deadline && deadline.getBy().toLocalDate().equals(date)) {
+                indices.add(i);
+            }
+        }
+        return indices;
+    }
+
+    /**
+     * Appends a task to the list.
+     *
+     * @param task The task to add.
+     */
+    public void add(Task task) {
+        tasks.add(task);
+    }
+
+    /**
+     * Inserts a task at its former position when undoing a failed deletion.
+     *
+     * @param index The position to restore, from zero through the current size.
+     * @param task The deleted task.
+     */
+    public void insert(int index, Task task) {
+        tasks.add(index, task);
+    }
+
+    /**
+     * Removes and returns a task, preserving the order of the remaining tasks.
+     *
+     * @param index The validated task index.
+     */
+    public Task delete(int index) {
+        return tasks.remove(index);
+    }
+
+    /**
+     * Returns whether the task at the given index is done.
+     *
+     * @param index The validated task index.
+     */
+    public boolean isDone(int index) {
+        return tasks.get(index).getStatusIcon().equals("X");
+    }
+
+    /**
+     * Marks a task as done.
+     *
+     * @param index The validated task index.
+     */
+    public void mark(int index) {
+        tasks.get(index).markAsDone();
+    }
+
+    /**
+     * Marks a task as not done.
+     *
+     * @param index The validated task index.
+     */
+    public void unmark(int index) {
+        tasks.get(index).markAsNotDone();
+    }
+
+    /**
+     * Returns a shallow collection copy for display or saving.
+     * Adding or removing elements in the copy cannot change this list; task objects remain shared.
+     */
+    public ArrayList<Task> toList() {
+        return new ArrayList<>(tasks);
+    }
+}
