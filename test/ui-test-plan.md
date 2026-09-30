@@ -13,6 +13,10 @@ This file is the source of truth for scripted acceptance tests of the interactiv
 - **State cleanup:** Close standard input after the assertions so the application exits normally, then delete
   `data/alfred.txt` if it exists.
 - **Comparison:** Compare exact application output after normalizing only `CRLF` and `LF` line endings. Terminal input echo is included in the transcript but excluded from comparison.
+- **Invalid-input suffix:** Unless it is already present, for every expected output caused by invalid user input,
+  insert
+  `Type "help" to view the available commands.` immediately before the closing divider. Existing cases omit this
+  shared line to keep repeated error expectations concise; TEST-22 shows the complete output.
 - **Data-file comparison:** Where an expected data file is specified, compare `data/alfred.txt` after the command,
   normalizing only `CRLF` and `LF` line endings.
 - **Timeouts:** Allow 10 seconds for startup and 5 seconds for each command response.
@@ -2089,3 +2093,67 @@ ____________________________________________________________
 ```
 
 After Step 10 passes, close standard input so the application exits normally.
+
+### TEST-22: Show command help and recommend it after invalid input
+
+**Aim:** Verify that `help` lists every available command with a short description and expected format, and that
+invalid user input directs the user to this guide.
+
+**Preconditions:** The application has just started and the in-memory task list is empty.
+
+#### Step 1
+
+**Input**
+
+```text
+help
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Here are the available commands, Master Wayne:
+todo - Add a task without a date.
+  Format: todo <description>
+deadline - Add a task with a due date and optional time.
+  Format: deadline <description> /by <yyyy-MM-dd [HH:mm]>
+event - Add an event with a start and end date, with optional times.
+  Format: event <description> /from <yyyy-MM-dd [HH:mm]> /to <yyyy-MM-dd [HH:mm]>
+list - Show all tasks.
+  Format: list
+mark - Mark a task as done.
+  Format: mark <task number>
+unmark - Mark a task as not done.
+  Format: unmark <task number>
+delete - Remove a task.
+  Format: delete <task number>
+schedule - Show deadlines and events on a date.
+  Format: schedule <yyyy-MM-dd>
+find - Find tasks whose descriptions contain a keyword.
+  Format: find <keyword>
+help - Show this command guide.
+  Format: help
+bye - Exit Alfred.
+  Format: bye
+____________________________________________________________
+```
+
+#### Step 2
+
+**Input**
+
+```text
+remind me to train
+```
+
+**Expected output**
+
+```text
+____________________________________________________________
+Pardon me Master Wayne, I did not quite get that.
+Type "help" to view the available commands.
+____________________________________________________________
+```
+
+After Step 2 passes, close standard input so the application exits normally.

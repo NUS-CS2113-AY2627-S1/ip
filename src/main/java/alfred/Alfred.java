@@ -54,6 +54,7 @@ public class Alfred {
                     isExit = command.isExit();
                 } catch (AlfredException exception) {
                     ui.showMessage(exception.getMessage());
+                    ui.showHelpPrompt();
                 } catch (IOException exception) {
                     ui.showSavingError();
                 } finally {

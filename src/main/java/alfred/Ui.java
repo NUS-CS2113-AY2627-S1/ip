@@ -118,6 +118,42 @@ public class Ui implements AutoCloseable {
     }
 
     /**
+     * Displays the available commands, their purposes, and their expected formats.
+     */
+    public void showHelp() {
+        showMessage("Here are the available commands, Master Wayne:");
+        showMessage("todo - Add a task without a date.");
+        showMessage("  Format: todo <description>");
+        showMessage("deadline - Add a task with a due date and optional time.");
+        showMessage("  Format: deadline <description> /by <yyyy-MM-dd [HH:mm]>");
+        showMessage("event - Add an event with a start and end date, with optional times.");
+        showMessage("  Format: event <description> /from <yyyy-MM-dd [HH:mm]> /to <yyyy-MM-dd [HH:mm]>");
+        showMessage("list - Show all tasks.");
+        showMessage("  Format: list");
+        showMessage("mark - Mark a task as done.");
+        showMessage("  Format: mark <task number>");
+        showMessage("unmark - Mark a task as not done.");
+        showMessage("  Format: unmark <task number>");
+        showMessage("delete - Remove a task.");
+        showMessage("  Format: delete <task number>");
+        showMessage("schedule - Show deadlines and events on a date.");
+        showMessage("  Format: schedule <yyyy-MM-dd>");
+        showMessage("find - Find tasks whose descriptions contain a keyword.");
+        showMessage("  Format: find <keyword>");
+        showMessage("help - Show this command guide.");
+        showMessage("  Format: help");
+        showMessage("bye - Exit Alfred.");
+        showMessage("  Format: bye");
+    }
+
+    /**
+     * Prompts the user to open the command guide after invalid input.
+     */
+    public void showHelpPrompt() {
+        showMessage("Type \"help\" to view the available commands.");
+    }
+
+    /**
      * Displays all tasks in their insertion order.
      *
      * @param tasks Tasks to display.

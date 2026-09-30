@@ -8,6 +8,7 @@ import alfred.command.Command;
 import alfred.command.DeleteCommand;
 import alfred.command.ExitCommand;
 import alfred.command.FindCommand;
+import alfred.command.HelpCommand;
 import alfred.command.ListCommand;
 import alfred.command.MarkCommand;
 import alfred.command.ScheduleCommand;
@@ -35,6 +36,8 @@ public class Parser {
         String command = fullCommand.trim();
         if (command.equals("bye")) {
             return new ExitCommand();
+        } else if (command.equals("help")) {
+            return new HelpCommand();
         } else if (command.equals("list")) {
             return new ListCommand();
         } else if (isCommand(command, "delete")) {
