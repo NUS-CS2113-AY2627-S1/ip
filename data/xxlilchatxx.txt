@@ -1,0 +1,9 @@
+T | 0 | buy bread
+D | 0 | eat bread | friday
+E | 1 | throw bread | friday 2pm | 5pm
+T | 0 | do assignment
+T | 0 | buy bread
+T | 0 | buy sardines
+D | 0 | buy milk | 30 Sept
+T | 1 | read book
+D | 0 | return book | Oct 1st

@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.gradleup.shadow' version '8.3.5'
+}
+
+repositories {
+    mavenCentral()
+}
+
+application {
+    mainClass = 'xxlilchatxx.XxLilChatxX'
+}
+
+shadowJar {
+    archiveBaseName.set('XxLilChatxX')
+    archiveClassifier.set('')
+    archiveVersion.set('')
+}
