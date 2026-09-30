@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.gradleup.shadow' version '9.5.1'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+application {
+    mainClass = 'alfred.Alfred'
+}
+
+tasks.named('jar') {
+    enabled = false
+}
+
+tasks.named('shadowJar') {
+    archiveFileName = 'alfred.jar'
+    manifest {
+        attributes('Main-Class': 'alfred.Alfred')
+    }
+}
