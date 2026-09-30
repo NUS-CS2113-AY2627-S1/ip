@@ -9,8 +9,8 @@ Unless the user says otherwise, assume that you are assisting a student working 
 # Student profile
 
 * Prior knowledge: Basic Java and OOP concepts.
-* Level of programming experience: [to be filled]
-* IDE and level of expertise: [to be filled]
+* Level of programming experience: Basic 
+* IDE and level of expertise: IntelliJ IDEA (Basic)
 
 # Guidance for interacting with users
 
@@ -28,7 +28,25 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 Ensure that Java 25 is used when running the application or build tasks. On macOS, use `sdk use java 25.0.3.fx-zulu` to switch to Java 25 if needed.
 
+## Java coding standard
+
+For every Java code change or review in this project, you MUST use and follow the
+`seedu-java-coding-standard` skill at `.agents/skills/seedu-java-coding-standard/SKILL.md`.
+All Java code in the project must comply with that standard.
+
+## UI testing
+
+After every code update in this project, you MUST:
+
+1. Review `test/ui-test-plan.md` and update it when the changed behavior, setup, or required coverage is not represented accurately. Leave it unchanged when the existing plan remains accurate.
+2. Invoke and follow the `test-ui` skill at `.agents/skills/test-ui/SKILL.md` after the test plan is current.
+3. Do not report the code update as complete until the skill has finished. If testing cannot run or stops at a failure, report that outcome and do not claim that the UI tests passed.
+
 ## Git
+
+Before proposing, creating, amending, or squashing any commit in this project, you MUST use and follow the
+`seedu-git-standard` skill at `.agents/skills/seedu-git-standard/SKILL.md`. All future commits must comply with that
+standard. Follow the same skill whenever naming or creating a branch.
 
 Use lightweight tags unless the user requests an annotated tag.
 When proposing or creating a commit message, include enough detail to explain the rationale for the change.
