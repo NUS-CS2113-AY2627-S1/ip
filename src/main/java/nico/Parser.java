@@ -4,6 +4,7 @@ import nico.command.AddCommand;
 import nico.command.Command;
 import nico.command.DeleteCommand;
 import nico.command.ExitCommand;
+import nico.command.FindCommand;
 import nico.command.ListCommand;
 import nico.command.MarkCommand;
 import nico.tasks.Deadline;
@@ -19,6 +20,7 @@ public class Parser {
     private static final String MARK_COMMAND = "mark";
     private static final String UNMARK_COMMAND = "unmark";
     private static final String DELETE_COMMAND = "delete";
+    private static final String FIND_COMMAND = "find";
     private static final String TODO_COMMAND = "todo";
     private static final String DEADLINE_COMMAND = "deadline";
     private static final String EVENT_COMMAND = "event";
@@ -53,6 +55,8 @@ public class Parser {
                 return new MarkCommand(parseTaskIndex(arguments, UNMARK_COMMAND), false);
             case DELETE_COMMAND:
                 return new DeleteCommand(parseTaskIndex(arguments, DELETE_COMMAND));
+            case FIND_COMMAND:
+                return new FindCommand(parseKeyword(arguments));
             case TODO_COMMAND:
                 return new AddCommand(parseTodo(arguments));
             case DEADLINE_COMMAND:

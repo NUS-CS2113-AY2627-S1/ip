@@ -108,6 +108,20 @@ public class TaskList {
         return task;
     }
 
+    /**
+     * Returns the tasks whose description contains the given keyword.
+     * The search ignores upper and lower case.
+     *
+     * @param keyword The text to search for.
+     * @return The matching tasks, in list order. Empty if nothing matches.
+     */
+    public List<Task> find(String keyword) {
+        String lowerCaseKeyword = keyword.toLowerCase();
+        return tasks.stream()
+                .filter(task -> task.getDescription().toLowerCase().contains(lowerCaseKeyword))
+                .toList();
+    }
+
     private void checkIndex(int index) throws NicoException {
         if (index < 0 || index >= tasks.size()) {
             throw new NicoException("That task number doesn't exist. You have "

@@ -101,6 +101,19 @@ public class Ui {
         printNumbered(taskList.getAllTasks());
     }
 
+    /**
+     * Prints the tasks that matched a search, numbered from 1.
+     *
+     * @param matchingTasks The tasks that matched the search.
+     */
+    public void showMatchingTasks(List<Task> matchingTasks) {
+        if (matchingTasks.isEmpty()) {
+            System.out.println("No matching tasks found.");
+            return;
+        }
+        System.out.println("Here are the matching tasks in your list:");
+        printNumbered(matchingTasks);
+    }
 
     private void printNumbered(List<Task> tasks) {
         for (int i = 0; i < tasks.size(); i++) {
