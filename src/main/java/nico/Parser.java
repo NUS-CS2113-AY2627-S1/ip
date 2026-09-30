@@ -7,9 +7,14 @@ import nico.command.ExitCommand;
 import nico.command.FindCommand;
 import nico.command.ListCommand;
 import nico.command.MarkCommand;
+import nico.command.OnCommand;
 import nico.tasks.Deadline;
 import nico.tasks.Event;
+import nico.tasks.TaskDateTime;
 import nico.tasks.Todo;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 /**
  * Makes sense of the text the user types, turning it into a Command.
@@ -21,6 +26,7 @@ public class Parser {
     private static final String UNMARK_COMMAND = "unmark";
     private static final String DELETE_COMMAND = "delete";
     private static final String FIND_COMMAND = "find";
+    private static final String ON_COMMAND = "on";
     private static final String TODO_COMMAND = "todo";
     private static final String DEADLINE_COMMAND = "deadline";
     private static final String EVENT_COMMAND = "event";
@@ -57,6 +63,8 @@ public class Parser {
                 return new DeleteCommand(parseTaskIndex(arguments, DELETE_COMMAND));
             case FIND_COMMAND:
                 return new FindCommand(parseKeyword(arguments));
+            case ON_COMMAND:
+                return new OnCommand(parseDate(arguments));
             case TODO_COMMAND:
                 return new AddCommand(parseTodo(arguments));
             case DEADLINE_COMMAND:
@@ -86,6 +94,14 @@ public class Parser {
         return arguments;
     }
 
+    private static LocalDate parseDate(String arguments) throws NicoException {
+        try {
+            return LocalDate.parse(arguments);
+        } catch (DateTimeParseException e) {
+            throw new NicoException("Please give a date as yyyy-mm-dd, e.g. on 2026-10-15");
+        }
+    }
+
     private static Todo parseTodo(String arguments) throws NicoException {
         if (arguments.isEmpty()) {
             throw new NicoException("The description of a todo cannot be empty.");
@@ -107,7 +123,7 @@ public class Parser {
         if (by.isEmpty()) {
             throw new NicoException("The /by date of a deadline cannot be empty.");
         }
-        return new Deadline(description, by);
+        return new Deadline(description, TaskDateTime.parse(by));
     }
 
     private static Event parseEvent(String arguments) throws NicoException {
@@ -126,6 +142,11 @@ public class Parser {
         if (from.isEmpty() || to.isEmpty()) {
             throw new NicoException("The /from and /to times of an event cannot be empty.");
         }
-        return new Event(description, from, to);
+        TaskDateTime start = TaskDateTime.parse(from);
+        TaskDateTime end = TaskDateTime.parse(to);
+        if (end.isBefore(start)) {
+            throw new NicoException("An event cannot end before it starts.");
+        }
+        return new Event(description, start, end);
     }
 }

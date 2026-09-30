@@ -2,6 +2,7 @@ package nico;
 
 import nico.tasks.Task;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -119,6 +120,18 @@ public class TaskList {
         String lowerCaseKeyword = keyword.toLowerCase();
         return tasks.stream()
                 .filter(task -> task.getDescription().toLowerCase().contains(lowerCaseKeyword))
+                .toList();
+    }
+
+    /**
+     * Returns the deadlines and events that fall on the given date.
+     *
+     * @param date The date to look up.
+     * @return The matching tasks, in list order. Empty if nothing matches.
+     */
+    public List<Task> getTasksOn(LocalDate date) {
+        return tasks.stream()
+                .filter(task -> task.occursOn(date))
                 .toList();
     }
 

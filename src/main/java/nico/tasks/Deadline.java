@@ -1,11 +1,13 @@
 package nico.tasks;
 
+import java.time.LocalDate;
+
 /**
  * Represents a task that must be done by a certain date or time,
- * e.g. "return book (by: Sunday)".
+ * e.g. "return book (by: Oct 15 2026)".
  */
 public class Deadline extends Task {
-    protected String by;
+    protected TaskDateTime by;
 
     /**
      * Creates a deadline with the given description and due date.
@@ -13,7 +15,7 @@ public class Deadline extends Task {
      * @param description What the deadline is about.
      * @param by When the task must be done by.
      */
-    public Deadline(String description, String by) {
+    public Deadline(String description, TaskDateTime by) {
         super(description);
         this.by = by;
     }
@@ -28,13 +30,18 @@ public class Deadline extends Task {
      *
      * @return The due date or time.
      */
-    public String getBy() {
+    public TaskDateTime getBy() {
         return by;
     }
 
     @Override
+    public boolean occursOn(LocalDate date) {
+        return by.hasDate() && by.getDate().equals(date);
+    }
+
+    @Override
     public String toSaveFormat() {
-        return super.toSaveFormat() + SAVE_DELIMITER + by;
+        return super.toSaveFormat() + SAVE_DELIMITER + by.toSaveString();
     }
 
     @Override

@@ -1,5 +1,7 @@
 package nico.tasks;
 
+import java.time.LocalDate;
+
 /**
  * Represents a task that the user wants to keep track of.
  * Every task has a description and can be marked as done or not done.
@@ -63,6 +65,17 @@ public abstract class Task {
      * @return The type icon of this task.
      */
     public abstract String getTypeIcon();
+
+    /**
+     * Returns whether this task takes place on, or is due on, the given date.
+     * Tasks without dates (e.g. todos) never match.
+     *
+     * @param date The date to check.
+     * @return True if the task falls on that date.
+     */
+    public boolean occursOn(LocalDate date) {
+        return false;
+    }
 
     /**
      * Returns this task in the format used by the save file,

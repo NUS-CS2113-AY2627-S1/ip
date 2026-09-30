@@ -3,6 +3,7 @@ package nico;
 import nico.tasks.Deadline;
 import nico.tasks.Event;
 import nico.tasks.Task;
+import nico.tasks.TaskDateTime;
 import nico.tasks.Todo;
 
 import java.io.File;
@@ -85,7 +86,7 @@ public class Storage {
 
     /**
      * Converts one line of the save file back into a Task.
-     * Returns null if the line is not in a recognised format.
+     * Returns null if the line is not in a recognised format, or holds an invalid date.
      */
     private Task extractTask(String line) {
         // Pattern.quote is needed because "|" is a special character in regex.
@@ -97,13 +98,17 @@ public class Storage {
         String type = fields[0];
         String description = fields[2];
         Task task;
-        if (type.equals("T")) {
-            task = new Todo(description);
-        } else if (type.equals("D") && fields.length >= DEADLINE_FIELD_COUNT) {
-            task = new Deadline(description, fields[3]);
-        } else if (type.equals("E") && fields.length >= EVENT_FIELD_COUNT) {
-            task = new Event(description, fields[3], fields[4]);
-        } else {
+        try {
+            if (type.equals("T")) {
+                task = new Todo(description);
+            } else if (type.equals("D") && fields.length >= DEADLINE_FIELD_COUNT) {
+                task = new Deadline(description, TaskDateTime.parse(fields[3]));
+            } else if (type.equals("E") && fields.length >= EVENT_FIELD_COUNT) {
+                task = new Event(description, TaskDateTime.parse(fields[3]), TaskDateTime.parse(fields[4]));
+            } else {
+                return null;
+            }
+        } catch (NicoException e) {
             return null;
         }
 

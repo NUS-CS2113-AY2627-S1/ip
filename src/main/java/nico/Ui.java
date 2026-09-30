@@ -2,7 +2,10 @@ package nico;
 
 import nico.tasks.Task;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -18,6 +21,8 @@ public class Ui {
             + "|_| \\_|\\___/_____|___|\n";
     private static final String ERROR_PREFIX = "OOPS!!! ";
     private static final String EXIT_COMMAND = "bye";
+    private static final DateTimeFormatter HEADING_DATE_FORMAT =
+            DateTimeFormatter.ofPattern("MMM d yyyy", Locale.ENGLISH);
 
     private final Scanner scanner;
 
@@ -113,6 +118,22 @@ public class Ui {
         }
         System.out.println("Here are the matching tasks in your list:");
         printNumbered(matchingTasks);
+    }
+
+    /**
+     * Prints the deadlines and events on a given date, numbered from 1.
+     *
+     * @param date The date that was looked up.
+     * @param tasksOnDate The tasks that fall on that date.
+     */
+    public void showTasksOn(LocalDate date, List<Task> tasksOnDate) {
+        String dateText = date.format(HEADING_DATE_FORMAT);
+        if (tasksOnDate.isEmpty()) {
+            System.out.println("Nothing is due or happening on " + dateText + ".");
+            return;
+        }
+        System.out.println("Here are your deadlines and events on " + dateText + ":");
+        printNumbered(tasksOnDate);
     }
 
     private void printNumbered(List<Task> tasks) {
