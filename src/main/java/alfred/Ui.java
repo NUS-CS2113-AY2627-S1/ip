@@ -197,10 +197,10 @@ public class Ui implements AutoCloseable {
     /**
      * Displays the heading for a task status change.
      *
-     * @param isMarkedAsDone Whether the task was marked as done.
+     * @param isDone Whether the task was marked as done.
      */
-    public void showTaskStatusChanged(boolean isMarkedAsDone) {
-        if (isMarkedAsDone) {
+    public void showTaskStatusChanged(boolean isDone) {
+        if (isDone) {
             showMessage("Excellent work Master Wayne! I've marked this task as done:");
         } else {
             showMessage("Alright Master Wayne, I have unmarked this task as requested:");

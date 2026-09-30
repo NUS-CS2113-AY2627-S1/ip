@@ -7,31 +7,31 @@ import java.time.LocalDate;
  */
 public class Deadline extends Task {
 
-    private final ScheduledDateTime by;
+    private final ScheduledDateTime dueDateTime;
 
     /**
      * Creates an incomplete deadline with the given description and due date.
      *
      * @param description Description of the deadline.
-     * @param by Date and optional time by which the task must be completed.
+     * @param dueDateTime Date and optional time by which the task must be completed.
      */
-    public Deadline(String description, ScheduledDateTime by) {
+    public Deadline(String description, ScheduledDateTime dueDateTime) {
         super(description);
-        this.by = by;
+        this.dueDateTime = dueDateTime;
     }
 
     @Override
     public String toDataString() {
-        return "D | " + super.toDataString() + " | " + by.toStorageString();
+        return "D | " + super.toDataString() + " | " + dueDateTime.toStorageString();
     }
 
     @Override
     public boolean occursOn(LocalDate date) {
-        return by.occursOn(date);
+        return dueDateTime.occursOn(date);
     }
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + by + ")";
+        return "[D]" + super.toString() + " (by: " + dueDateTime + ")";
     }
 }
