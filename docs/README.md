@@ -13,6 +13,7 @@ Alfred is a command-line chatbot that helps you manage todos, deadlines, and eve
   - [Delete a task: `delete`](#delete-a-task-delete)
   - [View a schedule: `schedule`](#view-a-schedule-schedule)
   - [Find tasks: `find`](#find-tasks-find)
+  - [View command help: `help`](#view-command-help-help)
   - [Exit Alfred: `bye`](#exit-alfred-bye)
   - [Saving data](#saving-data)
 - [FAQ](#faq)
@@ -38,9 +39,10 @@ Alfred is a command-line chatbot that helps you manage todos, deadlines, and eve
    - `deadline return book /by 2026-10-02 17:30` — adds a deadline with a time.
    - `list` — displays all tasks.
    - `mark 1` — marks the first task as done.
+   - `help` — displays all available commands and their formats.
    - `bye` — exits Alfred.
 
-6. Refer to [Features](#features) for details of every command.
+6. Type `help` in Alfred for a quick command reference, or refer to [Features](#features) for more details.
 
 ---
 
@@ -156,6 +158,14 @@ The search:
 - accepts multiple words as one search phrase;
 - checks descriptions only, not dates or times.
 
+### View command help: `help`
+
+Displays every available command together with a short description and its expected format.
+
+Format: `help`
+
+Alfred also suggests using `help` after invalid input so that you can review the supported commands.
+
 ### Exit Alfred: `bye`
 
 Exits Alfred.
@@ -215,4 +225,5 @@ A: No. Check the task number with `list` before using `delete`.
 | Delete task | `delete TASK_NUMBER` | `delete 3` |
 | View schedule | `schedule yyyy-MM-dd` | `schedule 2026-10-02` |
 | Find tasks | `find SEARCH_TEXT` | `find book` |
+| View command help | `help` | `help` |
 | Exit | `bye` | `bye` |
