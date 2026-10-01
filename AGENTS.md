@@ -28,6 +28,29 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 Ensure that Java 25 is used when running the application or build tasks. On macOS, use `sdk use java 25.0.3.fx-zulu` to switch to Java 25 if needed.
 
+## Java coding standard
+
+All Java code in this project must follow the SE-EDU Java coding standard at the
+**intermediate** level: https://se-education.org/guides/conventions/java/intermediate.html
+
+This is mandatory for all new and modified code, not just the code that existed when the
+standard was adopted. The points that come up most often in this project:
+
+* Names: PascalCase classes, camelCase methods and variables, SCREAMING_SNAKE_CASE constants.
+  Boolean names take an `is`/`has`/`was`/`can`/`should` prefix. Groups of related constants
+  share a common *prefix* (`COMMAND_MARK`, `COMMAND_UNMARK`), not a common suffix.
+* Layout: 4-space indentation, no tabs, K&R braces, 110-character soft line limit
+  (120 hard), wrapped lines indented 8 spaces, break before operators and after commas.
+* Braces are required on every `if`, `else`, `for`, and `while`, even single-statement ones.
+* No wildcard imports.
+* Javadoc on every class and public method, opening with a third-person verb
+  ("Returns...", "Prints..."), with `@param` for all parameters or none, each ending in
+  a full stop.
+* Prefer a named constant over a repeated or unexplained literal.
+* Every class belongs to a package. `floppy` is the root package, with the task
+  hierarchy in `floppy.task` and the command classes in `floppy.command`.
+  `src/main/java` stays the source root.
+
 ## Git
 
 Use lightweight tags unless the user requests an annotated tag.
