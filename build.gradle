@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.gradleup.shadow' version '9.6.1'
+}
+
+group = 'goober'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+application {
+    mainClass = 'goober.Goober'
+}
+
+tasks.named('shadowJar') {
+    archiveBaseName.set('goober')
+    archiveVersion.set('')
+    archiveClassifier.set('')
+
+    manifest {
+        attributes 'Main-Class': application.mainClass.get()
+    }
+}
+
+// Include the executable fat JAR whenever the standard build lifecycle runs.
+tasks.named('build') {
+    dependsOn tasks.named('shadowJar')
+}
