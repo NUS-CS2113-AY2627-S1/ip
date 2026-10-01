@@ -1,0 +1,4 @@
+interface:
+  display_name: "Test UI"
+  short_description: "Run stop-on-failure console UI tests"
+  default_prompt: "Use $test-ui to run these console commands and compare their outputs with the expected results."

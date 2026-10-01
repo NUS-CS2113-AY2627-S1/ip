@@ -28,8 +28,29 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 Ensure that Java 25 is used when running the application or build tasks. On macOS, use `sdk use java 25.0.3.fx-zulu` to switch to Java 25 if needed.
 
+## Java coding standard
+
+For every task that creates, edits, refactors, or reviews Java code, use the project-specific
+`$seedu-java-coding-standard` skill and follow its instructions. The se-edu basic and intermediate Java coding
+standard is mandatory for all Java code in this repository. Validate every changed Java file and do not introduce
+new coding-standard violations.
+
+## UI testing after code changes
+
+After every code update, and before reporting the task as complete:
+
+1. Review `test/ui-test-plan.md` and update it when the changed behavior, inputs, expected outputs, preconditions,
+   or test coverage require an update.
+2. Invoke the project-specific `$test-ui` skill and follow its instructions to run the applicable console UI tests.
+
+Do not skip `$test-ui` merely because the test plan did not need updating. If no applicable test case exists, use
+the skill to record that outcome in the latest test session rather than silently omitting UI testing.
+
 ## Git
 
+For every task that proposes, creates, amends, or reviews a commit or commit message, or names a branch, use the
+project-specific `$seedu-git-standard` skill and follow its instructions. The se-edu Git conventions are mandatory
+for all future commits in this repository.
+
 Use lightweight tags unless the user requests an annotated tag.
-When proposing or creating a commit message, include enough detail to explain the rationale for the change.
 Do not commit or push unless explicitly asked.
