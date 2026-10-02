@@ -9,8 +9,8 @@ Unless the user says otherwise, assume that you are assisting a student working 
 # Student profile
 
 * Prior knowledge: Basic Java and OOP concepts.
-* Level of programming experience: [to be filled]
-* IDE and level of expertise: [to be filled]
+* Level of programming experience: Novice
+* IDE and level of expertise: Novice
 
 # Guidance for interacting with users
 
@@ -33,3 +33,15 @@ Ensure that Java 25 is used when running the application or build tasks. On macO
 Use lightweight tags unless the user requests an annotated tag.
 When proposing or creating a commit message, include enough detail to explain the rationale for the change.
 Do not commit or push unless explicitly asked.
+Follow the SE-EDU Git conventions captured in the `seedu-git-standard` skill for all commit messages and branch names.
+
+## Java coding standard
+
+All Java code in this project must follow the SE-EDU intermediate Java coding standard captured in the `seedu-java-coding-standard` skill. Apply it when writing new code and when editing existing code.
+
+## Testing
+
+After every code change, before reporting the change as done:
+
+1. Update `test/ui-test-plan.md` if the change affects Buddy's commands or console output (add, remove, or adjust test cases as needed) — see the `test-ui` skill for the file's format.
+2. Invoke the `test-ui` skill to run the UI test plan and confirm the change did not break anything.

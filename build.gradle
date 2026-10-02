@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.gradleup.shadow' version '8.3.6'
+}
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion(25)
+    targetCompatibility = JavaVersion.toVersion(25)
+}
+
+application {
+    mainClass = 'buddy.Buddy'
+}
+
+shadowJar {
+    archiveBaseName = 'buddy'
+    archiveClassifier = ''
+    archiveVersion = ''
+}
