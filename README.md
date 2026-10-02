@@ -1,25 +1,88 @@
-# Duke project template
+# Dandelion
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
+Dandelion is a command-line task manager for creating, tracking, searching, and
+maintaining tasks. It supports todo, deadline, and event tasks, task status
+updates, deletion, keyword search, and file-based persistence.
 
-## Setting up in Intellij
+## Requirements
 
-Prerequisites: JDK 25, update Intellij to the most recent version.
+- JDK 25
+- A terminal opened at the repository root
 
-1. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project first)
-1. Open the project into Intellij as follows:
-   1. Click `Open`.
-   1. Select the project directory, and click `OK`.
-   1. If there are any further prompts, accept the defaults.
-1. Configure the project to use **JDK 25** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
-   In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/Duke.java` file, right-click it, and choose `Run Duke.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
-   ```
-    ____        _        
-   |  _ \ _   _| | _____ 
-   | | | | | | | |/ / _ \
-   | |_| | |_| |   <  __/
-   |____/ \__,_|_|\_\___|
-   ```
+The Gradle build is configured to use Java 25 through its Java toolchain.
 
-**Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+## Running the application
+
+On macOS or Linux, run:
+
+```bash
+./gradlew run
+```
+
+On Windows, run:
+
+```bat
+gradlew.bat run
+```
+
+## Building an executable JAR
+
+On macOS or Linux:
+
+```bash
+./gradlew shadowJar
+java -jar build/libs/dandelion-1.0.0-all.jar
+```
+
+On Windows:
+
+```bat
+gradlew.bat shadowJar
+java -jar build\libs\dandelion-1.0.0-all.jar
+```
+
+The generated `-all.jar` includes the application's runtime dependencies.
+
+## Commands
+
+| Command | Format | Description |
+| --- | --- | --- |
+| `todo` | `todo DESCRIPTION` | Adds a task without a deadline or time period. |
+| `deadline` | `deadline DESCRIPTION /by yyyy-MM-dd` | Adds a task with a date deadline. |
+| `event` | `event DESCRIPTION /from START /to END` | Adds a task with a time period. |
+| `list` | `list` | Displays all tasks. |
+| `mark` | `mark NUMBER` | Marks a task as done. |
+| `unmark` | `unmark NUMBER` | Marks a task as not done. |
+| `delete` | `delete NUMBER` | Deletes a task. |
+| `find` | `find KEYWORD` | Finds tasks whose descriptions contain the keyword. |
+| `bye` | `bye` | Exits the application. |
+
+For complete command examples and validation messages, see the [Dandelion User
+Guide](docs/README.md).
+
+## Data persistence
+
+Tasks are stored in `data/dandelion.txt` relative to the directory from which
+the application is launched. Tasks are loaded at startup and saved after tasks
+are added, marked, unmarked, or deleted.
+
+## Testing
+
+Run the console UI test plan from the repository root:
+
+```bash
+python3 test-ui/scripts/run_ui_tests.py
+```
+
+The test plan is available at [test/ui-test-plan.md](test/ui-test-plan.md).
+
+## Project structure
+
+The application is organized into classes with focused responsibilities:
+
+- `dandelion.Dandelion` — application entry point and main loop.
+- `dandelion.command.CommandHandler` — executes parsed commands.
+- `dandelion.parser.Parser` — interprets user input.
+- `dandelion.storage.Storage` — loads and saves tasks.
+- `dandelion.task.TaskList` — manages the task collection.
+- `dandelion.ui.Ui` — handles console interaction and output.

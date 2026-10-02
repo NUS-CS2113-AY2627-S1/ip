@@ -9,8 +9,8 @@ Unless the user says otherwise, assume that you are assisting a student working 
 # Student profile
 
 * Prior knowledge: Basic Java and OOP concepts.
-* Level of programming experience: [to be filled]
-* IDE and level of expertise: [to be filled]
+* Level of programming experience: [intermediate]
+* IDE and level of expertise: [intermediate]
 
 # Guidance for interacting with users
 
@@ -24,12 +24,17 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 # Project-specific requirements
 
+## Java coding standards
+
+Follow the conventions defined in the `seedu-java-coding-standard` skill for all Java code added to or changed in this project.
+
 ## Java version:
 
 Ensure that Java 25 is used when running the application or build tasks. On macOS, use `sdk use java 25.0.3.fx-zulu` to switch to Java 25 if needed.
 
 ## Git
 
-Use lightweight tags unless the user requests an annotated tag.
-When proposing or creating a commit message, include enough detail to explain the rationale for the change.
-Do not commit or push unless explicitly asked.
+* Follow the conventions defined in the `seedu-git-standard` skill for all Git commits (subject line, body formatting, and structure) and branch names in this project.
+* Use lightweight tags unless the user requests an annotated tag.
+* When proposing or creating a commit message, include enough detail to explain the rationale for the change (following the WHAT/WHY principle and standard body structure).
+* Do not commit or push unless explicitly asked.
