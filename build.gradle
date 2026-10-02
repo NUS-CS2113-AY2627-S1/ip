@@ -1,0 +1,57 @@
+plugins {
+    id 'application'
+    id 'com.gradleup.shadow' version '9.6.1'
+}
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+application {
+    mainClass = 'Clanker'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+// Bundle application classes and runtime dependencies into one executable JAR.
+tasks.named('shadowJar') {
+    archiveFileName = 'clanker-all.jar'
+}
+
+tasks.named('run') {
+    standardInput = System.in
+}
+
+// These checks have main methods rather than JUnit annotations. Run each in a
+// fresh directory under build so persistence checks never touch the user's tasks.
+def regressionTasks = ['ParserTest', 'StorageTest'].collect { testClass ->
+    tasks.register("run${testClass}", JavaExec) {
+        group = 'verification'
+        description = "Runs ${testClass} in an isolated working directory."
+        dependsOn tasks.named('testClasses')
+        classpath = sourceSets.test.runtimeClasspath
+        mainClass = testClass
+        javaLauncher = javaToolchains.launcherFor {
+            languageVersion = JavaLanguageVersion.of(25)
+        }
+        doFirst {
+            def testRoot = layout.buildDirectory.dir('regression-tests').get().asFile
+            testRoot.mkdirs()
+            workingDir = java.nio.file.Files.createTempDirectory(testRoot.toPath(), "${testClass}-").toFile()
+        }
+    }
+}
+
+tasks.named('test') {
+    dependsOn regressionTasks
+    // The JavaExec tasks above perform the checks; there are no framework tests yet.
+    failOnNoDiscoveredTests = false
+}
