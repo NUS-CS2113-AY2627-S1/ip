@@ -1,0 +1,5 @@
+interface:
+  display_name: "Test UI"
+  short_description: "Run scripted console UI acceptance tests"
+  default_prompt: "Use $test-ui to run the console test cases in test/ui-test-plan.md."
+
