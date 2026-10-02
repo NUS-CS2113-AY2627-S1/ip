@@ -1,0 +1,3 @@
+interface:
+  display_name: "Test UI"
+  short_description: "Run command-line UI tests from a Markdown plan"
