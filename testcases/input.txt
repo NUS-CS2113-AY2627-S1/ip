@@ -1,0 +1,11 @@
+todo this is a todo
+deadline this is a deadline /by ddmmyy
+event this is an event /from ddmmyy /to mmyydd
+list
+mark 1
+list
+unmark 1
+list
+mark skdhfj
+mark 100
+bye
