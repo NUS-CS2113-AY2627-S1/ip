@@ -16,5 +16,14 @@ bin/
 # Temp files
 _temp/
 
+# Compiled Java files
+*.class
+
 /text-ui-test/ACTUAL.TXT
 text-ui-test/EXPECTED-UNIX.TXT
+
+# Built JAR files (distributed via GitHub Releases instead)
+*.jar
+
+# Saved task data (created by the app at runtime)
+/data/
