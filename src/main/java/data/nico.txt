@@ -1,0 +1,4 @@
+T | 0 | read book
+T | 0 | read book
+D | 0 | return book | 2026-10-15
+E | 0 | fair | 2026-10-14 | 2026-10-16
