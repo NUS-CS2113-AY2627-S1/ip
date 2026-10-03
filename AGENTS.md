@@ -28,7 +28,49 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 Ensure that Java 25 is used when running the application or build tasks. On macOS, use `sdk use java 25.0.3.fx-zulu` to switch to Java 25 if needed.
 
+## Java coding standard
+
+All Java code in this project MUST follow the SE-EDU Java coding standard
+(intermediate level). The rules are captured in the project skill
+`seedu-java-coding-standard`; invoke that skill before writing, editing, or
+reviewing any `.java` file, and apply the rules as the code is written rather
+than as a later clean-up pass.
+
+## Code quality: SLAP
+
+All Java code in this project MUST follow the Single Level of Abstraction
+Principle (SLAP), taught in the SE-EDU textbook's "Code Quality" chapter as the
+guideline *SLAP hard*. (*Clean Code* calls the same idea "One Level of
+Abstraction per Function".)
+
+Do not mix levels of abstraction within one code fragment. In the example
+below, `readData()` is a high-level step, but the salary and tax lines are
+low-level arithmetic:
+
+```java
+// Bad                                 // Good
+readData();                            readData();
+salary = basic * rise + 1000;          processData();
+tax = isTaxable ? salary * 0.07 : 0;   displayResult();
+displayResult();
+```
+
+Also write each fragment at the highest level of abstraction possible, so a
+method reads as a summary of what it does rather than a transcript of how. Watch
+`main` in particular: it should read as the program's outline, not carry parsing
+or formatting logic inline. When a method mixes a named call with inline detail
+work, extract the detail into a well-named private method — the name is what
+restores the level.
+
+Two levels may coexist when extraction would force an awkward parameter list,
+but only if each high-level step is labelled with a comment and separated from
+its neighbours by a blank line. Prefer extraction.
+
 ## Git
+
+All commit messages and branch names in this project MUST follow the SE-EDU Git
+conventions. The rules are captured in the project skill `seedu-git-standard`;
+invoke that skill before writing any commit message or creating a branch.
 
 Use lightweight tags unless the user requests an annotated tag.
 When proposing or creating a commit message, include enough detail to explain the rationale for the change.
