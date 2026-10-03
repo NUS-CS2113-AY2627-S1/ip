@@ -16,5 +16,14 @@ bin/
 # Temp files
 _temp/
 
+# Local Codex skills
+/.agents/skills/present-changes-visually/
+
+# Java class files
+*.class
+
 /text-ui-test/ACTUAL.TXT
 text-ui-test/EXPECTED-UNIX.TXT
+
+# Saved Clammy tasks
+/data/

@@ -1,0 +1,32 @@
+plugins {
+    id 'application'
+    id 'com.gradleup.shadow' version '9.6.1'
+}
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+application {
+    // Shadow uses this entry point for the executable JAR's manifest.
+    mainClass = 'clammy.Clammy'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(JavaExec).configureEach {
+    // Forward terminal input so Clammy can read commands when run through Gradle.
+    standardInput = System.in
+}
+
+tasks.named('shadowJar') {
+    archiveFileName = 'clammy-all.jar'
+}
