@@ -1,0 +1,40 @@
+
+gibberish
+list
+delete
+delete 10
+delete 1
+list
+delete 1
+delete 1
+list
+todo
+todo borrow book
+deadline
+deadline return book
+deadline		return book  /by
+deadline 	return book 	/by 	apple
+deadline 	return book 	/by 	21 Sept 2026
+event
+event project meeting
+event		project 	meeting  /from
+event	project meeting		/from		Mon 2pm	/to
+event project meeting /from banana /to orange
+event project meeting /from 21 Sept 2026 2pm /to 4pm
+mark
+mark 1
+mark 0
+mark 1
+mark 3
+unmark
+unmark 1
+unmark 10
+unmark 2
+list
+date 21 Sept 2026
+date 22 Sept 2026
+date orange
+find book
+find boko
+find gibberish
+bye

@@ -1,0 +1,210 @@
+
+                ▓█████▄  ▒█████   ▒█████   ██ ▄█▀
+                ▒██▀ ██▌▒██▒  ██▒▒██▒  ██▒ ██▄█▒
+                ░██   █▌▒██░  ██▒▒██░  ██▒▓███▄░
+                ░▓█▄   ▌▒██   ██░▒██   ██░▓██ █▄
+                ░▒████▓ ░ ████▓▒░░ ████▓▒░▒██▒ █▄
+                 ▒▒▓  ▒ ░ ▒░▒░▒░ ░ ▒░▒░▒░ ▒ ▒▒ ▓▒
+                 ░ ▒  ▒   ░ ▒ ▒░   ░ ▒ ▒░ ░ ░▒ ▒░
+                 ░ ░  ░ ░ ░ ░ ▒  ░ ░ ░ ▒  ░ ░░ ░
+                   ░        ░ ░      ░ ░  ░  ░
+                 ░
+
+I am Dook.
+Are you alone in the room right now?
+________________________________________________________________________
+
+> 
+Silence won't keep you safe.
+________________________________________________________________________
+
+> 
+Gibberish words only draw the monster nearer.
+Try screaming `help` instead.
+________________________________________________________________________
+
+> 
+1.[T][ ] borrow book
+2.[D][ ] return book (by Mon, 21 Sept 2026 23:59)
+3.[E][X] project meeting (from 21 Sept 14:00 to 16:00)
+________________________________________________________________________
+
+> 
+Gibberish words only draw the monster nearer.
+Try screaming `help` instead.
+________________________________________________________________________
+
+> 
+You reach into the void. That task does not exist.
+________________________________________________________________________
+
+> 
+Ripped off the ledger:
+  [T][ ] borrow book
+________________________________________________________________________
+
+> 
+1.[D][ ] return book (by Mon, 21 Sept 2026 23:59)
+2.[E][X] project meeting (from 21 Sept 14:00 to 16:00)
+________________________________________________________________________
+
+> 
+Ripped off the ledger:
+  [D][ ] return book (by Mon, 21 Sept 2026 23:59)
+________________________________________________________________________
+
+> 
+Ripped off the ledger:
+  [E][X] project meeting (from 21 Sept 14:00 to 16:00)
+________________________________________________________________________
+
+> 
+You are alone in this darkness.
+________________________________________________________________________
+
+> 
+Gibberish words only draw the monster nearer.
+Try screaming `help` instead.
+________________________________________________________________________
+
+> 
+Scratched into the ledger:
+  [T][ ] borrow book
+________________________________________________________________________
+
+> 
+Gibberish words only draw the monster nearer.
+Try screaming `help` instead.
+________________________________________________________________________
+
+> 
+Gibberish words only draw the monster nearer.
+Try screaming `help` instead.
+________________________________________________________________________
+
+> 
+Gibberish words only draw the monster nearer.
+Try screaming `help` instead.
+________________________________________________________________________
+
+> 
+Gibberish words only draw the monster nearer.
+Try screaming `help` instead.
+________________________________________________________________________
+
+> 
+Scratched into the ledger:
+  [D][ ] return book (by Mon, 21 Sept 2026 23:59)
+________________________________________________________________________
+
+> 
+Gibberish words only draw the monster nearer.
+Try screaming `help` instead.
+________________________________________________________________________
+
+> 
+Gibberish words only draw the monster nearer.
+Try screaming `help` instead.
+________________________________________________________________________
+
+> 
+Gibberish words only draw the monster nearer.
+Try screaming `help` instead.
+________________________________________________________________________
+
+> 
+Gibberish words only draw the monster nearer.
+Try screaming `help` instead.
+________________________________________________________________________
+
+> 
+Gibberish words only draw the monster nearer.
+Try screaming `help` instead.
+________________________________________________________________________
+
+> 
+Scratched into the ledger:
+  [E][ ] project meeting (from 21 Sept 14:00 to 16:00)
+________________________________________________________________________
+
+> 
+Gibberish words only draw the monster nearer.
+Try screaming `help` instead.
+________________________________________________________________________
+
+> 
+A debt is paid. Marked as done:
+  [T][X] borrow book
+________________________________________________________________________
+
+> 
+You reach into the void. That task does not exist.
+________________________________________________________________________
+
+> 
+The grave is already sealed. This task is finished:
+  [T][X] borrow book
+________________________________________________________________________
+
+> 
+A debt is paid. Marked as done:
+  [E][X] project meeting (from 21 Sept 14:00 to 16:00)
+________________________________________________________________________
+
+> 
+Gibberish words only draw the monster nearer.
+Try screaming `help` instead.
+________________________________________________________________________
+
+> 
+It festers in the dark. Marked as unfinished:
+  [T][ ] borrow book
+________________________________________________________________________
+
+> 
+You reach into the void. That task does not exist.
+________________________________________________________________________
+
+> 
+It waits for you, still undone. No change made:
+  [D][ ] return book (by Mon, 21 Sept 2026 23:59)
+________________________________________________________________________
+
+> 
+1.[T][ ] borrow book
+2.[D][ ] return book (by Mon, 21 Sept 2026 23:59)
+3.[E][X] project meeting (from 21 Sept 14:00 to 16:00)
+________________________________________________________________________
+
+> 
+Mon, 21 Sept 2026
+  14:00-16:00 [X] project meeting
+        23:59 [ ] return book
+________________________________________________________________________
+
+> 
+Tue, 22 Sept 2026
+  No tasks found. Take a day off.
+________________________________________________________________________
+
+> 
+Gibberish words only draw the monster nearer.
+Try screaming `help` instead.
+________________________________________________________________________
+
+> 
+1.[T][ ] borrow book
+2.[D][ ] return book (by Mon, 21 Sept 2026 23:59)
+________________________________________________________________________
+
+> 
+1.[T][ ] borrow book
+2.[D][ ] return book (by Mon, 21 Sept 2026 23:59)
+________________________________________________________________________
+
+> 
+Your memory fails you. There is no such task.
+________________________________________________________________________
+
+> 
+Goodbye for now.
