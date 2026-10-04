@@ -1,0 +1,4 @@
+interface:
+  display_name: "UI Tests"
+  short_description: "Run fail-fast CLI UI regression tests"
+  default_prompt: "Use $test-ui to run the UI test plan and show the console transcript."

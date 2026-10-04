@@ -1,0 +1,14 @@
+interface:
+  display_name: Write CLI User Guide
+  short_description: Create clear GitHub-ready CLI user guides
+  default_prompt: Use $write-cli-user-guide to draft or revise my UserGuide.md from
+    the implemented CLI behavior.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true
