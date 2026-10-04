@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.gradleup.shadow' version '9.6.1'
+}
+
+group = 'dobby'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+application {
+    mainClass = 'dobby.Dobby'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+shadowJar {
+    archiveBaseName = 'dobby'
+    archiveVersion = ''
+    archiveClassifier = ''
+
+    manifest {
+        attributes('Main-Class': 'dobby.Dobby')
+    }
+}
+
+tasks.named('build') {
+    dependsOn tasks.named('shadowJar')
+}
