@@ -1,0 +1,116 @@
+=== UI test session ===
+$ todo borrow book
+Hello! I'm Ted.
+
+What can I do for you?
+
+    ____________________________________________________________
+     Got it. I've added this task:
+       [T][ ] borrow book
+     Now you have 1 task in the list.
+    ____________________________________________________________
+PASS: [T][ ] borrow book
+
+$ deadline return book /by Sunday
+    ____________________________________________________________
+     Got it. I've added this task:
+       [D][ ] return book (by: Sunday)
+     Now you have 2 tasks in the list.
+    ____________________________________________________________
+PASS: [D][ ] return book (by: Sunday)
+
+$ event project meeting /from Mon 2pm /to 4pm
+    ____________________________________________________________
+     Got it. I've added this task:
+       [E][ ] project meeting (from: Mon 2pm to: 4pm)
+     Now you have 3 tasks in the list.
+    ____________________________________________________________
+PASS: [E][ ] project meeting (from: Mon 2pm to: 4pm)
+
+$ mark 2
+    ____________________________________________________________
+     Nice! I've marked this task as done:
+       [D][X] return book (by: Sunday)
+    ____________________________________________________________
+PASS: [D][X] return book (by: Sunday)
+
+$ list
+    ____________________________________________________________
+     Here are the tasks in your list:
+     1.[T][ ] borrow book
+     2.[D][X] return book (by: Sunday)
+     3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+    ____________________________________________________________
+PASS: 1.[T][ ] borrow book
+
+$ deadline do homework /by no idea :-p
+    ____________________________________________________________
+     Got it. I've added this task:
+       [D][ ] do homework (by: no idea :-p)
+     Now you have 4 tasks in the list.
+    ____________________________________________________________
+PASS: [D][ ] do homework (by: no idea :-p)
+
+$ list
+    ____________________________________________________________
+     Here are the tasks in your list:
+     1.[T][ ] borrow book
+     2.[D][X] return book (by: Sunday)
+     3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+     4.[D][ ] do homework (by: no idea :-p)
+    ____________________________________________________________
+PASS: 4.[D][ ] do homework (by: no idea :-p)
+
+$ deadline missing date
+    ____________________________________________________________
+     OOPS!!! Use: deadline DESCRIPTION /by DATE_OR_TIME
+    ____________________________________________________________
+PASS: OOPS!!! Use: deadline DESCRIPTION /by DATE_OR_TIME
+
+$ event missing end /from Monday
+    ____________________________________________________________
+     OOPS!!! Use: event DESCRIPTION /from START /to END
+    ____________________________________________________________
+PASS: OOPS!!! Use: event DESCRIPTION /from START /to END
+
+$ todo
+    ____________________________________________________________
+     OOPS!!! The description of a todo cannot be empty.
+    ____________________________________________________________
+PASS: OOPS!!! The description of a todo cannot be empty.
+
+$ blah
+    ____________________________________________________________
+     OOPS!!! I'm sorry, but I don't know what that means :-(
+    ____________________________________________________________
+PASS: OOPS!!! I'm sorry, but I don't know what that means :-(
+
+$ mark abc
+    ____________________________________________________________
+     OOPS!!! Please provide a valid task number.
+    ____________________________________________________________
+PASS: OOPS!!! Please provide a valid task number.
+
+$ mark 9
+    ____________________________________________________________
+     OOPS!!! That task number is not in the list.
+    ____________________________________________________________
+PASS: OOPS!!! That task number is not in the list.
+
+$ list
+    ____________________________________________________________
+     Here are the tasks in your list:
+     1.[T][ ] borrow book
+     2.[D][X] return book (by: Sunday)
+     3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+     4.[D][ ] do homework (by: no idea :-p)
+    ____________________________________________________________
+PASS: 4.[D][ ] do homework (by: no idea :-p)
+
+$ bye
+    ____________________________________________________________
+     Bye. Hope to see you again soon!
+    ____________________________________________________________
+PASS: Bye. Hope to see you again soon!
+
+

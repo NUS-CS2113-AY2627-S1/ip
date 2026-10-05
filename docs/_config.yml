@@ -1,0 +1,12 @@
+title: Ted User Guide
+description: A practical guide to managing todos, deadlines and events with Ted.
+url: https://holsoma.github.io
+baseurl: /ip
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+exclude:
+  - Gemfile
+  - Gemfile.lock

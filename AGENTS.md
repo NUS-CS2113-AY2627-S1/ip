@@ -31,5 +31,24 @@ Ensure that Java 25 is used when running the application or build tasks. On macO
 ## Git
 
 Use lightweight tags unless the user requests an annotated tag.
-When proposing or creating a commit message, include enough detail to explain the rationale for the change.
+Follow the project-specific `seedu-git-standard` skill in
+`.codex/skills/seedu-git-standard/` whenever naming a branch or proposing,
+reviewing, or creating a commit message. This requirement is mandatory for all
+future commits.
 Do not commit or push unless explicitly asked.
+
+## Java coding standard
+
+Follow the project-specific `seedu-java-coding-standard` skill in
+`.codex/skills/seedu-java-coding-standard/` for every Java source and test file
+created, changed, reviewed, or refactored in this repository. This requirement is
+mandatory. Use American spelling in Java comments and Javadoc as required by that
+standard; use UK English elsewhere.
+
+## UI testing
+
+After each code update that changes user-visible behaviour, update
+test/ui-test-plan.md if needed and invoke the project-specific
+.codex/skills/test-ui/ skill. Stop at the first failed test and record the
+actual and expected output. Keep the latest console transcript in
+test/ui-test-session.txt.

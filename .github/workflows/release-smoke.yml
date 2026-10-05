@@ -1,0 +1,70 @@
+name: Release JAR smoke test
+
+on:
+  workflow_dispatch:
+    inputs:
+      jar_base64:
+        description: Base64-encoded prebuilt JAR (within the 65535-character input limit)
+        required: true
+        type: string
+      sha256:
+        description: Expected SHA-256 of that JAR
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Test the release JAR on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Check out the release test
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install Java 25
+        uses: actions/setup-java@v6.0.1
+        with:
+          distribution: temurin
+          java-version: '25'
+      - name: Restore and verify the same prebuilt JAR
+        env:
+          RELEASE_JAR_BASE64: ${{ inputs.jar_base64 }}
+          RELEASE_SHA256: ${{ inputs.sha256 }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Set-Content -LiteralPath test/ui-test-session.txt -Value 'Release smoke test did not start: the JAR decoding or SHA-256 check failed.'
+          if ($env:RELEASE_SHA256 -notmatch '^[0-9a-fA-F]{64}$') {
+            throw 'sha256 must contain exactly 64 hexadecimal characters.'
+          }
+          $candidateDirectory = Join-Path $env:GITHUB_WORKSPACE '_temp/release-candidate'
+          New-Item -ItemType Directory -Path $candidateDirectory -Force | Out-Null
+          $candidateJar = Join-Path $candidateDirectory 'ted.jar'
+          # Pass the small JAR directly so draft testing needs no write token.
+          $jarBytes = [Convert]::FromBase64String($env:RELEASE_JAR_BASE64)
+          [IO.File]::WriteAllBytes($candidateJar, $jarBytes)
+          $actualHash = (Get-FileHash -LiteralPath $candidateJar -Algorithm SHA256).Hash
+          if ($actualHash -ine $env:RELEASE_SHA256) {
+            throw "SHA-256 mismatch. Expected $env:RELEASE_SHA256; received $actualHash."
+          }
+          Write-Output "Verified prebuilt JAR SHA-256: $actualHash"
+      - name: Run the JAR from a fresh folder
+        run: ./test/run-release-smoke.ps1 -JarPath _temp/release-candidate/ted.jar
+      - name: Print the console transcript
+        if: always()
+        run: |
+          if (Test-Path -LiteralPath test/ui-test-session.txt) {
+            Get-Content -LiteralPath test/ui-test-session.txt
+          } else {
+            Write-Output 'No console transcript was produced.'
+          }

@@ -1,6 +1,7 @@
 # IDEA files
 /.idea/
 /out/
+/build/
 /*.iml
 
 # Gradle build files
@@ -12,9 +13,17 @@ src/main/resources/docs/
 .DS_Store
 *.iml
 bin/
+/data/
 
 # Temp files
 _temp/
 
 /text-ui-test/ACTUAL.TXT
 text-ui-test/EXPECTED-UNIX.TXT
+
+# Local Codex visual diff and skill
+/_temp/with-and-without-tasks-class.html
+/.codex/skills/present-changes-visually/
+
+# Scripts
+/scripts

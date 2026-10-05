@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ site.description | escape }}">
+    <meta name="theme-color" content="#f7f6f2">
+    <title>{{ page.title | escape }}</title>
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main-content">Skip to the guide</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="wordmark" href="{{ '/' | relative_url }}" aria-label="Ted user guide home">ted<span>.</span></a>
+        <span class="header-label">User guide</span>
+        <a class="source-link" href="https://github.com/holsoma/ip">View on GitHub <span aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="page-layout">
+      <aside class="sidebar">
+        <nav aria-label="Guide sections">
+          <p class="nav-label">In this guide</p>
+          <a href="#quick-start">Quick start</a>
+          <a href="#reading-your-tasks">Reading your tasks</a>
+          <a href="#commands">Commands</a>
+          <div class="command-nav">
+            <a href="#add-a-todo">Add a todo</a>
+            <a href="#add-a-deadline">Add a deadline</a>
+            <a href="#add-an-event">Add an event</a>
+            <a href="#list-all-tasks">List all tasks</a>
+            <a href="#find-tasks">Find tasks</a>
+            <a href="#mark-or-unmark-a-task">Mark or unmark</a>
+            <a href="#delete-a-task">Delete a task</a>
+            <a href="#exit-ted">Exit Ted</a>
+          </div>
+          <a href="#saving-your-tasks">Saving your tasks</a>
+          <a href="#troubleshooting">Troubleshooting</a>
+          <a href="#command-summary">Command summary</a>
+        </nav>
+        <p class="sidebar-caption">Your tasks.<br>A few simple commands.</p>
+      </aside>
+      <main id="main-content" class="guide" tabindex="-1">
+        {{ content }}
+      </main>
+    </div>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <span>Ted · A command-line task manager</span>
+        <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
+      </div>
+    </footer>
+  </body>
+</html>

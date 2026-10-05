@@ -1,0 +1,4 @@
+interface:
+  display_name: "Test UI"
+  short_description: "Run command-driven UI tests"
+  default_prompt: "Run the UI test cases from test/ui-test-plan.md and record the console session."
