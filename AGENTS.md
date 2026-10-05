@@ -9,8 +9,8 @@ Unless the user says otherwise, assume that you are assisting a student working 
 # Student profile
 
 * Prior knowledge: Basic Java and OOP concepts.
-* Level of programming experience: [to be filled]
-* IDE and level of expertise: [to be filled]
+* Level of programming experience: Introductory undergraduate (comfortable with basic Java and OOP; still building fluency with Git, IDEs, and build tools).
+* IDE and level of expertise: Cursor and IntelliJ IDEA; beginner to intermediate.
 
 # Guidance for interacting with users
 
@@ -26,7 +26,7 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 ## Java version:
 
-Ensure that Java 25 is used when running the application or build tasks. On macOS, use `sdk use java 25.0.3.fx-zulu` to switch to Java 25 if needed.
+Ensure that Java 25 is used when running the application or build tasks. On Linux, after installing via SDKMAN, run `source "$HOME/.sdkman/bin/sdkman-init.sh"` and `sdk use java 25.0.2-tem` to switch to Java 25 if needed. On macOS, use `sdk use java 25.0.3.fx-zulu` (or your installed Java 25 identifier) to switch if needed.
 
 ## Git
 
