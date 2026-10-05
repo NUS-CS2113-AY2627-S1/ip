@@ -1,7 +1,12 @@
-# IDEA files
+# IntelliJ IDEA files (local IDE settings)
 /.idea/
-/out/
 /*.iml
+
+# Build output and binary files
+/out/
+*.class
+*.jar
+*.exe
 
 # Gradle build files
 /.gradle/
@@ -13,8 +18,16 @@ src/main/resources/docs/
 *.iml
 bin/
 
-# Temp files
+# Temporary and test-generated files
 _temp/
+*.html
+*.log
+
+# Dependencies fetched by Node.js package managers
+node_modules/
 
 /text-ui-test/ACTUAL.TXT
 text-ui-test/EXPECTED-UNIX.TXT
+
+# Persistent application data
+/data/
