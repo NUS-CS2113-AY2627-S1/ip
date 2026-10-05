@@ -1,12 +1,16 @@
 # IDEA files
 /.idea/
 /out/
+/data/yanny.txt
 /*.iml
 
 # Gradle build files
 /.gradle/
 /build/
 src/main/resources/docs/
+.classpath
+.project
+.settings/
 
 # MacOS custom attributes files created by Finder
 .DS_Store
@@ -16,5 +20,19 @@ bin/
 # Temp files
 _temp/
 
+# Compiled files
+*.class
 /text-ui-test/ACTUAL.TXT
 text-ui-test/EXPECTED-UNIX.TXT
+
+#Codex
+.codex/
+!.codex/
+!.codex/skills/
+.codex/skills/*
+!.codex/skills/seedu-java-coding-standard/
+!.codex/skills/seedu-java-coding-standard/**
+!.codex/skills/seedu-git-standard/
+!.codex/skills/seedu-git-standard/**
+!.codex/skills/test-ui/
+!.codex/skills/test-ui/**
