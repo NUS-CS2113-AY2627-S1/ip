@@ -1,25 +1,62 @@
-# Duke project template
+# Nimbus
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
+**Sunglasses on. Briefcase loaded. Let's do business.**
 
-## Setting up in Intellij
+Nimbus is a command-line task manager with main character energy.
+Manage todos, deadlines, and events; find tasks; and track completed
+business. Your tasks are saved between sessions.
 
-Prerequisites: JDK 25, update Intellij to the most recent version.
+## Getting started
 
-1. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project first)
-1. Open the project into Intellij as follows:
-   1. Click `Open`.
-   1. Select the project directory, and click `OK`.
-   1. If there are any further prompts, accept the defaults.
-1. Configure the project to use **JDK 25** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
-   In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/Duke.java` file, right-click it, and choose `Run Duke.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
-   ```
-    ____        _        
-   |  _ \ _   _| | _____ 
-   | | | | | | | |/ / _ \
-   | |_| | |_| |   <  __/
-   |____/ \__,_|_|\_\___|
+1. Install Java 25.
+2. Download `ip.jar` from the
+   [latest release](https://github.com/Rohita-29/ip/releases/latest).
+3. Place the JAR in a folder where you have permission to create files.
+4. Open a terminal in that folder and run:
+
+   ```bash
+   java -jar ip.jar
    ```
 
-**Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+5. Enter a command. Type `bye` to exit.
+
+## Commands
+
+| Action | Format |
+|--------|--------|
+| Add a todo | `todo <description>` |
+| Add a deadline | `deadline <description> /by <date/time>` |
+| Add an event | `event <description> /from <start> /to <end>` |
+| List tasks | `list` |
+| Find tasks | `find <keyword>` |
+| Mark completed | `mark <task number>` |
+| Mark incomplete | `unmark <task number>` |
+| Delete a task | `delete <task number>` |
+| Exit | `bye` |
+
+Replace the placeholders with your own values.
+New dates accept `yyyy-MM-dd` or `yyyy-MM-dd HHmm`.
+
+See the [User Guide](docs/README.md) for examples, input restrictions,
+and information about saving and loading.
+
+## Running from source
+
+1. Clone this repository.
+2. Open the project in IntelliJ IDEA.
+3. Set the project SDK to Java 25.
+4. Ensure `src/main/java` is marked as a Sources Root.
+5. Run `nimbus.Nimbus` from
+   `src/main/java/nimbus/Nimbus.java`.
+
+## Task storage
+
+Nimbus stores tasks in `data/nimbus.txt`, relative to the folder
+from which it runs. Use the same working folder between sessions
+to continue using your existing task list.
+
+## Acknowledgements
+
+Nimbus was developed from the
+[Duke project template](https://github.com/se-edu/duke)
+for the NUS CS2113 individual project.
