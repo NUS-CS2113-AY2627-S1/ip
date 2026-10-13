@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:se-education.org)",
+      "Bash(javac -d out src/main/java/aglio/*.java)",
+      "Bash(java -cp out aglio.Aglio)",
+      "WebFetch(domain:nus-cs2113-ay2627-s1.github.io)",
+      "Bash(gh pr *)",
+      "Bash(where gh *)",
+      "WebFetch(domain:github.com)",
+      "Bash(cmd.exe /c \"where gh\")",
+      "Bash(curl -sL \"https://api.github.com/repos/NUS-CS2113-AY2627-S1/ip/pulls/97\" -H \"Accept: application/vnd.github.v3+json\")",
+      "WebFetch(domain:patch-diff.githubusercontent.com)",
+      "WebSearch",
+      "Bash(curl -sL -o /tmp/gradle-8.12-bin.zip https://services.gradle.org/distributions/gradle-8.12-bin.zip)",
+      "Read(//tmp/**)",
+      "Bash(unzip -qo gradle-9.7.1-bin.zip)",
+      "Bash(/tmp/gradle-9.7.1/bin/gradle wrapper *)",
+      "Bash(./gradlew shadowJar)"
+    ]
+  }
+}
