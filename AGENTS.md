@@ -1,5 +1,9 @@
 # Project context
 
+All Java code in this project must follow the project-specific `$seedu-java-coding-standard` skill, based on the [SE-EDU Java coding standard](https://se-education.org/guides/conventions/java/intermediate.html). Because this starter template requires Java files to remain directly under `src/main/java`, the package-declaration rule is an explicit exception for this project.
+
+All future commits and branch names in this project must follow the project-specific `$seedu-git-standard` skill, based on the [SE-EDU Git conventions](https://se-education.org/guides/conventions/git.html). Do not commit or push unless explicitly asked.
+
 This repository is a starter template for a greenfield Java project used in an introductory software engineering course in an undergraduate computer science program. Students use it as the starting point for their own projects.
 
 # Default user context
@@ -9,8 +13,8 @@ Unless the user says otherwise, assume that you are assisting a student working 
 # Student profile
 
 * Prior knowledge: Basic Java and OOP concepts.
-* Level of programming experience: [to be filled]
-* IDE and level of expertise: [to be filled]
+* Level of programming experience: Moderate.
+* IDE and level of expertise: VS Code, Moderate.
 
 # Guidance for interacting with users
 

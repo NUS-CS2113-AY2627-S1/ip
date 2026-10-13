@@ -15,6 +15,16 @@ bin/
 
 # Temp files
 _temp/
+__pycache__/
 
 /text-ui-test/ACTUAL.TXT
 text-ui-test/EXPECTED-UNIX.TXT
+
+# VS Code files
+./vscode
+
+# Java Class files
+*.class
+
+# Local task data
+/data/
