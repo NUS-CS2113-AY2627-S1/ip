@@ -1,30 +1,68 @@
-# Duke User Guide
+# DINO User Guide
 
-// Update the title above to match the actual product name
+DINO is a simple chatbot that helps you keep track of your tasks.
 
-// Product screenshot goes here
+## Adding a todo
 
-// Product intro goes here
+Use `todo` followed by the task description.
 
-## Adding deadlines
+Example:
+`todo read book`
 
-// Describe the action and its outcome.
+## Adding a deadline
 
-// Give examples of usage
+Use `deadline` followed by the task description and `/by` followed by the deadline date.
 
-Example: `keyword (optional arguments)`
+The date must be in `yyyy-MM-dd` format.
 
-// A description of the expected outcome goes here
+Example:
+`deadline return book /by 2026-10-10`
 
-```
-expected output
-```
+## Adding an event
 
-## Feature ABC
+Use `event` followed by the event description, `/from` followed by the start time, and `/to` followed by the end time.
 
-// Feature details
+Example:
+`event project meeting /from Monday /to Tuesday`
 
+## Viewing your tasks
 
-## Feature XYZ
+Use `list` to display all your tasks.
 
-// Feature details
+Example:
+`list`
+
+## Marking a task as done
+
+Use `mark` followed by the task number.
+
+Example:
+`mark 2`
+
+## Marking a task as not done
+
+Use `unmark` followed by the task number.
+
+Example:
+`unmark 2`
+
+## Deleting a task
+
+Use `delete` followed by the task number.
+
+Example:
+`delete 2`
+
+## Finding tasks
+
+Use `find` followed by a keyword to display tasks containing that keyword.
+
+Example:
+`find book`
+
+## Exiting DINO
+
+Use `bye` to exit DINO.
+
+Example:
+`bye`
