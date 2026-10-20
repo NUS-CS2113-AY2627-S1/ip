@@ -1,30 +1,38 @@
-# Duke User Guide
+# GigaBot User Guide
 
-// Update the title above to match the actual product name
+GigaBot is a fast, interactive conversational assistant that helps you track and manage your daily tasks, deadlines, and events right from your command line.
 
-// Product screenshot goes here
+## Features
 
-// Product intro goes here
+### 1. Adding Tasks
+* **Todo:** Adds a basic task without any date attached.
+    * **Format:** `todo <description>`
+    * **Example:** `todo borrow book`
+* **Deadline:** Adds a task that needs to be done before a specific date.
+    * **Format:** `deadline <description> /by yyyy-mm-dd`
+    * **Example:** `deadline return book /by 2026-10-15`
+* **Event:** Adds an event that starts and ends at specific dates.
+    * **Format:** `event <description> /from yyyy-mm-dd /to yyyy-mm-dd`
+    * **Example:** `event project meeting /from 2026-10-16 /to 2026-10-17`
 
-## Adding deadlines
+### 2. Managing Tasks
+* **List:** Displays all tasks currently in your list.
+    * **Format:** `list`
+* **Mark:** Marks a specific task as completed.
+    * **Format:** `mark <task_number>`
+* **Unmark:** Marks a specific task as not completed yet.
+    * **Format:** `unmark <task_number>`
+* **Delete:** Permanently removes a task from your list.
+    * **Format:** `delete <task_number>`
 
-// Describe the action and its outcome.
+### 3. Searching Data
+* **Find:** Searches for tasks containing a specific keyword in their description.
+    * **Format:** `find <keyword>`
+    * **Example:** `find book`
 
-// Give examples of usage
+### 4. Exiting the Program
+* **Bye:** Safely shuts down the chatbot.
+    * **Format:** `bye`
 
-Example: `keyword (optional arguments)`
-
-// A description of the expected outcome goes here
-
-```
-expected output
-```
-
-## Feature ABC
-
-// Feature details
-
-
-## Feature XYZ
-
-// Feature details
+## Data Storage
+GigaBot automatically saves all your tasks to your hard disk instantly after every command. There is no need to save manually!
