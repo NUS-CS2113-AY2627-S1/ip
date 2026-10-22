@@ -9,8 +9,8 @@ Unless the user says otherwise, assume that you are assisting a student working 
 # Student profile
 
 * Prior knowledge: Basic Java and OOP concepts.
-* Level of programming experience: [to be filled]
-* IDE and level of expertise: [to be filled]
+* Level of programming experience: Intermediate
+* IDE and level of expertise: IntelliJ, Beginner
 
 # Guidance for interacting with users
 
@@ -24,11 +24,26 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 # Project-specific requirements
 
+## Java coding standard:
+
+All Java code in this project MUST follow the project-specific
+`seedu-java-coding-standard` skill, based on the
+[SE-EDU intermediate Java coding standard](https://se-education.org/guides/conventions/java/intermediate.html).
+This includes package declarations, encapsulation, explicit imports, 4-space indentation,
+K&R braces, a maximum line length of 120 characters, and Javadoc for public classes and methods.
+
 ## Java version:
 
 Ensure that Java 25 is used when running the application or build tasks. On macOS, use `sdk use java 25.0.3.fx-zulu` to switch to Java 25 if needed.
 
 ## Git
+
+All future commits and branch names in this project MUST follow the project-specific
+`seedu-git-standard` skill, based on the
+[SE-EDU Git conventions](https://se-education.org/guides/conventions/git.html).
+Commit subjects must be imperative, capitalized, free of a trailing period, and at most
+72 characters. Non-trivial commits must include a blank-line-separated body wrapped at
+72 characters explaining what changed and why. Branch names must be meaningful kebab-case.
 
 Use lightweight tags unless the user requests an annotated tag.
 When proposing or creating a commit message, include enough detail to explain the rationale for the change.
