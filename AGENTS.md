@@ -9,8 +9,8 @@ Unless the user says otherwise, assume that you are assisting a student working 
 # Student profile
 
 * Prior knowledge: Basic Java and OOP concepts.
-* Level of programming experience: [to be filled]
-* IDE and level of expertise: [to be filled]
+* Level of programming experience: Basic
+* IDE and level of expertise: Visual Code Studio (Basic)
 
 # Guidance for interacting with users
 
@@ -28,8 +28,13 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 Ensure that Java 25 is used when running the application or build tasks. On macOS, use `sdk use java 25.0.3.fx-zulu` to switch to Java 25 if needed.
 
+## Java Coding Standard:
+
+All Java code in this project MUST strictly follow the SE-EDU Java Coding Standard (basic + intermediate) as specified in the `seedu-java-coding-standard` skill.
+
 ## Git
 
-Use lightweight tags unless the user requests an annotated tag.
-When proposing or creating a commit message, include enough detail to explain the rationale for the change.
-Do not commit or push unless explicitly asked.
+All Git commits and messages MUST strictly follow the SE-EDU Git Standard as specified in the `seedu-git-standard` skill.
+Use imperative mood subjects (max 50 chars, no trailing period), 72-char wrapped body explaining what and why, lightweight tags, and do not commit or push unless explicitly asked.
+
+
