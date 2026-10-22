@@ -1,0 +1,36 @@
+plugins {
+    id 'application'
+    id 'com.gradleup.shadow' version '9.6.1'
+}
+
+group = 'nga'
+version = ''
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+application {
+    mainClass = 'nga.Nga'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+tasks.named('shadowJar') {
+    // Keep the generated artifact name stable so it is easy to locate and run.
+    archiveBaseName = 'nga'
+    archiveVersion = ''
+
+    // Shadow copies the application main class into the executable JAR manifest.
+    manifest {
+        attributes 'Main-Class': application.mainClass.get()
+    }
+}
