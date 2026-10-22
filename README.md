@@ -1,25 +1,101 @@
-# Duke project template
+# GPT
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
+```text
+  ____ ____ _____
+ / ___|  _ \_   _|
+| |  _| |_) || |
+| |_| |  __/ | |
+ \____|_|    |_|
+```
 
-## Setting up in Intellij
+GPT is a command-line task manager written in Java. It manages todos,
+deadlines, and events, supports keyword search, and automatically saves tasks
+between sessions.
 
-Prerequisites: JDK 25, update Intellij to the most recent version.
+## Features
 
-1. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project first)
-1. Open the project into Intellij as follows:
-   1. Click `Open`.
-   1. Select the project directory, and click `OK`.
-   1. If there are any further prompts, accept the defaults.
-1. Configure the project to use **JDK 25** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
-   In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/Duke.java` file, right-click it, and choose `Run Duke.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
+- Add todos, deadlines, and events
+- List, mark, unmark, and delete tasks
+- Find tasks using a case-insensitive keyword search
+- Parse deadline dates in `yyyy-MM-dd` format and display readable dates
+- Save tasks automatically to `data/gpt.txt`
+- Handle invalid and incomplete commands without terminating
+
+## Quick Start
+
+1. Install Java 25 or later.
+2. Download `Gpt.jar` from the
+   [latest GitHub release](https://github.com/Darren50/ip/releases/latest).
+3. Put the JAR file in a folder where GPT can create its `data` folder.
+4. Open a terminal in that folder and run:
+
+   ```text
+   java -jar Gpt.jar
    ```
-    ____        _        
-   |  _ \ _   _| | _____ 
-   | | | | | | | |/ / _ \
-   | |_| | |_| |   <  __/
-   |____/ \__,_|_|\_\___|
-   ```
 
-**Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+See the [GPT User Guide](https://darren50.github.io/ip/) for complete command
+instructions and examples.
+
+## Commands
+
+| Action | Command |
+| --- | --- |
+| Add a todo | `todo DESCRIPTION` |
+| Add a deadline | `deadline DESCRIPTION /by yyyy-MM-dd` |
+| Add an event | `event DESCRIPTION /from START /to END` |
+| List tasks | `list` |
+| Find tasks | `find KEYWORD` |
+| Mark a task | `mark NUMBER` |
+| Unmark a task | `unmark NUMBER` |
+| Delete a task | `delete NUMBER` |
+| Exit GPT | `bye` |
+
+Example:
+
+```text
+todo read book
+deadline submit report /by 2026-10-15
+event project meeting /from Monday 2pm /to Monday 4pm
+list
+mark 1
+find report
+bye
+```
+
+## Data Storage
+
+GPT saves task changes automatically in `data/gpt.txt`, relative to the folder
+from which the application is run. If the folder or file does not exist, GPT
+creates it when needed.
+
+## Development Setup
+
+### Prerequisites
+
+- JDK 25
+- A recent version of IntelliJ IDEA
+
+### Running from IntelliJ IDEA
+
+1. Open this repository as an IntelliJ IDEA project.
+2. Configure the project SDK as JDK 25 and use the SDK default language level.
+3. Keep `src/main/java` configured as the source root.
+4. Run the `main` method in `src/main/java/gpt/Gpt.java`.
+
+## Project Structure
+
+The application uses separate classes for user interaction, command parsing,
+task-list operations, and file storage:
+
+- `Gpt`: application entry point and coordinator
+- `Ui`: console input and output
+- `Parser`: command parsing and validation
+- `TaskList`: task collection operations
+- `Storage`: loading and saving tasks
+- `Task`, `Todo`, `Deadline`, and `Event`: task model classes
+- `GptException`: application-specific error handling
+
+## Documentation
+
+- [User Guide](https://darren50.github.io/ip/)
+- [GitHub releases](https://github.com/Darren50/ip/releases)
