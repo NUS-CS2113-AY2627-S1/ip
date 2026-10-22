@@ -13,6 +13,15 @@ src/main/resources/docs/
 *.iml
 bin/
 
+# .class files
+*.class
+
+# Data files
+data/
+
+# JAR files
+*.jar
+
 # Temp files
 _temp/
 
