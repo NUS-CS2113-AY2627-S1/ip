@@ -33,3 +33,13 @@ Ensure that Java 25 is used when running the application or build tasks. On macO
 Use lightweight tags unless the user requests an annotated tag.
 When proposing or creating a commit message, include enough detail to explain the rationale for the change.
 Do not commit or push unless explicitly asked.
+
+## Project-specific skills
+
+- For every Java code addition, edit, review, or refactor in this project, use and follow the project-specific `seedu-java-coding-standard` skill in `.codex/skills/seedu-java-coding-standard/`.
+- Treat the Java skill's rules as mandatory for all Java code in this project.
+- Preserve the program's existing no-package launch contract unless a task explicitly introduces a package structure.
+- After every code update, review `test/ui-test-plan.md` and update its test cases, inputs, expected outputs, program command, or other relevant information when the code change affects them.
+- After every code update, invoke and follow the project-specific `test-ui` skill in `.codex/skills/test-ui/`. Run the recorded UI tests, stop at the first failure, and report the console session. If testing is blocked, report the blocker and do not claim that the tests passed.
+- Before proposing, reviewing, or creating any commit or branch, use and follow the project-specific `seedu-git-standard` skill in `.codex/skills/seedu-git-standard/`.
+- Treat the Git skill's rules as mandatory for every future commit message and branch name in this project.
