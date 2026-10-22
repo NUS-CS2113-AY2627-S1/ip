@@ -1,0 +1,84 @@
+____________________________________________________________
+__   __  ___  ____    _
+\ \ / / / _ \|  _ \  / \
+ \ V / | | | | | | |/ _ \
+  | |  | |_| | |_| / ___ \
+  |_|   \___/|____/_/   \_\
+____________________________________________________________
+Hello! I'm YODA.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+OOPS! Your task list is empty. Add a task first!
+____________________________________________________________
+____________________________________________________________
+OOPS! Missing description!
+  Correct format: todo <description>
+  Example:        todo Read a book
+____________________________________________________________
+____________________________________________________________
+Got it. I've added this task:
+  [T][ ] Read a book
+Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+OOPS! Missing description and deadline!
+  Correct format: deadline <description> /by <time>
+  Example:        deadline Submit report /by Monday 6pm
+____________________________________________________________
+____________________________________________________________
+OOPS! Missing '/by' field!
+  Correct format: deadline <description> /by <time>
+  Example:        deadline Submit report /by Monday 6pm
+____________________________________________________________
+____________________________________________________________
+Got it. I've added this task:
+  [D][ ] Submit report (by: Monday 6pm)
+Now you have 2 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+OOPS! Missing description and event times!
+  Correct format: event <description> /from <start> /to <end>
+  Example:        event Team meeting /from Mon 2pm /to Mon 4pm
+____________________________________________________________
+____________________________________________________________
+OOPS! Missing '/to' field!
+  Correct format: event <description> /from <start> /to <end>
+  Example:        event Team meeting /from Mon 2pm /to Mon 4pm
+____________________________________________________________
+____________________________________________________________
+Got it. I've added this task:
+  [E][ ] Team meeting (from: Mon 2pm to: Mon 4pm)
+Now you have 3 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+OOPS! Missing task number!
+  Correct format: mark <number>
+  Example:        mark 2
+____________________________________________________________
+____________________________________________________________
+OOPS! That's not a valid number.
+  Correct format: mark <number>  OR  unmark <number>
+  Example:        mark 2
+____________________________________________________________
+____________________________________________________________
+OOPS! Task 99 does not exist.
+  You currently have 3 task(s). Please enter a number between 1 and 3.
+____________________________________________________________
+____________________________________________________________
+Nice! I've marked this task as done:
+  [T][X] Read a book
+____________________________________________________________
+____________________________________________________________
+OK, I've marked this task as not done yet:
+  [T][ ] Read a book
+____________________________________________________________
+____________________________________________________________
+Here are the tasks in your list:
+1.[T][ ] Read a book
+2.[D][ ] Submit report (by: Monday 6pm)
+3.[E][ ] Team meeting (from: Mon 2pm to: Mon 4pm)
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________

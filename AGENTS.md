@@ -9,8 +9,8 @@ Unless the user says otherwise, assume that you are assisting a student working 
 # Student profile
 
 * Prior knowledge: Basic Java and OOP concepts.
-* Level of programming experience: [to be filled]
-* IDE and level of expertise: [to be filled]
+* Level of programming experience: Basic
+* IDE and level of expertise: IntelliJ 1/10
 
 # Guidance for interacting with users
 
@@ -33,3 +33,32 @@ Ensure that Java 25 is used when running the application or build tasks. On macO
 Use lightweight tags unless the user requests an annotated tag.
 When proposing or creating a commit message, include enough detail to explain the rationale for the change.
 Do not commit or push unless explicitly asked.
+
+
+## Mandatory Skill & Style Guidelines
+
+### 1. Java Coding Standard
+All Java code generated, modified, or refactored **must strictly follow** the project skill defined in `.agent/skills/seedu-java-coding-standard.md` (based on [SE-EDU Intermediate Java Conventions](https://se-education.org/guides/conventions/java/intermediate.html)).
+- **Key Constraints**:
+  - Strict naming conventions (PascalCase classes, camelCase methods/variables, UPPER_SNAKE constants).
+  - Explicit Javadoc comments on all classes and non-trivial methods/fields.
+  - Guard clauses over deep nesting.
+  - No wildcard imports (`import java.util.*;`).
+
+### 2. Git Commit Standard
+All commit messages proposed or executed **must strictly follow** the project skill defined in `.agent/skills/seedu-git-standard.md` (based on [SE-EDU Git Conventions](https://se-education.org/guides/conventions/git.html)).
+- **Key Constraints**:
+  - Imperative mood in the subject line (e.g., `Add feature X`, not `Added feature X`).
+  - Maximum 50 characters for subject line; wrap body lines at 72 characters.
+  - Explain *what* and *why*, not just *how*.
+  - Keep Java code refactoring and agent/config updates in separate, isolated commits.
+
+### 3. Command-line UI Testing
+After every code update that can affect command-line behaviour:
+
+1. Review and update `test/ui-test-plan.md` when the change affects a
+   documented behaviour or needs regression coverage.
+2. Invoke the project-specific `.agent/skills/test-ui` skill before committing.
+3. Include its console input/output transcript in the completion report.
+   On the first failing case, stop and report the expected and actual output;
+   do not commit the failing change.

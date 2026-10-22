@@ -1,0 +1,16 @@
+list
+todo
+todo Read a book
+deadline
+deadline Submit report
+deadline Submit report /by Monday 6pm
+event
+event Team meeting /from Mon 2pm
+event Team meeting /from Mon 2pm /to Mon 4pm
+mark
+mark abc
+mark 99
+mark 1
+unmark 1
+list
+bye

@@ -1,25 +1,157 @@
-# Duke project template
+# YODA User Guide
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
+```
+__   __  ___  ____    _
+\ \ / / / _ \|  _ \  / \
+ \ V / | | | | | | |/ _ \
+  | |  | |_| | |_| / ___ \
+  |_|   \___/|____/_/   \_\
+```
 
-## Setting up in Intellij
+YODA is a task management chatbot that helps you track your todos, deadlines, and events via a simple command-line interface. :)
 
-Prerequisites: JDK 25, update Intellij to the most recent version.
+---
 
-1. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project first)
-1. Open the project into Intellij as follows:
-   1. Click `Open`.
-   1. Select the project directory, and click `OK`.
-   1. If there are any further prompts, accept the defaults.
-1. Configure the project to use **JDK 25** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
-   In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/Duke.java` file, right-click it, and choose `Run Duke.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
-   ```
-    ____        _        
-   |  _ \ _   _| | _____ 
-   | | | | | | | |/ / _ \
-   | |_| | |_| |   <  __/
-   |____/ \__,_|_|\_\___|
-   ```
+## Quick Start
 
-**Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+1. Ensure you have Java 25 or above installed.
+2. Download the latest `yoda.jar` from the releases page.
+3. Run the app with: `java -jar yoda.jar`
+4. Type a command and press Enter to get started!
+
+---
+
+## Features
+
+### Add a Todo
+Adds a simple task with no date/time attached.
+
+**Format:** `todo <description>`
+
+**Example:** `todo Read a book`
+
+Got it. I've added this task:
+[T][ ] Read a book
+Now you have 1 tasks in the list.
+
+
+---
+
+### Add a Deadline
+Adds a task with a due date/time.
+
+**Format:** `deadline <description> /by <time>`
+
+**Example:** `deadline Submit report /by Monday 6pm`
+
+Got it. I've added this task:
+[D][ ] Submit report (by: Monday 6pm)
+Now you have 2 tasks in the list.
+
+
+---
+
+### Add an Event
+Adds a task with a start and end time.
+
+**Format:** `event <description> /from <start> /to <end>`
+
+**Example:** `event Team meeting /from Mon 2pm /to Mon 4pm`
+
+Got it. I've added this task:
+[E][ ] Team meeting (from: Mon 2pm to: Mon 4pm)
+Now you have 3 tasks in the list.
+
+
+---
+
+### List All Tasks
+Shows all tasks currently in your list.
+
+**Format:** `list`
+
+Here are the tasks in your list:
+1.[T][ ] Read a book
+2.[D][ ] Submit report (by: Monday 6pm)
+3.[E][ ] Team meeting (from: Mon 2pm to: Mon 4pm)
+
+
+---
+
+### Mark a Task as Done
+Marks the specified task as completed.
+
+**Format:** `mark <task number>`
+
+**Example:** `mark 1`
+
+Nice! I've marked this task as done:
+[T][X] Read a book
+
+
+---
+
+### Unmark a Task
+Marks the specified task as not done.
+
+**Format:** `unmark <task number>`
+
+**Example:** `unmark 1`
+
+OK, I've marked this task as not done yet:
+[T][ ] Read a book
+
+
+---
+
+### Delete a Task
+Removes the specified task from your list.
+
+**Format:** `delete <task number>`
+
+**Example:** `delete 2`
+
+Noted. I've removed this task:
+[D][ ] Submit report (by: Monday 6pm)
+Now you have 2 tasks in the list.
+
+
+---
+
+### Exit the App
+Exits YODA.
+
+**Format:** `bye`
+
+Bye. Hope to see you again soon!
+
+
+---
+
+## Task Types Summary
+
+| Symbol | Type     |
+|--------|----------|
+| `[T]`  | Todo     |
+| `[D]`  | Deadline |
+| `[E]`  | Event    |
+
+| Symbol | Status   |
+|--------|----------|
+| `[ ]`  | Not done |
+| `[X]`  | Done     |
+
+---
+
+## Command Summary
+
+| Command    | Format                                              |
+|------------|-----------------------------------------------------|
+| todo       | `todo <description>`                                |
+| deadline   | `deadline <description> /by <time>`                 |
+| event      | `event <description> /from <start> /to <end>`       |
+| list       | `list`                                              |
+| mark       | `mark <task number>`                                |
+| unmark     | `unmark <task number>`                              |
+| delete     | `delete <task number>`                              |
+| bye        | `bye`                                               |
