@@ -1,25 +1,87 @@
-# Duke project template
+# JamaL
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
+A command-line task manager with no patience. You type a command, it does the thing, it tells you it did the thing.
 
-## Setting up in Intellij
+```
+____________________________________________________________
+     ____.                     .____
+    |    |____    _____ _____  |    |
+    |    \__  \  /     \\__  \ |    |
+/\__|    |/ __ \|  Y Y  \/ __ \|    |___
+\________(____  /__|_|  (____  /_______ \
+              \/      \/     \/        \/
+It's JamaL.
+What do you want.
+____________________________________________________________
+```
 
-Prerequisites: JDK 25, update Intellij to the most recent version.
+📖 **[Full User Guide](https://zechby.github.io/ip/)**
 
-1. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project first)
-1. Open the project into Intellij as follows:
-   1. Click `Open`.
-   1. Select the project directory, and click `OK`.
-   1. If there are any further prompts, accept the defaults.
-1. Configure the project to use **JDK 25** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
-   In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/Duke.java` file, right-click it, and choose `Run Duke.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
+## What it does
+
+- Tracks three kinds of tasks: **todos**, **deadlines**, and **events**
+- Marks tasks done or not done, deletes them, and finds them by keyword
+- Saves after every change to `data/jamal.txt`, so there's no save command to forget
+- Skips broken lines in the save file instead of crashing, and tells you how many it skipped
+
+## Quick start
+
+1. Install **Java 25** (`java -version` to check).
+2. Download the latest `jamal.jar` from [Releases](https://github.com/zechby/ip/releases).
+3. Put it in an empty folder, open a terminal there, and run:
+
    ```
-    ____        _        
-   |  _ \ _   _| | _____ 
-   | | | | | | | |/ / _ \
-   | |_| | |_| |   <  __/
-   |____/ \__,_|_|\_\___|
+   java -jar jamal.jar
    ```
 
-**Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+4. Type a command. Type `bye` to leave.
+
+## Commands
+
+| Command  | Format                                  | Example                                       |
+| -------- | --------------------------------------- | --------------------------------------------- |
+| Todo     | `todo DESCRIPTION`                      | `todo read book`                              |
+| Deadline | `deadline DESCRIPTION /by WHEN`         | `deadline return book /by Sunday`             |
+| Event    | `event DESCRIPTION /from START /to END` | `event project meeting /from Mon 2pm /to 4pm` |
+| List     | `list`                                  | `list`                                        |
+| Mark     | `mark INDEX`                            | `mark 2`                                      |
+| Unmark   | `unmark INDEX`                          | `unmark 2`                                    |
+| Delete   | `delete INDEX`                          | `delete 3`                                    |
+| Find     | `find KEYWORD`                          | `find book`                                   |
+| Exit     | `bye`                                   | `bye`                                         |
+
+`INDEX` is the number shown in `list`, starting from 1. Task text can't contain `|`.
+
+Get a command wrong and JamaL tells you what it wanted:
+
+```
+> deadline essay
+deadline what /by when.
+
+> dance
+I'm not doing whatever dance is.
+```
+
+See the [User Guide](https://zechby.github.io/ip/) for full output samples, the save file format, and every error message.
+
+## Building from source
+
+Requires JDK 25.
+
+```
+git clone https://github.com/zechby/ip.git
+cd ip
+./gradlew clean shadowJar
+```
+
+The JAR ends up in `build/libs/`. On Windows, use `gradlew.bat` instead of `./gradlew`.
+
+Run the tests:
+
+```
+./gradlew test
+```
+
+## Acknowledgements
+
+Built as the individual project (iP) for [NUS CS2113](https://nus-cs2113-ay2627-s1.github.io/website/index.html), starting from the course's [Duke template](https://github.com/NUS-CS2113-AY2627-S1/ip).
