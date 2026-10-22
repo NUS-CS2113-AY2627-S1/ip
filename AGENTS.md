@@ -1,5 +1,7 @@
 # Project context
 
+All Java code in this project must follow [seedu-java-coding-standard](seedu-java-coding-standard/SKILL.md), based on the [SE-EDU Java coding standard](https://se-education.org/guides/conventions/java/intermediate.html).
+
 This repository is a starter template for a greenfield Java project used in an introductory software engineering course in an undergraduate computer science program. Students use it as the starting point for their own projects.
 
 # Default user context
@@ -9,8 +11,8 @@ Unless the user says otherwise, assume that you are assisting a student working 
 # Student profile
 
 * Prior knowledge: Basic Java and OOP concepts.
-* Level of programming experience: [to be filled]
-* IDE and level of expertise: [to be filled]
+* Level of programming experience: Basic data structures and algorithms
+* IDE and level of expertise: IntelliJ IDEA, new
 
 # Guidance for interacting with users
 
@@ -23,6 +25,10 @@ Unless the user says otherwise, assume that you are assisting a student working 
   * When faced with a design choice, choose the simplest option that is sufficient for the requirements, while briefly explaining relevant more advanced alternatives.
 
 # Project-specific requirements
+
+## Git standard:
+
+All future commits and branches must follow [seedu-git-standard](seedu-git-standard/SKILL.md), based on the [SE-EDU Git conventions](https://se-education.org/guides/conventions/git.html). Commit subjects must use imperative mood, capitalization, no final period, and a maximum of 72 characters; non-trivial commits must include a 72-character-wrapped body explaining what and why.
 
 ## Java version:
 

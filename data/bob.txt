@@ -1,0 +1,8 @@
+D | 1 | homework | tmr
+D | 1 | return book | June 6th
+T | 1 | huh
+T | 1 | bread
+D | 0 | homework | tmr 6pm
+E | 0 | meeting | 9pm | 10pm
+T | 0 | stuff
+D | 0 | homework | friday
