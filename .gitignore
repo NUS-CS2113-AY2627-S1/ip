@@ -8,6 +8,9 @@
 /build/
 src/main/resources/docs/
 
+# Compiled class files (build artifacts should not be tracked)
+*.class
+
 # MacOS custom attributes files created by Finder
 .DS_Store
 *.iml
@@ -15,6 +18,9 @@ bin/
 
 # Temp files
 _temp/
+
+# Ducky's save file, generated at runtime
+/data/
 
 /text-ui-test/ACTUAL.TXT
 text-ui-test/EXPECTED-UNIX.TXT
