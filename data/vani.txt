@@ -1,0 +1,3 @@
+T | 0 | eat
+D | 1 | study | tmr
+E | 0 | camping | Friday | Sunday

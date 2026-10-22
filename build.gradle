@@ -1,0 +1,37 @@
+plugins {
+    id 'application'
+    id 'com.gradleup.shadow' version '9.5.1'
+}
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+application {
+    mainClass = 'vani.Vani'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 25
+}
+
+// Forward terminal input so Vani can read commands when launched through Gradle.
+tasks.withType(JavaExec).configureEach {
+    standardInput = System.in
+}
+
+// Keep the ordinary archive separate from the standalone JAR produced by Shadow.
+tasks.named('jar') {
+    archiveClassifier = 'plain'
+}
+
+tasks.named('shadowJar') {
+    archiveFileName = 'Vani.jar'
+}

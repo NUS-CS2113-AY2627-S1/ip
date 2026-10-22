@@ -1,25 +1,73 @@
-# Duke project template
+# Vani
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
+Vani is a command-line task manager for to-dos, deadlines, and events.
+See the [user guide](docs/README.md) for commands and examples.
 
-## Setting up in Intellij
+## Requirements
 
-Prerequisites: JDK 25, update Intellij to the most recent version.
+Use **JDK 25** to build the project and **Java 25** to run the JAR.
+The Gradle build is configured to compile the application for Java 25.
 
-1. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project first)
-1. Open the project into Intellij as follows:
-   1. Click `Open`.
-   1. Select the project directory, and click `OK`.
-   1. If there are any further prompts, accept the defaults.
-1. Configure the project to use **JDK 25** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
-   In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/Duke.java` file, right-click it, and choose `Run Duke.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
-   ```
-    ____        _        
-   |  _ \ _   _| | _____ 
-   | | | | | | | |/ / _ \
-   | |_| | |_| |   <  __/
-   |____/ \__,_|_|\_\___|
-   ```
+## Building a runnable JAR
 
-**Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+Open a terminal in the project root and confirm the Java version:
+
+```text
+java -version
+```
+
+The output should show version 25. Then build the JAR using the Gradle Wrapper.
+
+On Windows PowerShell:
+
+```powershell
+.\gradlew.bat clean shadowJar
+```
+
+On macOS or Linux:
+
+```sh
+./gradlew clean shadowJar
+```
+
+If macOS or Linux reports a permission error for `gradlew`, run `chmod +x gradlew` once and try again.
+
+`clean` removes previous build output, and `shadowJar` packages the application and any runtime dependencies
+into **`build/libs/Vani.jar`**.
+The [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html) downloads the project's
+configured Gradle version on first use, so you do not need to install Gradle separately.
+The first build needs an internet connection to download Gradle and the Shadow plugin.
+
+## Running Vani
+
+From the project root, run:
+
+```text
+java -jar build/libs/Vani.jar
+```
+
+You can also copy `Vani.jar` into another folder, open a terminal there, and run:
+
+```text
+java -jar Vani.jar
+```
+
+Vani stores tasks in `data/vani.txt` relative to the folder where you launch it.
+Use the same launch folder to keep using the same saved task list.
+
+## Running from source
+
+On Windows PowerShell:
+
+```powershell
+.\gradlew.bat run
+```
+
+On macOS or Linux:
+
+```sh
+./gradlew run
+```
+
+To run from an IDE, open the project as a Gradle project, set its Gradle JVM to JDK 25,
+and run the `main` method in `src/main/java/vani/Vani.java` with the project root as the working directory.

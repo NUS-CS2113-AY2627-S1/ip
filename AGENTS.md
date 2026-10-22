@@ -28,6 +28,20 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 Ensure that Java 25 is used when running the application or build tasks. On macOS, use `sdk use java 25.0.3.fx-zulu` to switch to Java 25 if needed.
 
+## SE-EDU Java coding standard
+
+All Java code in this project must follow the SE-EDU Java coding standard (basic + intermediate) from https://se-education.org/guides/conventions/java/intermediate.html.
+
+This includes, but is not limited to:
+
+* Use English names in camelCase for variables and methods, PascalCase for classes, and UPPER_SNAKE_CASE for constants.
+* Keep indentation at 4 spaces, use K&R style braces, and wrap conditionals and loops with braces even for one-liner bodies.
+* Prefer explicit imports, avoid wildcard imports, and keep imports ordered and minimal.
+* Write clear Javadoc comments for public classes and public methods.
+* Use proper whitespace, line wrapping, and logical separation between blocks for readability.
+* Prefer encapsulation and meaningful boolean names such as `isDone` or `hasData`.
+* Do not add code that violates the project standard even if it works.
+
 ## Git
 
 Use lightweight tags unless the user requests an annotated tag.
