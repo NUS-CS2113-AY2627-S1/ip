@@ -1,0 +1,3 @@
+T | 0 | read book
+E | 1 | meeting | m 2pm | 4pm
+D | 0 | submit essay | 2019-10-15
