@@ -1,0 +1,34 @@
+plugins {
+    id 'java'
+    // 'application' lets Gradle know the program's main class, which is also used for the JAR's manifest.
+    id 'application'
+    // 'shadow' adds the shadowJar task, which builds a single "fat" JAR file with everything inside it.
+    id 'com.gradleup.shadow' version '9.5.1'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+}
+
+application {
+    // The class whose main method starts Eric (package eric, class Eric).
+    mainClass = 'eric.Eric'
+}
+
+jar {
+    // A lean JAR file (i.e., without the dependencies packaged inside) is not needed.
+    enabled = false
+    // Rename its output anyway; Gradle forbids it clashing with the shadowJar output file, even for a disabled task.
+    archiveClassifier = 'without-dependencies'
+}
+
+shadowJar {
+    // The fat JAR is written to build/libs/eric.jar
+    archiveFileName = 'eric.jar'
+}
+
+run {
+    // Lets './gradlew run' read the commands you type, instead of starting with no input.
+    standardInput = System.in
+}
