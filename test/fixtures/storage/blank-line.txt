@@ -1,0 +1,3 @@
+T | 0 | inspect documents
+
+D | 0 | return documents | Friday

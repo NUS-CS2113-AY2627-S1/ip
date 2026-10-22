@@ -1,0 +1,4 @@
+interface:
+  display_name: "Test UI"
+  short_description: "Run console UI cases and stop on the first mismatch"
+  default_prompt: "Use $test-ui to run the cases in test/ui-test-plan.md and report the console transcript."

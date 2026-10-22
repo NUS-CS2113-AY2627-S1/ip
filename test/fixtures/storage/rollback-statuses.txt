@@ -1,0 +1,2 @@
+T | 0 | inspect archive
+T | 1 | secure archive
