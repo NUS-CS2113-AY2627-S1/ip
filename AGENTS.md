@@ -9,8 +9,8 @@ Unless the user says otherwise, assume that you are assisting a student working 
 # Student profile
 
 * Prior knowledge: Basic Java and OOP concepts.
-* Level of programming experience: [to be filled]
-* IDE and level of expertise: [to be filled]
+* Level of programming experience: 1-2year experience
+* IDE and level of expertise: IntelliJ , first time using
 
 # Guidance for interacting with users
 
@@ -28,8 +28,15 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 Ensure that Java 25 is used when running the application or build tasks. On macOS, use `sdk use java 25.0.3.fx-zulu` to switch to Java 25 if needed.
 
+## Console UI testing
+
+After every code update, review `test/ui-test-plan.md` and update it when the change affects, adds, or corrects user-visible console behaviour. Then invoke the `test-ui` skill and run its complete test plan before handing off the change. The skill records each console session and stops at the first output mismatch; resolve a failing case before continuing.
+
 ## Git
 
 Use lightweight tags unless the user requests an annotated tag.
 When proposing or creating a commit message, include enough detail to explain the rationale for the change.
+When generating or proposing a Git commit message, use the project-specific
+`.codex/skills/seedu-git-standard` skill and follow the SE-EDU Git conventions
+documented at https://se-education.org/guides/conventions/git.html.
 Do not commit or push unless explicitly asked.

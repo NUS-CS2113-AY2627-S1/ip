@@ -3,6 +3,11 @@
 /out/
 /*.iml
 
+#AI/Codex Files
+/.codex/
+/.gemini/
+
+
 # Gradle build files
 /.gradle/
 /build/
