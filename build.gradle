@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.gradleup.shadow' version '9.2.2'
+}
+
+group = 'chatbot'
+version = '1.0.0'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+application {
+    mainClass = 'chatbot.AgentCT'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+tasks.named('shadowJar') {
+    archiveBaseName = 'agentct'
+    archiveVersion = project.version.toString()
+    archiveClassifier = 'all'
+    manifest {
+        attributes('Main-Class': application.mainClass.get())
+    }
+}

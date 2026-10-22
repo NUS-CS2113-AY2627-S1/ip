@@ -9,8 +9,8 @@ Unless the user says otherwise, assume that you are assisting a student working 
 # Student profile
 
 * Prior knowledge: Basic Java and OOP concepts.
-* Level of programming experience: [to be filled]
-* IDE and level of expertise: [to be filled]
+* Level of programming experience: Low
+* IDE and level of expertise: Low
 
 # Guidance for interacting with users
 
@@ -24,12 +24,25 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 # Project-specific requirements
 
+## Java coding standard
+
+All Java code in this project MUST follow the project-specific `seedu-java-coding-standard` skill, based on the [SE-EDU Java coding standard](https://se-education.org/guides/conventions/java/intermediate.html). Apply it to new and modified code, including package naming, naming, layout, imports, encapsulation, braces, and Javadoc.
+
 ## Java version:
 
 Ensure that Java 25 is used when running the application or build tasks. On macOS, use `sdk use java 25.0.3.fx-zulu` to switch to Java 25 if needed.
 
 ## Git
 
+All future commits and branch names MUST follow the project-specific `seedu-git-standard` skill, based on the [SE-EDU Git conventions](https://se-education.org/guides/conventions/git.html). This includes imperative commit subjects, subject length and punctuation, explanatory bodies for non-trivial commits, and meaningful kebab-case branch names.
+
 Use lightweight tags unless the user requests an annotated tag.
 When proposing or creating a commit message, include enough detail to explain the rationale for the change.
 Do not commit or push unless explicitly asked.
+
+## Code update testing workflow
+
+After every code update:
+
+1. Review the change against `test/ui-test-plan.md` and update the plan when the change adds, removes, or alters user-visible console behavior or test coverage.
+2. Invoke the project-local `test-ui` skill and run the applicable tests. Record the complete console input/output transcript and result in `test/ui-test-plan.md`.
