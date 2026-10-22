@@ -1,0 +1,4 @@
+interface:
+  display_name: "Test UI"
+  short_description: "Run Aigis console UI tests from a test plan"
+  default_prompt: "Use $test-ui to run the Aigis console tests in test/ui-test-plan.md."

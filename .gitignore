@@ -7,6 +7,16 @@
 /.gradle/
 /build/
 src/main/resources/docs/
+.codex/
+!.codex/
+!.codex/skills/
+.codex/skills/*
+!.codex/skills/seedu-java-coding-standard/
+!.codex/skills/seedu-java-coding-standard/**
+!.codex/skills/seedu-git-standard/
+!.codex/skills/seedu-git-standard/**
+!.codex/skills/test-ui/
+!.codex/skills/test-ui/**
 
 # MacOS custom attributes files created by Finder
 .DS_Store
@@ -15,6 +25,9 @@ bin/
 
 # Temp files
 _temp/
+
+# Class files
+*.class
 
 /text-ui-test/ACTUAL.TXT
 text-ui-test/EXPECTED-UNIX.TXT
