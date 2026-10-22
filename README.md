@@ -1,25 +1,29 @@
-# Duke project template
+# Bill
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
+Bill is a command-line task tracker for to-dos, deadlines, and events. It can find tasks by description, track which ones are done, and save your list between sessions.
 
-## Setting up in Intellij
+[Read the User Guide](docs/README.md) · [Visit the product website](https://bealng.github.io/ip/)
 
-Prerequisites: JDK 25, update Intellij to the most recent version.
+## Run Bill
 
-1. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project first)
-1. Open the project into Intellij as follows:
-   1. Click `Open`.
-   1. Select the project directory, and click `OK`.
-   1. If there are any further prompts, accept the defaults.
-1. Configure the project to use **JDK 25** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
-   In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/Duke.java` file, right-click it, and choose `Run Duke.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
-   ```
-    ____        _        
-   |  _ \ _   _| | _____ 
-   | | | | | | | |/ / _ \
-   | |_| | |_| |   <  __/
-   |____/ \__,_|_|\_\___|
-   ```
+Install **Java 25**. To use the packaged app, download `bill.jar` from the
+[latest release](https://github.com/Bealng/ip/releases/latest), open a terminal in
+the folder containing the JAR, and run `java -jar bill.jar`. Bill saves your tasks
+relative to that folder, so run it from the same folder each time.
 
-**Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+To run Bill from source instead, use the following from the project folder:
+
+| System | Command |
+| --- | --- |
+| Windows | `./gradlew.bat run` |
+| macOS or Linux | `./gradlew run` |
+
+Alternatively, open the project in IntelliJ IDEA, select JDK 25, and run `bill.Bill.main()`.
+
+Type `help` in Bill to see its commands. The User Guide explains every feature, date formats, and how task numbers work.
+
+## Test
+
+Run `./gradlew.bat test` on Windows or `./gradlew test` on macOS or Linux.
+
+Bill saves tasks to `data/bill.txt` in the folder from which it is run. This personal data file is not part of the repository.
