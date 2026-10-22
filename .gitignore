@@ -3,10 +3,15 @@
 /out/
 /*.iml
 
+# VScode Files
+*.code-workspace
+
 # Gradle build files
 /.gradle/
 /build/
+*.class
 src/main/resources/docs/
+*.jar
 
 # MacOS custom attributes files created by Finder
 .DS_Store
@@ -18,3 +23,4 @@ _temp/
 
 /text-ui-test/ACTUAL.TXT
 text-ui-test/EXPECTED-UNIX.TXT
+/data/potato.txt
