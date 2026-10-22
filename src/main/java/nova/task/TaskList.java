@@ -1,0 +1,96 @@
+package nova.task;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import nova.exception.NovaException;
+
+/**
+ * Stores Nova's tasks, including tasks loaded from a previous session.
+ */
+public class TaskList {
+    private final List<Task> tasks;
+
+    /**
+     * Creates an empty task list that grows as tasks are added.
+     */
+    public TaskList() {
+        tasks = new ArrayList<>();
+    }
+
+    /**
+     * Adds a task to the end of the dynamically sized list.
+     *
+     * @param task task to add
+     */
+    public void addTask(Task task) {
+        tasks.add(task);
+    }
+
+    /**
+     * Returns a task using its one-based position in the list.
+     *
+     * @param taskNumber one-based task number
+     * @return the requested task
+     * @throws NovaException if the task number does not refer to a task
+     */
+    public Task getTask(int taskNumber) throws NovaException {
+        validateTaskNumber(taskNumber);
+        return tasks.get(taskNumber - 1);
+    }
+
+    /**
+     * Removes a task using its displayed number. Later tasks shift up automatically.
+     *
+     * @param taskNumber one-based task number
+     * @return the removed task, for displaying confirmation
+     * @throws NovaException if the task number does not refer to a task
+     */
+    public Task removeTask(int taskNumber) throws NovaException {
+        validateTaskNumber(taskNumber);
+        return tasks.remove(taskNumber - 1);
+    }
+
+    /**
+     * Counts all tasks, including completed tasks.
+     *
+     * @return the number of tasks currently stored
+     */
+    public int getTaskCount() {
+        return tasks.size();
+    }
+
+    /**
+     * Finds tasks whose descriptions contain the exact, case-sensitive search text.
+     * The returned list preserves task order without changing the stored list.
+     *
+     * @param keyword nonblank text to search for in task descriptions
+     * @return a separate list of matching tasks, including their current completion status
+     */
+    public List<Task> findTasks(String keyword) {
+        List<Task> matches = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getDescription().contains(keyword)) {
+                matches.add(task);
+            }
+        }
+        return matches;
+    }
+
+    /**
+     * Checks the displayed task number before converting it to a list index.
+     *
+     * @param taskNumber one-based task number
+     * @throws NovaException if the list is empty or the number is outside its range
+     */
+    private void validateTaskNumber(int taskNumber) throws NovaException {
+        if (tasks.isEmpty()) {
+            throw new NovaException(" OOPS! Your task list is empty.");
+        }
+        if (taskNumber < 1 || taskNumber > tasks.size()) {
+            throw new NovaException(
+                    " OOPS! There is no task numbered " + taskNumber + ". Please choose a number from 1 to "
+                            + tasks.size() + ".");
+        }
+    }
+}
