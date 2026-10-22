@@ -1,7 +1,7 @@
 # IDEA files
 /.idea/
 /out/
-/*.iml
+*.iml
 
 # Gradle build files
 /.gradle/
@@ -10,11 +10,15 @@ src/main/resources/docs/
 
 # MacOS custom attributes files created by Finder
 .DS_Store
-*.iml
+
+# Compiled classes
 bin/
 
 # Temp files
 _temp/
 
-/text-ui-test/ACTUAL.TXT
-text-ui-test/EXPECTED-UNIX.TXT
+# Saved task list, created at runtime
+/data/
+
+# Packaged app; distributed through GitHub releases instead of the repository
+/*.jar
