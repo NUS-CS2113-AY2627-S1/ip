@@ -1,0 +1,20 @@
+========================================
+           BOB'S TASK OUTPOST
+========================================
+
+Add 'em, track 'em, get 'em done.
+
+Howdy, partner! What's the plan?
+Trouble on the trail! I couldn't read the data file. We'll start with an empty task list.
+I couldn't save your tasks. Check the data file and try again, partner.
+Got it, partner. I've added this task:
+[T][ ] keep task in memory
+You've got 1 task in your saddlebag.
+----------------------------------------------
+1. [T][ ] keep task in memory
+----------------------------------------------
+ ____________________________
+|                            |
+|  Until next time, partner! |
+|____________________________|
+

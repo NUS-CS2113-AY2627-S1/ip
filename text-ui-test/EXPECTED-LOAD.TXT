@@ -1,0 +1,16 @@
+========================================
+           BOB'S TASK OUTPOST
+========================================
+
+Add 'em, track 'em, get 'em done.
+
+Howdy, partner! What's the plan?
+1. [T][X] read book
+2. [E][ ] project demo (from: Friday 2pm to: 4pm)
+3. [T][ ] compare A | B \ notes
+----------------------------------------------
+ ____________________________
+|                            |
+|  Until next time, partner! |
+|____________________________|
+

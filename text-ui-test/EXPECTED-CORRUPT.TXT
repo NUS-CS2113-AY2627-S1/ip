@@ -1,0 +1,16 @@
+========================================
+           BOB'S TASK OUTPOST
+========================================
+
+Add 'em, track 'em, get 'em done.
+
+Howdy, partner! What's the plan?
+Trouble on the trail! I couldn't load your saved tasks: Invalid data at line 1 because the task status must be 0 or 1.
+We'll start with an empty task list instead.
+Your saddlebag is empty, partner.
+----------------------------------------------
+ ____________________________
+|                            |
+|  Until next time, partner! |
+|____________________________|
+

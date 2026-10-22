@@ -1,0 +1,50 @@
+========================================
+           BOB'S TASK OUTPOST
+========================================
+
+Add 'em, track 'em, get 'em done.
+
+Howdy, partner! What's the plan?
+Got it, partner. I've added this task:
+[T][ ] read book
+You've got 1 task in your saddlebag.
+----------------------------------------------
+Hold your horses! Use DD/MM/YYYY HHMM for the deadline. For example, 31/12/2099 1200.
+----------------------------------------------
+Got it, partner. I've added this task:
+[E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+You've got 2 tasks in your saddlebag.
+----------------------------------------------
+Task completed. Nice work, partner: read book
+----------------------------------------------
+Task completed. Nice work, partner: project meeting
+----------------------------------------------
+This task is back on the trail: project meeting
+----------------------------------------------
+Consider this task gone, partner:
+[E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+You've got 1 task in your saddlebag.
+----------------------------------------------
+Got it, partner. I've added this task:
+[E][ ] project demo (from: Friday 2pm to: 4pm)
+You've got 2 tasks in your saddlebag.
+----------------------------------------------
+Got it, partner. I've added this task:
+[T][ ] compare A | B \ notes
+You've got 3 tasks in your saddlebag.
+----------------------------------------------
+Here's what I found on the trail:
+1. [E][ ] project demo (from: Friday 2pm to: 4pm)
+----------------------------------------------
+Here's what I found on the trail:
+Nothing turned up on the trail, partner.
+----------------------------------------------
+1. [T][X] read book
+2. [E][ ] project demo (from: Friday 2pm to: 4pm)
+3. [T][ ] compare A | B \ notes
+----------------------------------------------
+ ____________________________
+|                            |
+|  Until next time, partner! |
+|____________________________|
+

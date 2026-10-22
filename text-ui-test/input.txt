@@ -1,0 +1,13 @@
+todo read book
+deadline return book /by June 6th
+event project meeting /from Aug 6th 2pm /to 4pm
+mark 1
+mark 2
+unmark 2
+delete 2
+event project demo /from Friday 2pm /to 4pm
+todo compare A | B \ notes
+find project
+find missing
+list
+bye
