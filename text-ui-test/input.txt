@@ -1,0 +1,24 @@
+list
+todo read book
+deadline return book /by 2019-10-15
+event meeting /from Mon 2pm /to 4pm
+todo
+event
+deadline abc
+mark 1
+unmark 1
+mark 99
+delete abc
+delete 2
+blah
+list
+find book
+find BOOK
+find xyz
+find
+deadline pay bills /by Sunday
+deadline pay bills /by 2019-13-45
+todo buy milk | eggs
+mark
+delete
+bye

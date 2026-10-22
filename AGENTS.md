@@ -8,9 +8,11 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 # Student profile
 
+# Student profile
+
 * Prior knowledge: Basic Java and OOP concepts.
-* Level of programming experience: [to be filled]
-* IDE and level of expertise: [to be filled]
+* Level of programming experience: Beginner to intermediate. Comfortable with basic Java syntax, classes, inheritance, arrays, loops, conditionals, and simple Git workflows, but still learning software engineering practices and larger project structure.
+* IDE and level of expertise: IntelliJ IDEA on macOS. Beginner to intermediate proficiency; comfortable with opening projects, editing Java files, running programs, refactoring class/file names, and using the integrated terminal for Git commands.
 
 # Guidance for interacting with users
 
