@@ -126,7 +126,7 @@ public class Ui {
     /**
      * Prints confirmation that a task was added and reports the new list size.
      *
-     * @param task task that was added
+     * @param task         task that was added
      * @param taskListSize number of tasks after the addition
      */
     public void printTaskAdded(Task task, int taskListSize) {
@@ -135,9 +135,10 @@ public class Ui {
     }
 
     /**
-     * Prints confirmation that a task was deleted and reports the supplied task count.
+     * Prints confirmation that a task was deleted and reports the supplied task
+     * count.
      *
-     * @param task task that was deleted
+     * @param task         task that was deleted
      * @param taskListSize task count to include in the confirmation message
      */
     public void printTaskDeleted(Task task, int taskListSize) {
@@ -150,9 +151,10 @@ public class Ui {
     /**
      * Prints confirmation that a task was marked or unmarked.
      *
-     * @param task task whose completion state changed
-     * @param index one-based task number to display
-     * @param isMarked {@code true} if the task was marked done; {@code false} if it was unmarked
+     * @param task     task whose completion state changed
+     * @param index    one-based task number to display
+     * @param isMarked {@code true} if the task was marked done; {@code false} if it
+     *                 was unmarked
      */
     public void printTaskMarked(Task task, int index, boolean isMarked) {
         if (isMarked)
